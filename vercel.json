@@ -1,0 +1,15 @@
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "media-site-(.+).vercel.app"
+        }
+      ],
+      "destination": "https://bond-llc.jp/tech/:path*",
+      "permanent": true
+    }
+  ]
+}
