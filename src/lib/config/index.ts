@@ -9,7 +9,7 @@ export const SITE = {
   locale: "ja-JP",
   dir: "ltr",
   charset: "UTF-8",
-  basePath: "/tech/",
+  basePath: "/",
   postsPerPage: 6,
 };
 
