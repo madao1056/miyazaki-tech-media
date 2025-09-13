@@ -4,7 +4,7 @@ export const SITE = {
   title: "宮崎テクノロジー×ビジネスメディア",
   description: "宮崎県のテクノロジー×ビジネス特化型メディアサイト",
   author: "合同会社bond",
-  url: "https://tech.bond-llc.jp",
+  url: "https://miya-tech.bond-llc.jp",
   locale: "ja-JP",
   dir: "ltr",
   charset: "UTF-8",
@@ -65,11 +65,11 @@ export const OTHER_LINKS: Link[] = [
     text: "週間ランキング",
   },
   {
-    href: "https://tech.bond-llc.jp/rss.xml",
+    href: "https://miya-tech.bond-llc.jp/rss.xml",
     text: "RSS",
   },
   {
-    href: "https://tech.bond-llc.jp/sitemap-index.xml",
+    href: "https://miya-tech.bond-llc.jp/sitemap-index.xml",
     text: "サイトマップ",
   },
 ];
