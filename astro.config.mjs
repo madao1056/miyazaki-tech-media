@@ -21,8 +21,7 @@ if (RUN_KEYSTATIC === "true") {
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://bond-llc.jp/tech",
-  base: "/tech/",
+  site: "https://tech.bond-llc.jp",
   markdown: {
     remarkPlugins: [readingTime, modifiedTime],
   },

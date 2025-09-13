@@ -4,11 +4,11 @@ export const SITE = {
   title: "宮崎テクノロジー×ビジネスメディア",
   description: "宮崎県のテクノロジー×ビジネス特化型メディアサイト",
   author: "合同会社bond",
-  url: "https://bond-llc.jp/tech",
+  url: "https://tech.bond-llc.jp",
   locale: "ja-JP",
   dir: "ltr",
   charset: "UTF-8",
-  basePath: "/tech/",
+  basePath: "/",
   postsPerPage: 6,
 };
 
@@ -65,11 +65,11 @@ export const OTHER_LINKS: Link[] = [
     text: "週間ランキング",
   },
   {
-    href: "https://bond-llc.jp/tech/rss.xml",
+    href: "https://tech.bond-llc.jp/rss.xml",
     text: "RSS",
   },
   {
-    href: "https://bond-llc.jp/tech/sitemap-index.xml",
+    href: "https://tech.bond-llc.jp/sitemap-index.xml",
     text: "サイトマップ",
   },
 ];

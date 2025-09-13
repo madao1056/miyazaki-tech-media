@@ -8,7 +8,7 @@
           "value": "media-site.vercel.app"
         }
       ],
-      "destination": "https://bond-llc.jp/tech/:path*",
+      "destination": "https://tech.bond-llc.jp/:path*",
       "permanent": true
     },
     {
@@ -19,7 +19,7 @@
           "value": "media-site-*.vercel.app"
         }
       ],
-      "destination": "https://bond-llc.jp/tech/:path*",
+      "destination": "https://tech.bond-llc.jp/:path*",
       "permanent": true
     }
   ]
