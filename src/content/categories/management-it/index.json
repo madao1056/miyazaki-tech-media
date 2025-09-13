@@ -1,0 +1,28 @@
+{
+  "title": "経営×IT",
+  "description": "経営者向けIT戦略・システム導入・ROI分析。IT投資の意思決定からシステム統合、セキュリティ対策、コスト最適化まで経営視点で解説。",
+  "slug": "management-it",
+  "color": "#8B5CF6",
+  "subcategories": [
+    {
+      "slug": "it-strategy",
+      "name": "IT戦略",
+      "description": "経営戦略とIT戦略の統合・投資判断"
+    },
+    {
+      "slug": "system-integration",
+      "name": "システム統合",
+      "description": "既存システムとの連携・移行戦略"
+    },
+    {
+      "slug": "security",
+      "name": "セキュリティ対策",
+      "description": "中小企業向けサイバーセキュリティ対策"
+    },
+    {
+      "slug": "cost-optimization",
+      "name": "コスト最適化",
+      "description": "ITコスト削減・効率化の実践方法"
+    }
+  ]
+}

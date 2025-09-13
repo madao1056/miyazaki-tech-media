@@ -1,0 +1,201 @@
+---
+import BaseLayout from "@/layouts/base.astro";
+import { getEntry } from "astro:content";
+
+const entry = await getEntry("views", "video");
+
+if (!entry) {
+  return Astro.redirect("/404");
+}
+
+// 動画コンテンツのサンプルデータ（後でWordPressから取得）
+const videoList = [
+  {
+    id: 1,
+    title: "5分で分かる！宮崎県のDX支援制度",
+    description: "宮崎県が提供するDX支援制度について分かりやすく解説",
+    duration: "05:23",
+    views: 1250,
+    thumbnail: "/images/videos/dx-support.jpg",
+    category: "dx",
+    published_date: "2024-01-15",
+    video_url: "https://youtube.com/watch?v=example1"
+  },
+  {
+    id: 2,
+    title: "ChatGPTを業務に活用する3つのステップ",
+    description: "中小企業でもすぐに始められるChatGPT活用法を実演",
+    duration: "08:45",
+    views: 2100,
+    thumbnail: "/images/videos/chatgpt-guide.jpg",
+    category: "ai-business",
+    published_date: "2024-01-12",
+    video_url: "https://youtube.com/watch?v=example2"
+  },
+  {
+    id: 3,
+    title: "宮崎発スタートアップ訪問：株式会社テックソリューション",
+    description: "宮崎市のIT企業を訪問し、創業から現在までの軌跡を取材",
+    duration: "12:30",
+    views: 890,
+    thumbnail: "/images/videos/startup-visit.jpg",
+    category: "local-tech",
+    published_date: "2024-01-10",
+    video_url: "https://youtube.com/watch?v=example3"
+  }
+];
+
+const categories = [
+  { slug: 'all', name: 'すべて' },
+  { slug: 'dx', name: 'DX推進' },
+  { slug: 'ai-business', name: 'AIビジネス' },
+  { slug: 'local-tech', name: '地域テック' },
+  { slug: 'management-it', name: '経営×IT' }
+];
+---
+
+<BaseLayout entry={entry}>
+  <main class="container mx-auto px-4 py-8">
+    <header class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        動画メディア
+      </h1>
+      <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+        宮崎県のテクノロジー×ビジネス情報を動画で分かりやすく
+      </p>
+    </header>
+
+    <!-- フィルタータブ -->
+    <section class="mb-8">
+      <div class="flex flex-wrap justify-center gap-2">
+        {categories.map(category => (
+          <button 
+            class={`filter-btn px-4 py-2 rounded-full transition-colors ${
+              category.slug === 'all' ? 'bg-primary text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+            }`}
+            data-category={category.slug}
+          >
+            {category.name}
+          </button>
+        ))}
+      </div>
+    </section>
+
+    <!-- 動画グリッド -->
+    <section class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {videoList.map(video => (
+        <article class="video-card bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden" data-category={video.category}>
+          <div class="aspect-video bg-gray-200 dark:bg-gray-700 relative group cursor-pointer">
+            <img 
+              src={video.thumbnail} 
+              alt={video.title}
+              class="w-full h-full object-cover"
+              onerror="this.src='/images/placeholder-video.jpg'"
+            />
+            
+            <!-- プレイオーバーレイ -->
+            <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+              <div class="w-16 h-16 bg-white bg-opacity-90 rounded-full flex items-center justify-center">
+                <svg class="w-6 h-6 text-gray-800 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              </div>
+            </div>
+            
+            <!-- 再生時間 -->
+            <div class="absolute bottom-2 right-2">
+              <span class="bg-black bg-opacity-75 text-white px-2 py-1 rounded text-sm">
+                {video.duration}
+              </span>
+            </div>
+            
+            <!-- カテゴリバッジ -->
+            <div class="absolute top-2 left-2">
+              <span class="bg-primary text-white px-2 py-1 rounded text-sm">
+                {video.category === 'dx' ? 'DX推進' : 
+                 video.category === 'ai-business' ? 'AIビジネス' : 
+                 video.category === 'local-tech' ? '地域テック' : '経営×IT'}
+              </span>
+            </div>
+          </div>
+          
+          <div class="p-4">
+            <h3 class="font-bold text-gray-900 dark:text-white mb-2 line-clamp-2">
+              {video.title}
+            </h3>
+            
+            <p class="text-sm text-gray-600 dark:text-gray-300 mb-3 line-clamp-2">
+              {video.description}
+            </p>
+            
+            <div class="flex items-center justify-between text-sm text-gray-500">
+              <span>{video.views.toLocaleString()}回再生</span>
+              <time>{new Date(video.published_date).toLocaleDateString('ja-JP')}</time>
+            </div>
+          </div>
+        </article>
+      ))}
+    </section>
+    
+    <!-- YouTube チャンネル案内 -->
+    <div class="text-center mt-12 bg-gray-50 dark:bg-gray-800 rounded-lg p-8">
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+        最新情報をお見逃しなく
+      </h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-6">
+        YouTubeチャンネルで最新の動画をチェック
+      </p>
+      <a 
+        href="https://youtube.com/@bondllc" 
+        target="_blank"
+        rel="noopener noreferrer"
+        class="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors inline-flex items-center"
+      >
+        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+        </svg>
+        チャンネル登録
+      </a>
+    </div>
+  </main>
+</BaseLayout>
+
+<script>
+  // 動画フィルタリング機能
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const videoCards = document.querySelectorAll('.video-card');
+    
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const category = e.target.dataset.category;
+        
+        // ボタンのアクティブ状態更新
+        filterBtns.forEach(b => {
+          b.classList.remove('bg-primary', 'text-white');
+          b.classList.add('bg-gray-200', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
+        });
+        
+        e.target.classList.add('bg-primary', 'text-white');
+        e.target.classList.remove('bg-gray-200', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
+        
+        // 動画カードのフィルタリング
+        videoCards.forEach(card => {
+          if (category === 'all' || card.dataset.category === category) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+    
+    // 動画クリック時の処理（実際のプロジェクトでは動画プレイヤーを開く）
+    videoCards.forEach(card => {
+      card.addEventListener('click', () => {
+        // ここで動画プレイヤーを開く処理を実装
+        console.log('動画再生:', card.querySelector('h3').textContent);
+      });
+    });
+  });
+</script>

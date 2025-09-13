@@ -1,0 +1,28 @@
+{
+  "title": "AIビジネス",
+  "description": "AI活用による業務効率化・新サービス開発。ChatGPT、Claude等の生成AIから業務自動化、データ分析、顧客対応まで実践的な活用法を紹介。",
+  "slug": "ai-business",
+  "color": "#10B981",
+  "subcategories": [
+    {
+      "slug": "ai-automation",
+      "name": "業務自動化",
+      "description": "AI・RPAを活用した業務プロセスの自動化事例"
+    },
+    {
+      "slug": "ai-analytics",
+      "name": "データ分析",
+      "description": "AIによるデータ分析・予測・可視化の実践"
+    },
+    {
+      "slug": "ai-customer-service",
+      "name": "顧客対応",
+      "description": "チャットボット・音声認識等を活用した顧客サービス"
+    },
+    {
+      "slug": "ai-marketing",
+      "name": "マーケティング活用",
+      "description": "AIを活用したマーケティング戦略と実装方法"
+    }
+  ]
+}

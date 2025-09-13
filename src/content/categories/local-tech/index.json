@@ -1,0 +1,28 @@
+{
+  "title": "地域テック",
+  "description": "宮崎発のテクノロジー企業・人材・イノベーション。地域スタートアップの紹介から技術人材育成、イノベーション拠点、地域政策まで。",
+  "slug": "local-tech",
+  "color": "#F59E0B",
+  "subcategories": [
+    {
+      "slug": "local-startup",
+      "name": "地域スタートアップ",
+      "description": "宮崎県発のテクノロジースタートアップ企業紹介"
+    },
+    {
+      "slug": "tech-talent",
+      "name": "技術人材",
+      "description": "エンジニア・デザイナー等の技術人材育成・採用"
+    },
+    {
+      "slug": "innovation-hub",
+      "name": "イノベーション拠点",
+      "description": "コワーキングスペース・インキュベーション施設"
+    },
+    {
+      "slug": "regional-policy",
+      "name": "地域政策",
+      "description": "宮崎県・市町村のIT・テクノロジー関連政策"
+    }
+  ]
+}

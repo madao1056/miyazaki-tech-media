@@ -1,0 +1,124 @@
+---
+import BaseLayout from "@/layouts/base.astro";
+import { getEntry } from "astro:content";
+
+const entry = await getEntry("views", "series");
+
+if (!entry) {
+  return Astro.redirect("/404");
+}
+
+// 連載コラムのサンプルデータ（後でWordPressから取得）
+const seriesList = [
+  {
+    id: 1,
+    title: "宮崎DX成功事例シリーズ",
+    description: "宮崎県内企業のDX推進成功事例を5回にわたって詳しく解説",
+    author: "田中太郎",
+    schedule: "毎週金曜日更新",
+    episodes: 5,
+    current_episode: 3,
+    featured_image: "/images/series/dx-success.jpg",
+    category: "dx",
+    slug: "miyazaki-dx-success"
+  },
+  {
+    id: 2,
+    title: "AI活用入門講座",
+    description: "中小企業でも始められるAI活用の基礎から実践まで",
+    author: "佐藤花子",
+    schedule: "隔週水曜日更新",
+    episodes: 8,
+    current_episode: 2,
+    featured_image: "/images/series/ai-basics.jpg",
+    category: "ai-business",
+    slug: "ai-practical-guide"
+  }
+];
+---
+
+<BaseLayout entry={entry}>
+  <main class="container mx-auto px-4 py-8">
+    <header class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        連載コラム
+      </h1>
+      <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+        宮崎県のテクノロジー×ビジネス情報を専門家が連載形式で詳しく解説
+      </p>
+    </header>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {seriesList.map(series => (
+        <article class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+          <div class="aspect-video bg-gray-200 dark:bg-gray-700 relative">
+            <img 
+              src={series.featured_image} 
+              alt={series.title}
+              class="w-full h-full object-cover"
+              onerror="this.src='/images/placeholder-series.jpg'"
+            />
+            <div class="absolute top-2 left-2">
+              <span class="bg-primary text-white px-2 py-1 rounded text-sm">
+                連載
+              </span>
+            </div>
+            <div class="absolute bottom-2 right-2">
+              <span class="bg-black bg-opacity-75 text-white px-2 py-1 rounded text-sm">
+                {series.current_episode}/{series.episodes}話
+              </span>
+            </div>
+          </div>
+          
+          <div class="p-6">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-sm text-primary font-medium">
+                {series.category === 'dx' ? 'DX推進' : 
+                 series.category === 'ai-business' ? 'AIビジネス' : 
+                 series.category === 'local-tech' ? '地域テック' : '経営×IT'}
+              </span>
+              <span class="text-sm text-gray-500">
+                {series.schedule}
+              </span>
+            </div>
+            
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3">
+              {series.title}
+            </h2>
+            
+            <p class="text-gray-600 dark:text-gray-300 mb-4 text-sm">
+              {series.description}
+            </p>
+            
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <div class="w-8 h-8 bg-gray-300 rounded-full mr-2"></div>
+                <span class="text-sm text-gray-700 dark:text-gray-300">
+                  {series.author}
+                </span>
+              </div>
+              <a 
+                href={`/series/${series.slug}`}
+                class="bg-primary text-white px-4 py-2 rounded hover:bg-primary-focus transition-colors text-sm"
+              >
+                詳細を見る
+              </a>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+    
+    <div class="text-center mt-12">
+      <p class="text-gray-600 dark:text-gray-300 mb-4">
+        連載コラムの企画・執筆にご興味がある方は
+      </p>
+      <a 
+        href="/contact" 
+        class="bg-secondary text-white px-6 py-3 rounded-lg hover:bg-secondary-focus transition-colors inline-block"
+      >
+        お問い合わせ
+      </a>
+    </div>
+  </main>
+</BaseLayout>
