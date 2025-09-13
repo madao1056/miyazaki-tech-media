@@ -4,12 +4,11 @@ export const SITE = {
   title: "宮崎テクノロジー×ビジネスメディア",
   description: "宮崎県のテクノロジー×ビジネス特化型メディアサイト",
   author: "合同会社bond",
-  url: "https://bond-llc.jp",
-  github: "https://github.com/bond-llc",
+  url: "https://bond-llc.jp/tech",
   locale: "ja-JP",
   dir: "ltr",
   charset: "UTF-8",
-  basePath: "/",
+  basePath: "/tech/",
   postsPerPage: 6,
 };
 
@@ -77,11 +76,6 @@ export const OTHER_LINKS: Link[] = [
 
 export const SOCIAL_LINKS: Link[] = [
   {
-    href: "https://github.com/bond-llc",
-    text: "GitHub",
-    icon: "github",
-  },
-  {
     href: "https://twitter.com/bondllc_jp",
     text: "Twitter",
     icon: "newTwitter",
@@ -90,11 +84,6 @@ export const SOCIAL_LINKS: Link[] = [
     href: "https://www.facebook.com/bondllc.jp",
     text: "Facebook",
     icon: "facebook",
-  },
-  {
-    href: "https://www.linkedin.com/company/bondllc",
-    text: "LinkedIn",
-    icon: "linkedin",
   },
 ];
 
