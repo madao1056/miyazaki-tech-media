@@ -88,54 +88,37 @@ tags: ["製造業", "ChatGPT", "宮崎市"]
 ## ドメイン構成
 
 ### 現在のサイト構造
-- **メディアサイト**: `bond-llc.jp/tech/` (サブディレクトリ)
-  - テクノロジー×ビジネスメディア
+- **メディアサイト**: `miya-tech.bond-llc.jp` (サブドメイン)
+  - 宮崎テクノロジー×ビジネスメディア
   - astro-newsテンプレート使用
-  - Astro設定: `base: "/tech/"` で配信
+  - Astro設定: サブドメイン構成
 
-### 今後の展開計画
+### サイト構成
 1. **メインサイト**: `bond-llc.jp/` 
    - 会社ホームページ
-   - テンプレート候補: [AstroWind](https://github.com/arthelokyo/astrowind)
+   - テンプレート: [AstroWind](https://github.com/arthelokyo/astrowind)
    
-2. **メディアサイト**: `bond-llc.jp/tech/`
-   - 現在開発中のサイト
-   - サブディレクトリとして運用
+2. **メディアサイト**: `miya-tech.bond-llc.jp`
+   - 宮崎テクノロジー×ビジネスメディア
+   - サブドメインとして運用
 
-### 実装方法（シンプルな構成）
+### 実装方法（サブドメイン構成）
 ```
 Vercelプロジェクト構成:
 1. bond-llc-main (bond-llc.jp) 
    - AstroWindテンプレート
    - ルートドメイン用
    
-2. bond-llc-tech (bond-llc.jp/tech)
-   - 現在のmedia-site
-   - Vercel設定でパスリライト
+2. media-site (miya-tech.bond-llc.jp)
+   - astro-newsテンプレート
+   - サブドメイン設定
 ```
 
-または
-
+### DNS設定
 ```
-単一リポジトリ構成（モノレポ）:
-/
-├── apps/
-│   ├── main/     # bond-llc.jp用
-│   └── tech/     # /tech/用
-└── package.json
-```
-
-### Vercel設定でのパス管理
-```json
-// vercel.json
-{
-  "rewrites": [
-    {
-      "source": "/tech/:path*",
-      "destination": "https://bond-llc-tech.vercel.app/tech/:path*"
-    }
-  ]
-}
+お名前.com DNS設定:
+- A Record: bond-llc.jp → Vercel IP
+- CNAME: miya-tech.bond-llc.jp → media-site.vercel.app
 ```
 
 ## 実施状況 (2025/01/13)
@@ -152,9 +135,9 @@ Vercelプロジェクト構成:
 ### 現在の構成
 ```
 /Users/hashiguchimasaki/project/
-├── media-site/        # メディアサイト (bond-llc.jp/tech/)
+├── media-site/        # メディアサイト (miya-tech.bond-llc.jp)
 │   ├── astro-news テンプレート
-│   └── basePath: "/tech/"
+│   └── サブドメイン構成
 │
 └── bond-llc-main/     # メインサイト (bond-llc.jp)
     ├── AstroWind テンプレート
@@ -171,11 +154,11 @@ Vercelプロジェクト構成:
 2. **メディアサイト (media-site)** ✅
    - URL: https://media-site-kbx58azxz-madao1056s-projects.vercel.app
    - リポジトリ: https://github.com/madao1056/media-site
-   - basePath: `/tech/` 設定済み
+   - サブドメイン設定済み
 
 3. **リライト設定** ✅
    - メインサイトの `vercel.json` に設定済み
-   - `/tech/*` → メディアサイトへ転送
+   - サブドメインで独立運用
 
 ### ドメイン設定手順（要手動作業）
 
@@ -197,4 +180,4 @@ Vercelプロジェクト構成:
 
 3. **動作確認**
    - `bond-llc.jp` → メインサイト表示
-   - `bond-llc.jp/tech/` → メディアサイト表示
+   - `miya-tech.bond-llc.jp` → メディアサイト表示
