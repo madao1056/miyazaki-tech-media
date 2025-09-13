@@ -161,15 +161,40 @@ Vercelプロジェクト構成:
     └── vercel.json (リライト設定含む)
 ```
 
-### 次のステップ
-1. **メインサイト (bond-llc-main)**
-   - Vercelにデプロイ
-   - カスタムドメイン `bond-llc.jp` を設定
-   
-2. **メディアサイト (media-site)**
-   - Vercelにデプロイ（プロジェクト名: bond-llc-tech）
-   - サブディレクトリ `/tech/` として動作
+### デプロイ完了状況
 
-3. **Vercel設定**
-   - メインサイトの `vercel.json` でリライト設定
-   - `/tech/*` へのアクセスをメディアサイトに転送
+1. **メインサイト (bond-llc-main)** ✅
+   - URL: https://bond-llc-main-jqpidjd8x-madao1056s-projects.vercel.app
+   - リポジトリ: https://github.com/madao1056/bond-llc-main
+   - AstroWindテンプレート使用
+   
+2. **メディアサイト (media-site)** ✅
+   - URL: https://media-site-kbx58azxz-madao1056s-projects.vercel.app
+   - リポジトリ: https://github.com/madao1056/media-site
+   - basePath: `/tech/` 設定済み
+
+3. **リライト設定** ✅
+   - メインサイトの `vercel.json` に設定済み
+   - `/tech/*` → メディアサイトへ転送
+
+### ドメイン設定手順（要手動作業）
+
+1. **DNS設定**（ドメインレジストラで設定）
+   ```
+   Type: A
+   Name: @
+   Value: 76.76.21.21
+   
+   Type: CNAME
+   Name: www
+   Value: cname.vercel-dns.com
+   ```
+
+2. **Vercel管理画面での設定**
+   - https://vercel.com/madao1056s-projects/bond-llc-main/settings/domains
+   - `bond-llc.jp` を追加
+   - DNS設定完了後、自動的に有効化
+
+3. **動作確認**
+   - `bond-llc.jp` → メインサイト表示
+   - `bond-llc.jp/tech/` → メディアサイト表示
