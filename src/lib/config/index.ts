@@ -1,7 +1,7 @@
 import type { Link } from "../types";
 
 export const SITE = {
-  title: "宮崎テクノロジー×ビジネスメディア",
+  title: "ミヤテクメディア",
   description: "宮崎県のテクノロジー×ビジネス特化型メディアサイト",
   author: "合同会社bond",
   url: "https://miya-tech.bond-llc.jp",
