@@ -2,7 +2,7 @@ import type { Link } from "../types";
 
 export const SITE = {
   title: "ミヤテクメディア",
-  description: "宮崎県のテクノロジー×ビジネス特化型メディアサイト",
+  description: "宮崎から見つける、あなたが知らない働き方・事業の世界",
   author: "合同会社bond",
   url: "https://miya-tech.bond-llc.jp",
   locale: "ja-JP",
@@ -14,20 +14,20 @@ export const SITE = {
 
 export const NAVIGATION_LINKS: Link[] = [
   {
-    href: "/categories/dx",
-    text: "DX推進",
+    href: "/categories/freelance",
+    text: "フリーランスの世界",
   },
   {
-    href: "/categories/ai-business",
-    text: "AIビジネス",
+    href: "/categories/small-business",
+    text: "小さな会社経営",
   },
   {
-    href: "/categories/local-tech",
-    text: "地域テック",
+    href: "/categories/new-workstyle",
+    text: "新しい働き方",
   },
   {
-    href: "/categories/management-it",
-    text: "経営×IT",
+    href: "/categories/business-ideas",
+    text: "事業アイデア",
   },
   {
     href: "/series",
@@ -89,44 +89,44 @@ export const SOCIAL_LINKS: Link[] = [
 
 // 新しいカテゴリ設定
 export const CATEGORIES = {
-  'dx': {
-    name: 'DX推進',
-    description: '宮崎県内企業のデジタル変革事例・導入ガイド',
+  'freelance': {
+    name: 'フリーランスの世界',
+    description: '自由な働き方を実現するフリーランスの実態と始め方',
     subcategories: [
-      { slug: 'dx-case-study', name: '導入事例' },
-      { slug: 'dx-tools', name: 'ツール比較' },
-      { slug: 'dx-strategy', name: '戦略立案' },
-      { slug: 'dx-subsidy', name: '補助金情報' }
+      { slug: 'web-design', name: 'Web制作・デザイン' },
+      { slug: 'consulting', name: 'コンサルティング' },
+      { slug: 'creative', name: 'クリエイティブ' },
+      { slug: 'specialized-service', name: '専門サービス' }
     ]
   },
-  'ai-business': {
-    name: 'AIビジネス',
-    description: 'AI活用による業務効率化・新サービス開発',
+  'small-business': {
+    name: '小さな会社経営',
+    description: '小規模でも持続可能な事業経営のノウハウと事例',
     subcategories: [
-      { slug: 'ai-automation', name: '業務自動化' },
-      { slug: 'ai-analytics', name: 'データ分析' },
-      { slug: 'ai-customer-service', name: '顧客対応' },
-      { slug: 'ai-marketing', name: 'マーケティング活用' }
+      { slug: 'local-business', name: '地域密着ビジネス' },
+      { slug: 'online-business', name: 'オンラインビジネス' },
+      { slug: 'tradition-innovation', name: '伝統×革新事業' },
+      { slug: 'service-industry', name: 'サービス業' }
     ]
   },
-  'local-tech': {
-    name: '地域テック',
-    description: '宮崎発のテクノロジー企業・人材・イノベーション',
+  'new-workstyle': {
+    name: '新しい働き方',
+    description: '従来の会社員以外の多様な働き方の選択肢',
     subcategories: [
-      { slug: 'local-startup', name: '地域スタートアップ' },
-      { slug: 'tech-talent', name: '技術人材' },
-      { slug: 'innovation-hub', name: 'イノベーション拠点' },
-      { slug: 'regional-policy', name: '地域政策' }
+      { slug: 'remote-work', name: 'リモートワーク' },
+      { slug: 'side-business', name: '副業・複業' },
+      { slug: 'workation', name: 'ワーケーション' },
+      { slug: 'rural-relocation', name: '地方移住×仕事' }
     ]
   },
-  'management-it': {
-    name: '経営×IT',
-    description: '経営者向けIT戦略・システム導入・ROI分析',
+  'business-ideas': {
+    name: '事業アイデア',
+    description: '新しいビジネスの種となるアイデアと実現方法',
     subcategories: [
-      { slug: 'it-strategy', name: 'IT戦略' },
-      { slug: 'system-integration', name: 'システム統合' },
-      { slug: 'security', name: 'セキュリティ対策' },
-      { slug: 'cost-optimization', name: 'コスト最適化' }
+      { slug: 'future-business', name: '未来のビジネス' },
+      { slug: 'social-solutions', name: '社会課題解決' },
+      { slug: 'regional-resources', name: '地域資源活用' },
+      { slug: 'tech-utilization', name: 'テクノロジー活用' }
     ]
   }
 };
@@ -134,14 +134,26 @@ export const CATEGORIES = {
 // 業界タグ
 export const INDUSTRY_TAGS = [
   '製造業', '建設業', '小売業', '飲食業', '医療・介護',
-  '教育', '農業', '観光業', '運輸業', '金融業'
+  '教育', '農業', '観光業', '運輸業', '金融業',
+  'クリエイティブ', 'コンサルティング', 'IT・Web', 'サービス業'
 ];
 
-// 技術タグ
-export const TECH_TAGS = [
-  'ChatGPT', 'Claude', 'Microsoft365', 'Google Workspace',
-  'Slack', 'Zoom', 'Salesforce', 'kintone', 'freee',
-  'Power BI', 'Tableau', 'RPA', 'IoT', 'クラウド'
+// 働き方タグ
+export const WORKSTYLE_TAGS = [
+  'フリーランス', '個人事業主', '小さな会社', '副業',
+  'リモートワーク', 'ワーケーション', '地方移住', '起業'
+];
+
+// 事業規模タグ
+export const BUSINESS_SCALE_TAGS = [
+  '一人事業', '小規模チーム', '家族経営', 'スタートアップ',
+  '地域密着', 'オンライン完結', '実店舗型', 'サービス型'
+];
+
+// キャリアステージタグ
+export const CAREER_STAGE_TAGS = [
+  '新卒・第二新卒', '20代転職', '30代独立', 'セカンドキャリア',
+  '学生起業', '子育て×仕事', 'シニア起業', 'Uターン転職'
 ];
 
 // 地域タグ

@@ -1,117 +1,91 @@
 ---
-title: "About"
-description: "Learn about the author, his background, and his interests."
+title: "ミヤテクメディアについて"
+description: "宮崎から始まる、多様な働き方・事業の世界を発見するメディアです。"
 blocks:
   - name: "ABOUT"
-    title: "About us"
+    title: "私たちについて"
 ---
-import screenshot from '../../assets/images/screenshot-astronews.png';
-import performances from '../../assets/images/Performances.png';
-import { Image } from 'astro:assets';
 
+# ミヤテクメディア
 
-# Astro News 📰
+**「会社員だけが人生じゃない」**
 
-A news website built with Astro, designed to provide a modern and responsive news reading experience.
+宮崎から発見する、多様な働き方・事業の世界を紹介するメディアです。
 
-> **ℹ️ Info**  
-> Astro news is my first open-source project, so there may be some bugs or issues. I’ll address them as quickly as possible.
+## 🎯 私たちのミッション
 
-<Image src={screenshot} alt="Astro News" layout="constrained" class="rounded-lg shadow-xl" />
-<Image src={performances} alt="PageSpeed Insights result" layout="constrained" class="rounded-lg shadow-xl" />
+従来の「就職して会社員になる」という選択肢以外にも、たくさんの働き方や事業のカタチがあることを知ってもらいたい。
 
-## 🌐 Demo
+あなたが知らない仕事や事業がここにあります。具体的な事例を通じて、新しいキャリアの可能性を発見できる場所を目指しています。
 
-Explore the live demo here: [**Live Demo**](https://astro-news-six.vercel.app/)
+## 📚 コンテンツカテゴリ
 
-## 🚀 Installation
+### フリーランスの世界
+自由な働き方を実現するフリーランスの実態と始め方を、リアルな事例で紹介。
 
-Follow the steps below to set up and run the project locally:
+- **Web制作・デザイン**: 技術を活かした独立の道
+- **コンサルティング**: 専門知識を価値に変える方法
+- **クリエイティブ**: 創造性を仕事にする働き方
+- **専門サービス**: あなたの得意を事業にする
 
-### Clone the Repository
+### 小さな会社経営
+小規模でも持続可能な事業経営のノウハウと実践例。
 
-```bash
-git clone https://github.com/Mrahmani71/astro-news.git
-```
+- **地域密着ビジネス**: 地域に根ざした事業の作り方
+- **オンラインビジネス**: インターネットを活用した事業展開
+- **伝統×革新事業**: 古いものと新しいアイデアの融合
+- **サービス業**: 人の役に立つサービスの立ち上げ
 
-### Install Dependencies
+### 新しい働き方
+従来の会社員以外の多様な働き方の選択肢。
 
-``` bash
-bun install
-```
+- **リモートワーク**: 場所にとらわれない働き方
+- **副業・複業**: 複数の収入源を持つライフスタイル
+- **ワーケーション**: 旅と仕事を組み合わせた新しいスタイル
+- **地方移住×仕事**: 宮崎で実現する理想の働き方
 
-### Run Development Server
+### 事業アイデア
+新しいビジネスの種となるアイデアと実現方法。
 
-```bash
-bun dev
-```
+- **未来のビジネス**: これから伸びる分野のビジネスチャンス
+- **社会課題解決**: 困りごとを解決するビジネスモデル
+- **地域資源活用**: 宮崎の特色を活かした事業展開
+- **テクノロジー活用**: 技術を使った効率的な事業運営
 
-### Running Keystatic CMS
+## 🎭 想定読者
 
-1. Rename `.env.example` to `.env`.
+- **20代〜30代**: 転職・独立を考えている方
+- **会社員**: 他の働き方に興味がある方
+- **学生**: 就職以外の選択肢を知りたい方
+- **地方在住者**: 地元で新しいことを始めたい方
+- **子育て世代**: 柔軟な働き方を模索している方
 
-2.  Set `RUN_KEYSTATIC=true`.
+## 🌟 記事の特徴
 
-3. Start the development server:
+### リアルな事例重視
+「宮崎でカフェ経営する元銀行員の話」「Web制作フリーランス、年収400万円の実態」など、具体的で等身大の事例を紹介。
 
-```bash
-bun dev
-```
+### 実践的な情報
+「開業届の出し方」「フリーランスの確定申告入門」など、実際に始めるために必要な情報を提供。
 
-4. Open `http://localhost:4321/keystatic` in your browser.
+### 宮崎ベースの視点
+地方からでも可能な働き方、宮崎の地域特性を活かした事業アイデアを中心に展開。
 
-## ✨ Features
+## 🏢 運営会社
 
-### Implemented Features
+**合同会社bond**
 
-- Content Layer
-- Keystatic CMS
-- Navigation
-- Responsive Design
-- Pagination
-- Search Functionality
-- RSS Feed
-- Sitemap
-- Dark Mode
-- SEO Optimization (~)
+宮崎県を拠点に、地域企業のDXサポートとメディア運営を手がけています。
 
-### Upcoming Features
+### 運営責任者：橋口真幸
+- 宮崎県でのビジネス支援経験豊富
+- テクノロジーとビジネスを結ぶ実践的な情報発信
+- 地域の企業成長を多角的にサポート
 
-- Open Graph (OG) Image Generation
+## 📞 お問い合わせ
 
-## 💻 Technologies
+事業に関するご相談、取材のご依頼、広告掲載のお問い合わせは[こちら](/contact)からお気軽にどうぞ。
 
-This project leverages cutting-edge web technologies:
+---
 
-- [Astro V5.7](https://astro.build) - Modern static site builder
-- [KeyStatic](https://keystatic.com) - Headless content-management system
-- [Tailwind CSS](https://tailwindcss.com) - Utility-first CSS framework
-- [DaisyUI](https://daisyui.com/) - Tailwind CSS component library
-- [TypeScript](https://typescriptlang.org) - Typed JavaScript
-- [MDX](https://mdxjs.com) - Markdown with JSX support
-- [Bun V1.2.10](https://bun.sh) - Fast JavaScript runtime
-- [Vercel](https://vercel.com) - Deployment platform
-- [HugeIcons](https://hugeicons.com) - Icon library
-
-## 💡  Inspirations and Code Concepts
-
-This project draws inspiration from the following sources:
-
-### Designs
-
-- [BBC News](https://www.bbc.com)
-- [NewsHub - News Website](https://dribbble.com/shots/21678041-NewsHub-News-Website)
-- [Let'sread - News Landing Page](https://dribbble.com/shots/24675325-Let-sread-News-Landing-Page)
-
-### Articles
-
-- [Creating A Pagination Component With Astro](https://rimdev.io/creating-a-pagination-component-with-astro)
-- [Adding search to static Astro sites](https://website-thomas-astro.vercel.app/blog/search-static-astro-website)
-
-## 📄 License
-
-Open sourced under the [MIT license](https://github.com/Mrahmani71/astro-news/blob/master/LICENSE.md).
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/Mrahmani71/astro-news/issues).
+*宮崎から始まる、あなたの新しいキャリアの発見をお手伝いします。*
