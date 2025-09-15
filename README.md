@@ -1,107 +1,124 @@
-# Astro News 📰
+# ミヤテクメディア 🚀
 
-A news website built with Astro, designed to provide a modern and responsive news reading experience.
+宮崎から発見する、多様な働き方・事業の世界を紹介する事業多様性認知メディアです。
 
-> **ℹ️ Info**  
-> Astro news is my first open-source project, so there may be some bugs or issues. I’ll address them as quickly as possible.
+**「会社員だけが人生じゃない」**
 
-![Astro News](./src/assets/images/screenshot-astronews.png "Astro News")
+## 📖 概要
 
-![performances](./src/assets/images/Performances.png "Performances")
+従来の「就職して会社員になる」という選択肢以外にも、たくさんの働き方や事業のカタチがあることを知ってもらうためのメディアサイトです。フリーランス、小さな会社経営、新しい働き方など、具体的な事例を通じて新しいキャリアの可能性を発見できる場所を目指しています。
 
-## 🌐 Demo
+## 🌐 サイト情報
 
-Explore the live demo here: [**Live Demo**](https://astro-news-six.vercel.app/)
+- **URL**: https://miya-tech.bond-llc.jp
+- **運営**: 合同会社bond
+- **開発環境**: Astro v5 + MDX
 
-## 🚀 Installation
+## 📚 コンテンツカテゴリ
 
-Follow the steps below to set up and run the project locally:
+### フリーランスの世界
+自由な働き方を実現するフリーランスの実態と始め方
 
-### Clone the Repository
+### 小さな会社経営
+小規模でも持続可能な事業経営のノウハウと事例
+
+### 新しい働き方
+従来の会社員以外の多様な働き方の選択肢
+
+### 事業アイデア
+新しいビジネスの種となるアイデアと実現方法
+
+## 🚀 技術スタック
+
+- **Framework**: [Astro v5](https://astro.build) - 高速な静的サイトジェネレーター
+- **Content**: MDX - Markdown with JSX support
+- **Styling**: [Tailwind CSS](https://tailwindcss.com) + [DaisyUI](https://daisyui.com/)
+- **Language**: [TypeScript](https://typescriptlang.org)
+- **Deployment**: [Vercel](https://vercel.com)
+- **Package Manager**: npm
+
+## 💻 開発環境のセットアップ
+
+### リポジトリのクローン
 
 ```bash
-git clone https://github.com/Mrahmani71/astro-news.git
+git clone https://github.com/madao1056/miyazaki-tech-media.git
+cd media-site
 ```
 
-### Install Dependencies
-
-``` bash
-bun install
-```
-
-### Run Development Server
+### 依存関係のインストール
 
 ```bash
-bun dev
+npm install
 ```
 
-### Running Keystatic CMS
+### 開発サーバーの起動
 
-1. Rename `.env.example` to `.env`.
+```bash
+npm run dev
+```
 
-2. Set `RUN_KEYSTATIC=true`.
+ブラウザで `http://localhost:4321` を開いてください。
 
-3. Start the development server:
+### ビルド
 
- ```bash
-    bun dev 
-  ```
+```bash
+npm run build
+```
 
-4. Open `http://localhost:4321/keystatic` in your browser.
+### プレビュー
 
-## ✨ Features
+```bash
+npm run preview
+```
 
-### Implemented Features
+## 📝 コンテンツ管理
 
-- Content Layer
-- Keystatic CMS
-- Navigation
-- Responsive Design
-- Pagination
-- Search Functionality
-- RSS Feed
-- Sitemap
-- Dark Mode
-- SEO Optimization (~)
+記事は `src/content/articles/` ディレクトリにMDX形式で管理されています。
 
-### Upcoming Features
+### 記事の追加方法
 
-- Open Graph (OG) Image Generation
+1. `src/content/articles/` に新しいディレクトリを作成
+2. `index.mdx` ファイルを作成
+3. フロントマターに必要な情報を記載
+4. 記事本文を記述
 
-## 💻 Technologies
+### フロントマターの例
 
-This project leverages cutting-edge web technologies:
+```yaml
+---
+title: "記事タイトル"
+description: "記事の説明"
+category: "freelance"
+subcategory: "Web制作・デザイン"
+author: "橋口真幸"
+publishDate: "2025-01-01"
+image: "/images/articles/filename.jpg"
+tags: ["フリーランス", "Web制作", "宮崎市"]
+---
+```
 
-- [Astro V5.7](https://astro.build) - Modern static site builder
-- [KeyStatic](https://keystatic.com) - Headless content-management system
-- [Tailwind CSS](https://tailwindcss.com) - Utility-first CSS framework
-- [DaisyUI](https://daisyui.com/) - Tailwind CSS component library
-- [TypeScript](https://typescriptlang.org) - Typed JavaScript
-- [MDX](https://mdxjs.com) - Markdown with JSX support
-- [Bun V1.2.10](https://bun.sh) - Fast JavaScript runtime
-- [Vercel](https://vercel.com) - Deployment platform
-- [HugeIcons](https://hugeicons.com) - Icon library
+## 🎯 主な機能
 
-## 💡  Inspirations and Code Concepts
+- ✅ レスポンシブデザイン
+- ✅ ダークモード対応
+- ✅ 高速ページロード（Lighthouse 95+）
+- ✅ SEO最適化
+- ✅ RSS フィード
+- ✅ サイトマップ自動生成
+- ✅ 記事検索機能
+- ✅ ページネーション
+- ✅ カテゴリー・タグ分類
 
-This project draws inspiration from the following sources:
+## 📄 ライセンス
 
-### Designs
+[MIT License](LICENSE.md)
 
-- [BBC News](https://www.bbc.com)
-- [NewsHub - News Website](https://dribbble.com/shots/21678041-NewsHub-News-Website)
-- [Let'sread - News Landing Page](https://dribbble.com/shots/24675325-Let-sread-News-Landing-Page)
+## 🤝 お問い合わせ
 
-### Articles
+- **運営会社**: 合同会社bond
+- **お問い合わせ**: サイト内のお問い合わせフォームよりご連絡ください
 
-- [Creating A Pagination Component With Astro](https://rimdev.io/creating-a-pagination-component-with-astro)
-- [Adding search to static Astro sites](https://website-thomas-astro.vercel.app/blog/search-static-astro-website)
+---
 
-## 📄 License
-
-Open sourced under the [MIT license](LICENSE.md).
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/Mrahmani71/astro-news/issues).
-# miyazaki-tech-media
+*宮崎から始まる、あなたの新しいキャリアの発見をお手伝いします。*
