@@ -4,7 +4,7 @@ export const SITE = {
   title: "ミヤテクメディア",
   description: "宮崎から見つける、あなたが知らない働き方・事業の世界",
   author: "合同会社bond",
-  url: "https://miya-tech.bond-llc.jp",
+  url: "https://biz-map.bond-llc.jp",
   locale: "ja-JP",
   dir: "ltr",
   charset: "UTF-8",

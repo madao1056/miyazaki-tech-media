@@ -10,7 +10,7 @@
 
 ## 🌐 サイト情報
 
-- **URL**: https://miya-tech.bond-llc.jp
+- **URL**: https://biz-map.bond-llc.jp
 - **運営**: 合同会社bond
 - **開発環境**: Astro v5 + MDX
 

@@ -2,7 +2,7 @@
 
 ## サイト概要
 宮崎から発見する、多様な働き方・事業の世界を紹介する事業多様性認知メディア
-URL: https://miya-tech.bond-llc.jp
+URL: https://biz-map.bond-llc.jp
 運営: 合同会社bond
 コンセプト: 「会社員だけが人生じゃない」
 
@@ -91,7 +91,7 @@ tags: ["フリーランス", "Web制作", "宮崎市", "30代独立"]
 ## ドメイン構成
 
 ### 現在のサイト構造
-- **メディアサイト**: `miya-tech.bond-llc.jp` (サブドメイン)
+- **メディアサイト**: `biz-map.bond-llc.jp` (サブドメイン)
   - ミヤテクメディア
   - astro-newsテンプレート使用
   - Astro設定: サブドメイン構成
@@ -101,7 +101,7 @@ tags: ["フリーランス", "Web制作", "宮崎市", "30代独立"]
    - 会社ホームページ
    - テンプレート: [AstroWind](https://github.com/arthelokyo/astrowind)
    
-2. **メディアサイト**: `miya-tech.bond-llc.jp`
+2. **メディアサイト**: `biz-map.bond-llc.jp`
    - ミヤテクメディア
    - サブドメインとして運用
 
@@ -112,7 +112,7 @@ Vercelプロジェクト構成:
    - AstroWindテンプレート
    - ルートドメイン用
    
-2. media-site (miya-tech.bond-llc.jp)
+2. media-site (biz-map.bond-llc.jp)
    - astro-newsテンプレート
    - サブドメイン設定
 ```
@@ -121,7 +121,7 @@ Vercelプロジェクト構成:
 ```
 お名前.com DNS設定:
 - A Record: bond-llc.jp → Vercel IP
-- CNAME: miya-tech.bond-llc.jp → media-site.vercel.app
+- CNAME: biz-map.bond-llc.jp → media-site.vercel.app
 ```
 
 ## 実施状況 (2025/01/13)
@@ -138,7 +138,7 @@ Vercelプロジェクト構成:
 ### 現在の構成
 ```
 /Users/hashiguchimasaki/project/
-├── media-site/        # メディアサイト (miya-tech.bond-llc.jp)
+├── media-site/        # メディアサイト (biz-map.bond-llc.jp)
 │   ├── astro-news テンプレート
 │   └── サブドメイン構成
 │
@@ -183,4 +183,4 @@ Vercelプロジェクト構成:
 
 3. **動作確認**
    - `bond-llc.jp` → メインサイト表示
-   - `miya-tech.bond-llc.jp` → メディアサイト表示
+   - `biz-map.bond-llc.jp` → メディアサイト表示
