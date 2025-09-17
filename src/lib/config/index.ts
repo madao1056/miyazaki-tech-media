@@ -42,11 +42,11 @@ export const NAVIGATION_LINKS: Link[] = [
 export const OTHER_LINKS: Link[] = [
   {
     href: "/about",
-    text: "会社概要",
+    text: "BizMapについて",
   },
   {
     href: "/authors",
-    text: "執筆者一覧",
+    text: "運営者情報",
   },
   {
     href: "/contact",
@@ -62,14 +62,14 @@ export const OTHER_LINKS: Link[] = [
   },
   {
     href: "/ranking",
-    text: "週間ランキング",
+    text: "人気記事ランキング",
   },
   {
-    href: "https://miya-tech.bond-llc.jp/rss.xml",
+    href: "https://biz-map.bond-llc.jp/rss.xml",
     text: "RSS",
   },
   {
-    href: "https://miya-tech.bond-llc.jp/sitemap-index.xml",
+    href: "https://biz-map.bond-llc.jp/sitemap-index.xml",
     text: "サイトマップ",
   },
 ];

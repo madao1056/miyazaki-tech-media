@@ -17,12 +17,12 @@ import { NAVIGATION_LINKS, OTHER_LINKS } from "@/lib/config";
     tabindex="0"
     class="menu dropdown-content z-50 bg-base-100 rounded-box w-56 shadow"
   >
-    <li><a href="/" aria-label="Homepage">Home</a></li>
-    <li><a href="/articles" aria-label="Articles Page">Articles</a></li>
+    <li><a href="/" aria-label="ホームページ">ホーム</a></li>
+    <li><a href="/articles" aria-label="記事一覧ページ">記事一覧</a></li>
 
     <li>
       <details>
-        <summary>Categories</summary>
+        <summary>カテゴリ</summary>
         <ul>
           {
             NAVIGATION_LINKS.map(({ href, text, target }) => (
@@ -39,7 +39,7 @@ import { NAVIGATION_LINKS, OTHER_LINKS } from "@/lib/config";
 
     <li>
       <details>
-        <summary>Other Pages</summary>
+        <summary>その他のページ</summary>
         <ul>
           {
             OTHER_LINKS.map(({ href, text, target }) => (
