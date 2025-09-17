@@ -1,6 +1,6 @@
 {
-  "name": "ミヤテクメディア",
-  "short_name": "ミヤテク",
+  "name": "BizMap（ビズマップ）",
+  "short_name": "BizMap",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",

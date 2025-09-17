@@ -1,8 +1,8 @@
 import type { Link } from "../types";
 
 export const SITE = {
-  title: "ミヤテクメディア",
-  description: "宮崎から見つける、あなたが知らない働き方・事業の世界",
+  title: "BizMap（ビズマップ）",
+  description: "宮崎の経営者が語る、挑戦と成長のリアルストーリー。なぜ起業したのか、どう困難を乗り越えたのか。あなたのキャリアの地図になる",
   author: "合同会社bond",
   url: "https://biz-map.bond-llc.jp",
   locale: "ja-JP",
