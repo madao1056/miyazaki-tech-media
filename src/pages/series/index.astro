@@ -8,31 +8,43 @@ if (!entry) {
   return Astro.redirect("/404");
 }
 
-// 連載コラムのサンプルデータ（後でWordPressから取得）
+// 連載コラムのサンプルデータ
 const seriesList = [
   {
     id: 1,
-    title: "宮崎DX成功事例シリーズ",
-    description: "宮崎県内企業のDX推進成功事例を5回にわたって詳しく解説",
-    author: "田中太郎",
-    schedule: "毎週金曜日更新",
-    episodes: 5,
-    current_episode: 3,
-    featured_image: "/images/series/dx-success.jpg",
-    category: "dx",
-    slug: "miyazaki-dx-success"
+    title: "宮崎起業家列伝",
+    description: "宮崎で活躍する起業家たちの挑戦ストーリーを連載形式で深く掘り下げ",
+    author: "橋口真幸",
+    schedule: "毎月第2金曜日更新",
+    episodes: 6,
+    current_episode: 2,
+    featured_image: "/images/series/entrepreneur-stories.jpg",
+    category: "freelance",
+    slug: "miyazaki-entrepreneurs"
   },
   {
     id: 2,
-    title: "AI活用入門講座",
-    description: "中小企業でも始められるAI活用の基礎から実践まで",
-    author: "佐藤花子",
-    schedule: "隔週水曜日更新",
-    episodes: 8,
-    current_episode: 2,
-    featured_image: "/images/series/ai-basics.jpg",
-    category: "ai-business",
-    slug: "ai-practical-guide"
+    title: "家族経営の挑戦",
+    description: "代々続く家族経営企業の革新と継承の物語",
+    author: "橋口真幸",
+    schedule: "毎月第4金曜日更新",
+    episodes: 4,
+    current_episode: 1,
+    featured_image: "/images/series/family-business.jpg",
+    category: "small-business",
+    slug: "family-business-challenge"
+  },
+  {
+    id: 3,
+    title: "地方移住×起業",
+    description: "宮崎に移住して新たな事業を立ち上げた経営者たちの体験記",
+    author: "橋口真幸",
+    schedule: "不定期更新",
+    episodes: 3,
+    current_episode: 1,
+    featured_image: "/images/series/rural-startup.jpg",
+    category: "new-workstyle",
+    slug: "rural-relocation-startup"
   }
 ];
 ---
@@ -44,7 +56,7 @@ const seriesList = [
         連載コラム
       </h1>
       <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-        宮崎県のテクノロジー×ビジネス情報を専門家が連載形式で詳しく解説
+        経営者インタビューを連載形式で特集。各業界のリーダーたちの成功ストーリー
       </p>
     </header>
 
@@ -73,9 +85,9 @@ const seriesList = [
           <div class="p-6">
             <div class="flex items-center justify-between mb-3">
               <span class="text-sm text-primary font-medium">
-                {series.category === 'dx' ? 'DX推進' : 
-                 series.category === 'ai-business' ? 'AIビジネス' : 
-                 series.category === 'local-tech' ? '地域テック' : '経営×IT'}
+                {series.category === 'freelance' ? 'フリーランスの世界' : 
+                 series.category === 'small-business' ? '小さな会社経営' : 
+                 series.category === 'new-workstyle' ? '新しい働き方' : '事業アイデア'}
               </span>
               <span class="text-sm text-gray-500">
                 {series.schedule}

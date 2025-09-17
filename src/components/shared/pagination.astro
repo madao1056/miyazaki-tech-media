@@ -60,11 +60,11 @@ const paginationList = Array.from(
     {
       prevUrl ? (
         <a href={prevUrl} class="join-item btn btn-sm">
-          <ArrowLeft01 /> <span class="hidden lg:block">Previous</span>
+          <ArrowLeft01 />
         </a>
       ) : (
         <span class="join-item btn btn-sm btn-disabled">
-          <ArrowLeft01 /> <span class="hidden lg:block">Previous</span>
+          <ArrowLeft01 />
         </span>
       )
     }
@@ -83,11 +83,11 @@ const paginationList = Array.from(
     {
       !nextUrl ? (
         <span class="join-item btn btn-sm btn-disabled">
-          <span class="hidden lg:block">Next</span> <ArrowRight01 />
+          <ArrowRight01 />
         </span>
       ) : (
         <a href={nextUrl} class="join-item btn btn-sm">
-          <span class="hidden lg:block">Next</span> <ArrowRight01 />
+          <ArrowRight01 />
         </a>
       )
     }

@@ -8,49 +8,60 @@ if (!entry) {
   return Astro.redirect("/404");
 }
 
-// 動画コンテンツのサンプルデータ（後でWordPressから取得）
+// 動画コンテンツのサンプルデータ
 const videoList = [
   {
     id: 1,
-    title: "5分で分かる！宮崎県のDX支援制度",
-    description: "宮崎県が提供するDX支援制度について分かりやすく解説",
-    duration: "05:23",
+    title: "起業のきっかけを語る：カフェ経営者 田中さんインタビュー",
+    description: "銀行員から独立してカフェを開業した田中さんの挑戦ストーリー",
+    duration: "15:23",
     views: 1250,
-    thumbnail: "/images/videos/dx-support.jpg",
-    category: "dx",
+    thumbnail: "/images/videos/cafe-owner-interview.jpg",
+    category: "small-business",
     published_date: "2024-01-15",
     video_url: "https://youtube.com/watch?v=example1"
   },
   {
     id: 2,
-    title: "ChatGPTを業務に活用する3つのステップ",
-    description: "中小企業でもすぐに始められるChatGPT活用法を実演",
-    duration: "08:45",
+    title: "フリーランスデザイナーの1日密着",
+    description: "宮崎でフリーランスとして活動するデザイナーの働き方に密着",
+    duration: "12:45",
     views: 2100,
-    thumbnail: "/images/videos/chatgpt-guide.jpg",
-    category: "ai-business",
+    thumbnail: "/images/videos/freelance-designer.jpg",
+    category: "freelance",
     published_date: "2024-01-12",
     video_url: "https://youtube.com/watch?v=example2"
   },
   {
     id: 3,
-    title: "宮崎発スタートアップ訪問：株式会社テックソリューション",
-    description: "宮崎市のIT企業を訪問し、創業から現在までの軌跡を取材",
-    duration: "12:30",
+    title: "東京から宮崎へ移住起業：IT企業代表インタビュー",
+    description: "東京から宮崎に移住してIT企業を立ち上げた経営者の体験談",
+    duration: "18:30",
     views: 890,
-    thumbnail: "/images/videos/startup-visit.jpg",
-    category: "local-tech",
+    thumbnail: "/images/videos/relocation-startup.jpg",
+    category: "new-workstyle",
     published_date: "2024-01-10",
     video_url: "https://youtube.com/watch?v=example3"
+  },
+  {
+    id: 4,
+    title: "学生起業家に聞く：事業アイデアの見つけ方",
+    description: "大学在学中に起業した若手経営者が語る事業のヒント",
+    duration: "10:15",
+    views: 1540,
+    thumbnail: "/images/videos/student-entrepreneur.jpg",
+    category: "business-ideas",
+    published_date: "2024-01-08",
+    video_url: "https://youtube.com/watch?v=example4"
   }
 ];
 
 const categories = [
   { slug: 'all', name: 'すべて' },
-  { slug: 'dx', name: 'DX推進' },
-  { slug: 'ai-business', name: 'AIビジネス' },
-  { slug: 'local-tech', name: '地域テック' },
-  { slug: 'management-it', name: '経営×IT' }
+  { slug: 'freelance', name: 'フリーランスの世界' },
+  { slug: 'small-business', name: '小さな会社経営' },
+  { slug: 'new-workstyle', name: '新しい働き方' },
+  { slug: 'business-ideas', name: '事業アイデア' }
 ];
 ---
 
@@ -61,7 +72,7 @@ const categories = [
         動画メディア
       </h1>
       <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-        宮崎県のテクノロジー×ビジネス情報を動画で分かりやすく
+        経営者インタビューを動画で配信。リアルな表情と声で伝える挑戦ストーリー
       </p>
     </header>
 
