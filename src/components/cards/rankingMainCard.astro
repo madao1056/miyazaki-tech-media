@@ -1,0 +1,95 @@
+---
+import { Image } from "astro:assets";
+import { render } from "astro:content";
+import Divider from "@/components/bases/divider.astro";
+import { categoriesHandler } from "@/lib/handlers/categories";
+import { getDateDistance } from "@/lib/utils/date";
+import { getImageAlt, getArticleUrl, getRankBadgeColor } from "@/lib/utils/card";
+import type { CardPropsWithRank } from "@/lib/types";
+
+type Props = CardPropsWithRank;
+
+const { article, rank } = Astro.props;
+
+const { remarkPluginFrontmatter } = await render(article);
+const category = categoriesHandler.oneCategory(article.data.category.id);
+const imageAlt = getImageAlt(article);
+const articleUrl = getArticleUrl(article.id);
+const badgeColor = getRankBadgeColor(rank);
+---
+
+<article class="group relative isolate flex flex-col gap-4 cursor-pointer">
+  <!-- ランキングバッジ -->
+  <div class="absolute top-4 left-4 z-20">
+    <div class={`w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold shadow-lg ${badgeColor}`}>
+      {rank}
+    </div>
+    {article.trending && (
+      <div class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full animate-pulse"></div>
+    )}
+  </div>
+
+  <!-- 画像 -->
+  <div class="aspect-video overflow-hidden rounded-lg">
+    <Image
+      src={article.data.cover}
+      alt={imageAlt}
+      layout="constrained"
+      loading="eager"
+      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+    />
+  </div>
+
+  <!-- コンテンツ -->
+  <div class="flex flex-col gap-3">
+    <!-- カテゴリーとメタ情報 -->
+    <div class="flex items-center gap-2 text-sm">
+      <span class="px-2 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium">
+        {category.data.title}
+      </span>
+      <span class="text-base-content/60">
+        {getDateDistance(remarkPluginFrontmatter.lastModified)}
+      </span>
+      {article.trending && (
+        <span class="px-2 py-1 bg-red-100 text-red-600 dark:bg-red-900 dark:text-red-200 rounded-full text-xs font-medium animate-pulse">
+          急上昇中
+        </span>
+      )}
+    </div>
+
+    <!-- タイトル -->
+    <h2 class="text-2xl font-serif font-bold leading-tight group-hover:text-primary transition-colors">
+      <a href={articleUrl}>
+        <span class="absolute inset-0 z-10"></span>
+        {article.data.title}
+      </a>
+    </h2>
+
+    <!-- 説明 -->
+    <p class="text-base-content/80 text-base leading-relaxed">
+      {article.data.description}
+    </p>
+
+    <!-- 統計情報 -->
+    <div class="flex items-center gap-4 text-sm text-base-content/70">
+      {article.pageViews && article.pageViews > 0 ? (
+        <div class="flex items-center gap-1">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+          </svg>
+          <span>{article.pageViews.toLocaleString()} views</span>
+        </div>
+      ) : null}
+      
+      {article.popularityScore && (
+        <div class="flex items-center gap-1">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+          </svg>
+          <span>スコア: {Math.round(article.popularityScore)}</span>
+        </div>
+      )}
+    </div>
+  </div>
+</article>

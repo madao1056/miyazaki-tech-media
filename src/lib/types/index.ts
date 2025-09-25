@@ -36,3 +36,35 @@ export type ArticleMeta = Meta & {
 };
 
 export type Entry = CollectionEntry<"articles" | "views">;
+
+// 記事に関する共通型定義
+export type Article = CollectionEntry<"articles">;
+
+export type ArticleWithMetrics = Article & {
+  popularityScore?: number;
+  pageViews?: number;
+  trending?: boolean;
+  realTimeData?: boolean;
+};
+
+// カード共通のProps型
+export interface CardProps {
+  article: Article;
+}
+
+export interface CardPropsWithIndex extends CardProps {
+  index: number;
+}
+
+export interface CardPropsWithRank extends CardProps {
+  article: ArticleWithMetrics;
+  rank: number;
+}
+
+export interface CardPropsWithFlags extends CardProps {
+  isFirst?: boolean;
+  isLast?: boolean;
+}
+
+// 画像のalt属性を取得するためのユーティリティ型
+export type ImageAltText = string;

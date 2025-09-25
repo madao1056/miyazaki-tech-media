@@ -3,12 +3,13 @@ import Menu from "@/assets/svgs/menu.astro";
 import { NAVIGATION_LINKS, OTHER_LINKS } from "@/lib/config";
 ---
 
-<div class="dropdown">
+<div class="dropdown" id="hamburger-menu">
   <button
     tabindex="0"
     role="button"
     class="btn btn-ghost btn-circle"
     aria-label="Menu"
+    id="menu-button"
   >
     <Menu />
   </button>
@@ -16,12 +17,13 @@ import { NAVIGATION_LINKS, OTHER_LINKS } from "@/lib/config";
   <ul
     tabindex="0"
     class="menu dropdown-content z-50 bg-base-100 rounded-box w-56 shadow"
+    id="menu-content"
   >
     <li><a href="/" aria-label="ホームページ">ホーム</a></li>
     <li><a href="/articles" aria-label="記事一覧ページ">記事一覧</a></li>
 
     <li>
-      <details>
+      <details class="menu-accordion">
         <summary>カテゴリ</summary>
         <ul>
           {
@@ -38,7 +40,7 @@ import { NAVIGATION_LINKS, OTHER_LINKS } from "@/lib/config";
     </li>
 
     <li>
-      <details>
+      <details class="menu-accordion">
         <summary>その他のページ</summary>
         <ul>
           {
@@ -55,3 +57,57 @@ import { NAVIGATION_LINKS, OTHER_LINKS } from "@/lib/config";
     </li>
   </ul>
 </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const hamburgerMenu = document.getElementById('hamburger-menu');
+    const menuButton = document.getElementById('menu-button');
+    const menuContent = document.getElementById('menu-content');
+    const accordions = document.querySelectorAll('.menu-accordion');
+
+    // アコーディオンの排他制御
+    accordions.forEach(accordion => {
+      accordion.addEventListener('toggle', function() {
+        if (this.open) {
+          // 他のアコーディオンを閉じる
+          accordions.forEach(otherAccordion => {
+            if (otherAccordion !== this && otherAccordion.open) {
+              otherAccordion.open = false;
+            }
+          });
+        }
+      });
+    });
+
+    // メニューが閉じられた時の処理
+    function closeAllAccordions() {
+      accordions.forEach(accordion => {
+        accordion.open = false;
+      });
+    }
+
+    // メニューボタンのクリック処理
+    menuButton.addEventListener('click', function() {
+      // メニューが閉じられる場合（DaisyUIの動作後に実行）
+      setTimeout(() => {
+        if (!hamburgerMenu.matches(':focus-within')) {
+          closeAllAccordions();
+        }
+      }, 100);
+    });
+
+    // メニュー外をクリックした時の処理
+    document.addEventListener('click', function(event) {
+      if (!hamburgerMenu.contains(event.target)) {
+        closeAllAccordions();
+      }
+    });
+
+    // ESCキーでメニューを閉じた時の処理
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closeAllAccordions();
+      }
+    });
+  });
+</script>

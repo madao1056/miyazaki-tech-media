@@ -1,24 +1,27 @@
 ---
 import { Image } from "astro:assets";
-import type { CollectionEntry } from "astro:content";
 import { getDateDistance, normalizeDate } from "@/lib/utils/date";
-import Divider from "../bases/divider.astro";
+import { getImageAlt, getArticleUrl } from "@/lib/utils/card";
+import Divider from "@/components/bases/divider.astro";
+import type { CardPropsWithFlags } from "@/lib/types";
 
-type Props = {
-  article: CollectionEntry<"articles">;
+type Props = CardPropsWithFlags & {
   isLast: boolean;
 };
 
 const { article, isLast } = Astro.props;
+const imageAlt = getImageAlt(article);
+const articleUrl = getArticleUrl(article.id);
+const publishDate = normalizeDate(article.data.publishedTime);
 ---
 
 <li
-  class="group w-full max-w-md mx-auto lg:max-w-full relative isolate flex flex-col lg:flex-row gap-4"
+  class="group w-full max-w-md mx-auto lg:max-w-full relative isolate flex flex-col lg:flex-row gap-4 cursor-pointer"
 >
   <div
     class="flex-shrink-0 aspect-square w-32 text-sm text-base-content/60 text-pretty capitalize hidden lg:flex pt-1"
   >
-    {getDateDistance(normalizeDate(article.data.publishedTime))}
+    {getDateDistance(publishDate)}
   </div>
   <div
     class:list={[
@@ -29,17 +32,15 @@ const { article, isLast } = Astro.props;
     <div class="w-full lg:w-60 aspect-video">
       <Image
         src={article.data.cover}
-        alt={article.data.covert_alt
-          ? article.data.covert_alt
-          : article.data.title}
+        alt={imageAlt}
         layout="constrained"
-        loading={"eager"}
+        loading="eager"
         class="aspect-video rounded w-full h-full"
       />
     </div>
     <div class="flex-1 space-y-2">
       <h3 class="text-xl font-semibold lg:group-hover:underline">
-        <a href={`/articles/${article.id}`}>
+        <a href={articleUrl}>
           <span class="absolute inset-0 z-10"></span>
           {article.data.title}
         </a>
@@ -49,13 +50,8 @@ const { article, isLast } = Astro.props;
       </p>
     </div>
     <div class="text-sm lg:hidden flex item-center text-base-content/70 pt-2">
-      <time
-        class="flex items-center gap-1"
-        datetime={normalizeDate(article.data.publishedTime)}
-      >
-        <span>
-          {getDateDistance(normalizeDate(article.data.publishedTime))}
-        </span>
+      <time class="flex items-center gap-1" datetime={publishDate}>
+        <span>{getDateDistance(publishDate)}</span>
       </time>
       <Divider />
       <small class="flex items-center gap-1">
