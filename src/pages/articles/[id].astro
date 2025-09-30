@@ -9,8 +9,6 @@ import CategorySearch from "@/components/sidebar/category-search.astro";
 import AdSpace from "@/components/sidebar/ad-space.astro";
 import Breadcrumb from "@/components/elements/breadcrumb.astro";
 import Share from "@/components/elements/share.astro";
-import BookmarkButton from "@/components/auth/BookmarkButton.astro";
-import { FEATURES } from "@/lib/config/features";
 
 import { articlesHandler } from "@/lib/handlers/articles";
 import { categoriesHandler } from "@/lib/handlers/categories";
@@ -105,9 +103,6 @@ const breadcrumbItems = [
               <h4 class="text-lg font-semibold mb-4">この記事をシェア</h4>
               <div class="flex justify-center items-center gap-4">
                 <Share text={article.data.title} />
-                {FEATURES.AUTH && FEATURES.BOOKMARKS && (
-                  <BookmarkButton articleId={article.id} />
-                )}
               </div>
             </div>
           </div>
@@ -168,22 +163,6 @@ const breadcrumbItems = [
 </BaseLayout>
 
 <script>
-  // 閲覧履歴トラッキング（動的インポート）
-  const trackHistory = async () => {
-    const { FEATURES } = await import('@/lib/config/features');
-    if (FEATURES.AUTH && FEATURES.READING_HISTORY) {
-      const { trackArticleView } = await import('@/lib/auth/history');
-      const pathParts = window.location.pathname.split('/');
-      const articleId = pathParts[pathParts.length - 1];
-      if (articleId) {
-        trackArticleView(articleId).catch(error => {
-          console.debug('閲覧履歴記録スキップ:', error);
-        });
-      }
-    }
-  };
-  
-  trackHistory();
   
   let scrollHandler = null;
   
