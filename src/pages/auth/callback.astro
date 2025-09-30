@@ -44,10 +44,9 @@
   </div>
 
   <script>
-    import { supabase } from '@/lib/auth/supabase';
-    
     const handleAuthCallback = async () => {
       try {
+        const { supabase } = await import('@/lib/auth/supabase');
         const { data, error } = await supabase.auth.getSession();
         
         if (error) {
