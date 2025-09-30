@@ -2,6 +2,10 @@
 import BaseLayout from "@/layouts/base.astro";
 import "@pagefind/default-ui/css/ui.css";
 import { getEntry } from "astro:content";
+import LatestArticles from "@/components/sidebar/latest-articles.astro";
+import AdSpace from "@/components/sidebar/ad-space.astro";
+import CategorySearch from "@/components/sidebar/category-search.astro";
+import PopularArticles from "@/components/sidebar/popular-articles.astro";
 
 const entry = await getEntry("views", "search");
 
@@ -11,10 +15,30 @@ if (!entry) {
 ---
 
 <BaseLayout entry={entry}>
-  <div class="container py-4">
-    <script is:inline src="/pagefind/pagefind-ui.js"></script>
-
-    <div id="search"></div>
+  <div class="bg-base-200 min-h-screen">
+    <div class="container max-w-7xl mx-auto px-4 pt-4 pb-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+        <!-- メインコンテンツ -->
+        <div class="lg:col-span-2 order-1">
+          <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+            <h1 class="text-2xl font-bold mb-6">記事を検索</h1>
+            <script is:inline src="/pagefind/pagefind-ui.js"></script>
+            <div id="search"></div>
+          </div>
+        </div>
+        
+        <!-- サイドバー -->
+        <aside class="lg:col-span-1 order-2">
+          <div class="space-y-6">
+            <LatestArticles />
+            <AdSpace />
+            <CategorySearch />
+            <PopularArticles />
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
 
     <script>
       const initializePagefind = () => {
@@ -73,7 +97,6 @@ if (!entry) {
         initializePagefind();
       });
     </script>
-  </div>
 </BaseLayout>
 
 <style is:inline>

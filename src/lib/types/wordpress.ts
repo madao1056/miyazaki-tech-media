@@ -10,7 +10,7 @@ export interface Post {
   modified: string;
   modified_gmt: string;
   slug: string;
-  status: 'publish' | 'future' | 'draft' | 'pending' | 'private';
+  status: "publish" | "future" | "draft" | "pending" | "private";
   type: string;
   link: string;
   title: {
@@ -26,8 +26,8 @@ export interface Post {
   };
   author: number;
   featured_media: number;
-  comment_status: 'open' | 'closed';
-  ping_status: 'open' | 'closed';
+  comment_status: "open" | "closed";
+  ping_status: "open" | "closed";
   sticky: boolean;
   template: string;
   format: string;
@@ -48,8 +48,8 @@ export interface Post {
   };
   _embedded?: {
     author?: Author[];
-    'wp:featuredmedia'?: Media[];
-    'wp:term'?: Array<Category[] | Tag[]>;
+    "wp:featuredmedia"?: Media[];
+    "wp:term"?: Array<Category[] | Tag[]>;
   };
 }
 
@@ -60,7 +60,7 @@ export interface Category {
   link: string;
   name: string;
   slug: string;
-  taxonomy: 'category';
+  taxonomy: "category";
   parent: number;
   meta: any[];
   acf?: {
@@ -78,7 +78,7 @@ export interface Tag {
   link: string;
   name: string;
   slug: string;
-  taxonomy: 'post_tag';
+  taxonomy: "post_tag";
   meta: any[];
 }
 
@@ -109,14 +109,14 @@ export interface Media {
   id: number;
   date: string;
   slug: string;
-  type: 'attachment';
+  type: "attachment";
   link: string;
   title: {
     rendered: string;
   };
   author: number;
-  comment_status: 'open' | 'closed';
-  ping_status: 'open' | 'closed';
+  comment_status: "open" | "closed";
+  ping_status: "open" | "closed";
   template: string;
   meta: any[];
   description: {
@@ -126,7 +126,7 @@ export interface Media {
     rendered: string;
   };
   alt_text: string;
-  media_type: 'image' | 'file' | 'video';
+  media_type: "image" | "file" | "video";
   mime_type: string;
   media_details: {
     width?: number;
@@ -148,10 +148,43 @@ export interface Media {
 // 日本語コンテンツ用の拡張型
 export interface LocalizedPost extends Post {
   japanese_meta: {
-    industry: '製造業' | '建設業' | '小売業' | '飲食業' | '医療・介護' | '教育' | '農業' | '観光業' | '運輸業' | '金融業';
-    technology: 'ChatGPT' | 'Claude' | 'Microsoft365' | 'Google Workspace' | 'Slack' | 'Zoom' | 'Salesforce' | 'kintone' | 'freee' | 'Power BI' | 'Tableau' | 'RPA' | 'IoT' | 'クラウド';
-    region: '宮崎市' | '延岡市' | '都城市' | '日南市' | '小林市' | '日向市' | '串間市' | '西都市' | 'えびの市';
-    category: 'dx' | 'ai-business' | 'local-tech' | 'management-it';
+    industry:
+      | "製造業"
+      | "建設業"
+      | "小売業"
+      | "飲食業"
+      | "医療・介護"
+      | "教育"
+      | "農業"
+      | "観光業"
+      | "運輸業"
+      | "金融業";
+    technology:
+      | "ChatGPT"
+      | "Claude"
+      | "Microsoft365"
+      | "Google Workspace"
+      | "Slack"
+      | "Zoom"
+      | "Salesforce"
+      | "kintone"
+      | "freee"
+      | "Power BI"
+      | "Tableau"
+      | "RPA"
+      | "IoT"
+      | "クラウド";
+    region:
+      | "宮崎市"
+      | "延岡市"
+      | "都城市"
+      | "日南市"
+      | "小林市"
+      | "日向市"
+      | "串間市"
+      | "西都市"
+      | "えびの市";
+    category: "dx" | "ai-business" | "local-tech" | "management-it";
     subcategory?: string;
   };
 }
@@ -172,7 +205,7 @@ export interface CreatePostRequest {
   categories: number[];
   tags?: number[];
   featured_media?: number;
-  status?: 'draft' | 'publish' | 'pending';
+  status?: "draft" | "publish" | "pending";
   meta?: {
     industry_tags?: string[];
     tech_tags?: string[];
@@ -186,8 +219,8 @@ export interface WordPressAPIResponse<T> {
   data: T;
   status: number;
   headers: {
-    'X-WP-Total'?: string;
-    'X-WP-TotalPages'?: string;
+    "X-WP-Total"?: string;
+    "X-WP-TotalPages"?: string;
   };
 }
 

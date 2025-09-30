@@ -62,18 +62,14 @@
     const platformUrls = {
       facebook: `https://www.facebook.com/sharer.php?u=${url}`,
       twitter: `https://twitter.com/intent/tweet?url=${url}&text=${text}`,
+      line: `https://social-plugins.line.me/lineit/share?url=${url}`,
       linkedin: `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${text}`,
       whatsapp: `https://wa.me/?text=${text}%20${url}`,
     };
 
     const href = platformUrls[network];
     if (href) {
-      // Use window.open for better popup handling
-      window.open(
-        href,
-        "_blank",
-        "width=600,height=400,scrollbars=yes,resizable=yes,noopener,noreferrer"
-      );
+      window.open(href, "_blank");
     }
   }
 

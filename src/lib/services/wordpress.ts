@@ -1,7 +1,9 @@
 // WordPress REST API integration for Miyazaki Technology×Business Media
-import type { Post, Category, Author, Media } from '../types/wordpress';
+import type { Post, Category, Author, Media } from "../types/wordpress";
 
-const WORDPRESS_API_BASE = process.env.WORDPRESS_API_URL || 'https://your-wordpress-site.com/wp-json/wp/v2';
+const WORDPRESS_API_BASE =
+  process.env.WORDPRESS_API_URL ||
+  "https://your-wordpress-site.com/wp-json/wp/v2";
 
 export class WordPressAPI {
   private baseUrl: string;
@@ -10,31 +12,35 @@ export class WordPressAPI {
   constructor() {
     this.baseUrl = WORDPRESS_API_BASE;
     this.headers = {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     };
-    
+
     // Basic authentication if credentials are provided
     if (process.env.WORDPRESS_USERNAME && process.env.WORDPRESS_PASSWORD) {
-      const auth = btoa(`${process.env.WORDPRESS_USERNAME}:${process.env.WORDPRESS_PASSWORD}`);
-      this.headers['Authorization'] = `Basic ${auth}`;
+      const auth = btoa(
+        `${process.env.WORDPRESS_USERNAME}:${process.env.WORDPRESS_PASSWORD}`,
+      );
+      this.headers["Authorization"] = `Basic ${auth}`;
     }
   }
 
   // 記事の取得
-  async getPosts(params: {
-    page?: number;
-    per_page?: number;
-    categories?: number[];
-    search?: string;
-    orderby?: 'date' | 'modified' | 'title' | 'menu_order';
-    order?: 'asc' | 'desc';
-  } = {}): Promise<Post[]> {
+  async getPosts(
+    params: {
+      page?: number;
+      per_page?: number;
+      categories?: number[];
+      search?: string;
+      orderby?: "date" | "modified" | "title" | "menu_order";
+      order?: "asc" | "desc";
+    } = {},
+  ): Promise<Post[]> {
     const searchParams = new URLSearchParams();
-    
+
     Object.entries(params).forEach(([key, value]) => {
       if (value !== undefined) {
         if (Array.isArray(value)) {
-          searchParams.append(key, value.join(','));
+          searchParams.append(key, value.join(","));
         } else {
           searchParams.append(key, value.toString());
         }
@@ -66,10 +72,13 @@ export class WordPressAPI {
   }
 
   // カテゴリー別記事取得
-  async getPostsByCategory(categorySlug: string, limit: number = 10): Promise<Post[]> {
+  async getPostsByCategory(
+    categorySlug: string,
+    limit: number = 10,
+  ): Promise<Post[]> {
     const categories = await this.getCategories();
-    const category = categories.find(cat => cat.slug === categorySlug);
-    
+    const category = categories.find((cat) => cat.slug === categorySlug);
+
     if (!category) {
       throw new Error(`Category not found: ${categorySlug}`);
     }
@@ -77,8 +86,8 @@ export class WordPressAPI {
     return this.getPosts({
       categories: [category.id],
       per_page: limit,
-      orderby: 'date',
-      order: 'desc'
+      orderby: "date",
+      order: "desc",
     });
   }
 
@@ -129,7 +138,7 @@ export class WordPressAPI {
     categories: number[];
     tags?: number[];
     featured_media?: number;
-    status?: 'draft' | 'publish' | 'pending';
+    status?: "draft" | "publish" | "pending";
     meta?: {
       industry_tags?: string[];
       tech_tags?: string[];
@@ -138,11 +147,11 @@ export class WordPressAPI {
     };
   }): Promise<Post> {
     const response = await fetch(`${this.baseUrl}/posts`, {
-      method: 'POST',
+      method: "POST",
       headers: this.headers,
       body: JSON.stringify({
         ...post,
-        status: post.status || 'draft',
+        status: post.status || "draft",
       }),
     });
 
@@ -156,7 +165,7 @@ export class WordPressAPI {
   // 記事更新
   async updatePost(id: number, updates: Partial<Post>): Promise<Post> {
     const response = await fetch(`${this.baseUrl}/posts/${id}`, {
-      method: 'POST',
+      method: "POST",
       headers: this.headers,
       body: JSON.stringify(updates),
     });
@@ -169,7 +178,7 @@ export class WordPressAPI {
   }
 
   // ランキング用データ取得（カスタムエンドポイント）
-  async getRankingData(period: 'week' | 'month' = 'week'): Promise<Post[]> {
+  async getRankingData(period: "week" | "month" = "week"): Promise<Post[]> {
     // この機能は WordPress 側でカスタムエンドポイントを作成する必要があります
     const response = await fetch(`${this.baseUrl}/ranking/${period}`, {
       headers: this.headers,
@@ -179,8 +188,8 @@ export class WordPressAPI {
       // フォールバック: 通常の記事取得で代替
       return this.getPosts({
         per_page: 10,
-        orderby: 'date',
-        order: 'desc'
+        orderby: "date",
+        order: "desc",
       });
     }
 
@@ -192,7 +201,7 @@ export class WordPressAPI {
     return this.getPosts({
       search: query,
       per_page: limit,
-      orderby: 'relevance'
+      orderby: "relevance",
     });
   }
 }
@@ -204,12 +213,15 @@ export const wordpressAPI = new WordPressAPI();
 export async function getLatestPosts(limit: number = 6): Promise<Post[]> {
   return wordpressAPI.getPosts({
     per_page: limit,
-    orderby: 'date',
-    order: 'desc'
+    orderby: "date",
+    order: "desc",
   });
 }
 
-export async function getCategoryPosts(categorySlug: string, limit: number = 6): Promise<Post[]> {
+export async function getCategoryPosts(
+  categorySlug: string,
+  limit: number = 6,
+): Promise<Post[]> {
   return wordpressAPI.getPostsByCategory(categorySlug, limit);
 }
 
@@ -217,8 +229,8 @@ export async function getFeaturedPosts(): Promise<Post[]> {
   // メタフィールドで特集記事をマークしている場合
   return wordpressAPI.getPosts({
     per_page: 3,
-    orderby: 'date',
-    order: 'desc'
+    orderby: "date",
+    order: "desc",
     // meta_query for featured posts would be added here
   });
 }

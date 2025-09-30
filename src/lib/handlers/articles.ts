@@ -6,8 +6,10 @@ const articlesCollection: Article[] = (
   await getCollection("articles", ({ data }) => {
     return data.isDraft !== true && new Date(data.publishedTime) < new Date();
   })
-).sort((a, b) =>
-  new Date(b.data.publishedTime).getTime() - new Date(a.data.publishedTime).getTime()
+).sort(
+  (a, b) =>
+    new Date(b.data.publishedTime).getTime() -
+    new Date(a.data.publishedTime).getTime(),
 );
 
 /**
@@ -15,8 +17,8 @@ const articlesCollection: Article[] = (
  */
 function getDaysSincePublish(publishedTime: string): number {
   return Math.floor(
-    (new Date().getTime() - new Date(publishedTime).getTime()) / 
-    (1000 * 60 * 60 * 24)
+    (new Date().getTime() - new Date(publishedTime).getTime()) /
+      (1000 * 60 * 60 * 24),
   );
 }
 
@@ -25,7 +27,10 @@ function getDaysSincePublish(publishedTime: string): number {
  */
 function calculateFallbackScore(article: Article, index: number): number {
   const daysSincePublish = getDaysSincePublish(article.data.publishedTime);
-  const recencyScore = daysSincePublish <= 14 ? 100 - daysSincePublish * 3 : 50 - daysSincePublish * 0.5;
+  const recencyScore =
+    daysSincePublish <= 14
+      ? 100 - daysSincePublish * 3
+      : 50 - daysSincePublish * 0.5;
   const positionScore = Math.max(0, 100 - index * 2);
   return Math.max(0, recencyScore + positionScore);
 }
@@ -33,12 +38,15 @@ function calculateFallbackScore(article: Article, index: number): number {
 /**
  * 記事にメトリクスを追加してArticleWithMetrics型に変換
  */
-function addMetrics(article: Article, metrics?: {
-  popularityScore: number;
-  pageViews: number;
-  trending: boolean;
-  realTimeData: boolean;
-}): ArticleWithMetrics {
+function addMetrics(
+  article: Article,
+  metrics?: {
+    popularityScore: number;
+    pageViews: number;
+    trending: boolean;
+    realTimeData: boolean;
+  },
+): ArticleWithMetrics {
   return {
     ...article,
     popularityScore: metrics?.popularityScore ?? 0,
@@ -57,15 +65,18 @@ export const articlesHandler = {
       // Google Analytics APIが利用可能な場合
       if (process.env.GA4_PROPERTY_ID && process.env.GA4_CREDENTIALS) {
         const analyticsService = new GoogleAnalyticsService();
-        const articleIds = articlesCollection.map(article => article.id);
-        
+        const articleIds = articlesCollection.map((article) => article.id);
+
         // GA4から実際の人気度データを取得
-        const popularityMetrics = await analyticsService.getArticlePopularityMetrics(articleIds);
-        
+        const popularityMetrics =
+          await analyticsService.getArticlePopularityMetrics(articleIds);
+
         // Analytics データと記事データをマッピング
         const scoredArticles = articlesCollection.map((article, index) => {
-          const metrics = popularityMetrics.find(m => m.articleId === article.id);
-          
+          const metrics = popularityMetrics.find(
+            (m) => m.articleId === article.id,
+          );
+
           if (metrics) {
             return addMetrics(article, {
               popularityScore: metrics.popularityScore,
@@ -96,7 +107,10 @@ export const articlesHandler = {
           .slice(0, 5);
       }
     } catch (error) {
-      console.error('Analytics API error, falling back to default sorting:', error);
+      console.error(
+        "Analytics API error, falling back to default sorting:",
+        error,
+      );
     }
 
     // フォールバック: Analytics APIが利用できない場合
@@ -123,11 +137,11 @@ export const articlesHandler = {
   mainHeadline: async (): Promise<Article> => {
     // 手動設定がある場合は優先、なければ自動選出
     const manualHeadline = articlesCollection.filter(
-      (article) => article.data.isMainHeadline === true
+      (article) => article.data.isMainHeadline === true,
     )[0];
-    
+
     if (manualHeadline) return manualHeadline;
-    
+
     // 自動選出の場合は人気記事の1位
     const topArticles = await articlesHandler.getTopArticles();
     return topArticles[0];
@@ -135,13 +149,12 @@ export const articlesHandler = {
 
   subHeadlines: async (): Promise<Article[]> => {
     const mainHeadline = await articlesHandler.mainHeadline();
-    
+
     // 手動設定がある場合は優先
     const manualSubHeadlines = articlesCollection
       .filter(
         (article) =>
-          article.data.isSubHeadline === true &&
-          mainHeadline.id !== article.id
+          article.data.isSubHeadline === true && mainHeadline.id !== article.id,
       )
       .slice(0, 4);
 
@@ -152,13 +165,13 @@ export const articlesHandler = {
     // 自動選出の場合は人気記事の2-5位
     const topArticles = await articlesHandler.getTopArticles();
     const subHeadlines = topArticles
-      .filter(article => article.id !== mainHeadline.id)
+      .filter((article) => article.id !== mainHeadline.id)
       .slice(0, 4);
 
     if (subHeadlines.length === 0) {
       // フォールバック：最新記事4件
       return articlesCollection
-        .filter(article => article.id !== mainHeadline.id)
+        .filter((article) => article.id !== mainHeadline.id)
         .slice(0, 4);
     }
 

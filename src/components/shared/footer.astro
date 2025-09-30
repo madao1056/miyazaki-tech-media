@@ -1,69 +1,27 @@
 ---
-import { NAVIGATION_LINKS, SOCIAL_LINKS, OTHER_LINKS } from "@/lib/config";
-import Hashtag from "@/assets/svgs/hashtag.astro";
-import Icon from "../bases/icon.astro";
+import { OTHER_LINKS } from "@/lib/config";
 ---
 
 <footer
-  class="footer border-t border-primary-content/80 dark:border-primary-content/20 py-6"
+  class="border-t border-base-300 py-8 bg-base-200"
 >
-  <div class="container">
-    <div class="flex flex-col gap-4">
-      <aside class="flex items-center gap-2">
-        <Hashtag />
-        <p>
-          <strong class="text-lg">BizMap</strong>
-          <br />
-          起業家インタビューメディア
-        </p>
-      </aside>
-      <nav
-        class="flex flex-col gap-4 lg:flex-row lg:flex-wrap text-base lg:text-sm font-semibold"
-      >
-        <a href="/" class="link link-hover">ホーム</a>
-        <a href="/articles" class="link link-hover">記事一覧</a>
-        {
-          NAVIGATION_LINKS.map(({ href, text, target }) => (
-            <a href={href} class="link link-hover" target={target ?? "_self"}>
-              {text}
-            </a>
-          ))
-        }
-      </nav>
-    </div>
-    <div class="divider w-full h-1"></div>
-    <div class="flex flex-col gap-4">
-      <nav>
-        <div class="flex gap-4">
-          <p class="font-bold">SNS:</p>
-          <ul class="flex flex-wrap gap-4">
-            {
-              SOCIAL_LINKS.map(({ href, icon, text, target }) => (
-                <li>
-                  <a
-                    href={href}
-                    class="link link-hover"
-                    target={target ?? "_blank"}
-                    title={text}
-                    aria-label={text}
-                  >
-                    <Icon icon={icon} />
-                  </a>
-                </li>
-              ))
-            }
-          </ul>
-        </div>
-      </nav>
-      <nav class="flex flex-wrap gap-4 text-xs mt-2">
+  <div class="container max-w-7xl mx-auto px-4">
+    <div class="flex flex-col items-center gap-4 text-center">
+      <p class="text-sm text-base-content/70">
+        <strong class="text-base">BizMap（ビズマップ）</strong> - 宮崎の経営者インタビューメディア
+      </p>
+      <nav class="flex flex-wrap justify-center gap-4 text-xs">
         {
           OTHER_LINKS.map(({ href, text, target }) => (
-            <a href={href} class="link link-hover" target={target ?? "_self"}>
+            <a href={href} class="link link-hover text-base-content/60" target={target ?? "_self"}>
               {text}
             </a>
           ))
         }
       </nav>
+      <p class="text-xs text-base-content/50">
+        © 2025 合同会社bond. All rights reserved.
+      </p>
     </div>
   </div>
 </footer>

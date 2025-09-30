@@ -3,8 +3,17 @@ import { render } from "astro:content";
 import BaseLayout from "@/layouts/base.astro";
 import ContentLayout from "@/layouts/content.astro";
 import ArticleHeader from "./_components/article-header.astro";
+import PopularArticles from "@/components/sidebar/popular-articles.astro";
+import LatestArticles from "@/components/sidebar/latest-articles.astro";
+import CategorySearch from "@/components/sidebar/category-search.astro";
+import AdSpace from "@/components/sidebar/ad-space.astro";
+import Breadcrumb from "@/components/elements/breadcrumb.astro";
+import Share from "@/components/elements/share.astro";
+import BookmarkButton from "@/components/auth/BookmarkButton.astro";
+import { FEATURES } from "@/lib/config/features";
 
 import { articlesHandler } from "@/lib/handlers/articles";
+import { categoriesHandler } from "@/lib/handlers/categories";
 
 export const getStaticPaths = async () => {
   const articles = articlesHandler.allArticles();
@@ -17,14 +26,250 @@ export const getStaticPaths = async () => {
 const { article } = Astro.props;
 
 const { Content, remarkPluginFrontmatter } = await render(article);
+
+// 同じカテゴリーの新着記事（現在の記事を除く）
+const relatedArticles = articlesHandler
+  .allArticles()
+  .filter(
+    (a) => a.data.category.id === article.data.category.id && a.id !== article.id
+  )
+  .slice(0, 4);
+
+const currentCategory = categoriesHandler.oneCategory(article.data.category.id);
+
+// パンくずリストの作成
+const breadcrumbItems = [
+  { name: "ホーム", href: "/" },
+  { name: "記事一覧", href: "/articles" },
+  { name: currentCategory.data.title, href: `/categories/${currentCategory.id}` },
+  { name: article.data.title }
+];
 ---
 
 <BaseLayout entry={article}>
-  <ArticleHeader
-    article={article}
-    readingTime={remarkPluginFrontmatter.minutesRead}
-  />
-  <ContentLayout>
-    <Content />
-  </ContentLayout>
+  <div class="bg-base-200 min-h-screen">
+    <div class="container max-w-7xl mx-auto px-4 pt-4 pb-8">
+      <!-- パンくずリスト -->
+      <Breadcrumb items={breadcrumbItems} />
+      
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+      <!-- メインコンテンツ -->
+      <div class="lg:col-span-2 order-1 lg:order-1">
+        <ArticleHeader
+          article={article}
+          readingTime={remarkPluginFrontmatter.minutesRead}
+        />
+        <ContentLayout>
+          <Content />
+        </ContentLayout>
+        
+        <!-- カテゴリー・タグ表示 -->
+        <div class="mt-12 border-t border-base-300 pt-8 bg-white rounded-lg p-6">
+          <h3 class="text-xl font-bold mb-6">この記事のカテゴリー・タグ</h3>
+          
+          <!-- カテゴリー -->
+          <div class="mb-6">
+            <h4 class="text-sm font-semibold text-base-content/70 mb-2">カテゴリー</h4>
+            <a
+              href={`/categories/${currentCategory.id}`}
+              class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-content rounded-lg hover:bg-primary-focus transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                <polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
+              {currentCategory.data.title}
+            </a>
+          </div>
+
+          <!-- タグ -->
+          {article.data.tags && article.data.tags.length > 0 && (
+            <div>
+              <h4 class="text-sm font-semibold text-base-content/70 mb-2">タグ</h4>
+              <div class="flex flex-wrap gap-2">
+                {article.data.tags.map((tag) => (
+                  <span class="inline-flex items-center gap-1 px-3 py-1 bg-base-200 text-base-content rounded-full text-sm hover:bg-base-300 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          <!-- 記事末尾のシェアボタン -->
+          <div class="mt-8 pt-6 border-t border-base-300 bg-white rounded-lg p-6">
+            <div class="text-center">
+              <h4 class="text-lg font-semibold mb-4">この記事をシェア</h4>
+              <div class="flex justify-center items-center gap-4">
+                <Share text={article.data.title} />
+                {FEATURES.AUTH && FEATURES.BOOKMARKS && (
+                  <BookmarkButton articleId={article.id} />
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- サイドバー（スティッキー） -->
+      <aside class="lg:col-span-1 order-2 lg:order-2">
+        <div id="sidebar-content" class="space-y-6">
+          <div id="latest-articles">
+            <LatestArticles />
+          </div>
+          <div id="ad-space">
+            <AdSpace />
+          </div>
+          <div id="category-search">
+            <CategorySearch />
+          </div>
+          <div id="popular-articles">
+            <PopularArticles />
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- 同カテゴリーの新着記事（サイドバーなし・全幅） -->
+  {relatedArticles.length > 0 && (
+    <div class="container max-w-7xl mx-auto px-4 py-8 border-t border-base-300">
+      <h3 class="text-2xl font-bold mb-6">同じカテゴリーの新着記事</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {relatedArticles.map((relatedArticle) => (
+          <a
+            href={`/articles/${relatedArticle.id}`}
+            class="group block bg-base-200 rounded-lg overflow-hidden hover:shadow-lg transition-all"
+          >
+            <div class="aspect-[16/9] overflow-hidden">
+              <img
+                src={relatedArticle.data.cover.src}
+                alt={relatedArticle.data.cover_alt || relatedArticle.data.title}
+                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+              />
+            </div>
+            <div class="p-4">
+              <h4 class="text-sm font-semibold line-clamp-2 group-hover:text-primary transition-colors mb-2">
+                {relatedArticle.data.title}
+              </h4>
+              <p class="text-xs text-base-content/60 line-clamp-2">
+                {relatedArticle.data.description}
+              </p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  )}
+  </div>
 </BaseLayout>
+
+<script>
+  // 閲覧履歴トラッキング（動的インポート）
+  const trackHistory = async () => {
+    const { FEATURES } = await import('@/lib/config/features');
+    if (FEATURES.AUTH && FEATURES.READING_HISTORY) {
+      const { trackArticleView } = await import('@/lib/auth/history');
+      const pathParts = window.location.pathname.split('/');
+      const articleId = pathParts[pathParts.length - 1];
+      if (articleId) {
+        trackArticleView(articleId).catch(error => {
+          console.debug('閲覧履歴記録スキップ:', error);
+        });
+      }
+    }
+  };
+  
+  trackHistory();
+  
+  let scrollHandler = null;
+  
+  function initSidebarSticky() {
+    try {
+      const sidebar = document.getElementById('sidebar-content');
+      const latestArticles = document.getElementById('latest-articles');
+      const adSpace = document.getElementById('ad-space');
+      const categorySearch = document.getElementById('category-search');
+      const popularArticles = document.getElementById('popular-articles');
+      
+      if (!sidebar || !latestArticles || !adSpace || !categorySearch || !popularArticles) return;
+      
+      if (scrollHandler) {
+        window.removeEventListener('scroll', scrollHandler);
+        scrollHandler = null;
+      }
+      
+      if (window.innerWidth < 1024) {
+        sidebar.style.position = '';
+        sidebar.style.top = '';
+        return;
+      }
+      
+      const headerHeight = 5;
+      const latestHeight = latestArticles.getBoundingClientRect().height;
+      const adSpaceHeight = adSpace.getBoundingClientRect().height;
+      const categorySearchHeight = categorySearch.getBoundingClientRect().height;
+      
+      const searchButtonOffset = -60;
+      
+      const targetOffsetDown = headerHeight - latestHeight - adSpaceHeight - categorySearchHeight + searchButtonOffset;
+      const targetOffsetUp = headerHeight - latestHeight;
+      
+      let currentTop = headerHeight;
+      let lastScrollY = window.scrollY;
+      let ticking = false;
+      
+      function updateSidebarPosition() {
+        try {
+          const scrollY = window.scrollY;
+          const scrollDelta = scrollY - lastScrollY;
+          
+          if (scrollDelta > 0) {
+            currentTop = Math.max(targetOffsetDown, currentTop - scrollDelta);
+          } else if (scrollDelta < 0) {
+            currentTop = Math.min(targetOffsetUp, currentTop - scrollDelta);
+          }
+          
+          sidebar.style.position = 'sticky';
+          sidebar.style.top = `${currentTop}px`;
+          
+          lastScrollY = scrollY;
+        } catch (e) {
+          console.error('Sidebar position update error:', e);
+        } finally {
+          ticking = false;
+        }
+      }
+      
+      function requestTick() {
+        if (!ticking) {
+          window.requestAnimationFrame(updateSidebarPosition);
+          ticking = true;
+        }
+      }
+      
+      scrollHandler = requestTick;
+      window.addEventListener('scroll', scrollHandler, { passive: true });
+      
+      sidebar.style.position = 'sticky';
+      sidebar.style.top = `${headerHeight}px`;
+    } catch (e) {
+      console.error('Sidebar sticky init error:', e);
+    }
+  }
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSidebarSticky);
+  } else {
+    initSidebarSticky();
+  }
+  
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(initSidebarSticky, 250);
+  }, { passive: true });
+</script>

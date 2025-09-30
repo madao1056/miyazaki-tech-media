@@ -1,0 +1,103 @@
+---
+import BaseLayout from "@/layouts/base.astro";
+import { getEntry } from "astro:content";
+import { articlesHandler } from "@/lib/handlers/articles";
+import WideCard from "@/components/cards/wideCard.astro";
+import LatestArticles from "@/components/sidebar/latest-articles.astro";
+import AdSpace from "@/components/sidebar/ad-space.astro";
+import CategorySearch from "@/components/sidebar/category-search.astro";
+import PopularArticles from "@/components/sidebar/popular-articles.astro";
+
+const entry = await getEntry("views", "search");
+
+if (!entry) {
+  return Astro.redirect("/404");
+}
+
+// URLパラメータからタグとカテゴリーを取得
+const url = new URL(Astro.request.url);
+const selectedTags = url.searchParams.getAll("tags");
+const selectedCategory = url.searchParams.get("category");
+
+// 全記事を取得
+let filteredArticles = articlesHandler.allArticles();
+
+// カテゴリーでフィルタリング
+if (selectedCategory) {
+  filteredArticles = filteredArticles.filter(
+    (article) => article.data.category.id === selectedCategory
+  );
+}
+
+// タグでフィルタリング（OR検索：いずれかのタグを持つ記事）
+if (selectedTags.length > 0) {
+  filteredArticles = filteredArticles.filter((article) => {
+    if (!article.data.tags) return false;
+    return selectedTags.some((tag) => article.data.tags.includes(tag));
+  });
+}
+---
+
+<BaseLayout entry={entry}>
+  <div class="bg-base-200 min-h-screen">
+    <div class="container max-w-7xl mx-auto px-4 pt-4 pb-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+        <!-- メインコンテンツ -->
+        <div class="lg:col-span-2 order-1">
+          <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm mb-6">
+            <h1 class="text-2xl font-bold mb-4">検索結果</h1>
+            
+            <!-- 検索条件表示 -->
+            <div class="mb-4 flex flex-wrap gap-2">
+              {selectedCategory && (
+                <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">
+                  カテゴリー: {selectedCategory}
+                </span>
+              )}
+              {selectedTags.map((tag) => (
+                <span class="px-3 py-1 bg-secondary/10 text-secondary rounded-full text-sm">
+                  タグ: {tag}
+                </span>
+              ))}
+            </div>
+            
+            <p class="text-base-content/70">
+              {filteredArticles.length}件の記事が見つかりました
+            </p>
+          </div>
+          
+          <!-- 記事一覧 -->
+          {filteredArticles.length > 0 ? (
+            <ul class="flex flex-col gap-4">
+              {filteredArticles.map((article, index) => (
+                <WideCard
+                  article={article}
+                  isLast={index === filteredArticles.length - 1}
+                />
+              ))}
+            </ul>
+          ) : (
+            <div class="bg-white dark:bg-gray-800 rounded-lg p-12 shadow-sm text-center">
+              <p class="text-lg text-base-content/70 mb-4">
+                検索条件に一致する記事が見つかりませんでした
+              </p>
+              <a href="/articles" class="btn btn-primary">
+                全記事を見る
+              </a>
+            </div>
+          )}
+        </div>
+        
+        <!-- サイドバー -->
+        <aside class="lg:col-span-1 order-2">
+          <div class="space-y-6">
+            <LatestArticles />
+            <AdSpace />
+            <CategorySearch />
+            <PopularArticles />
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

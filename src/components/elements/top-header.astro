@@ -3,6 +3,10 @@ import Search01 from "@/assets/svgs/search-01.astro";
 import MenuDropdown from "./menu-dropdown.astro";
 import { SITE } from "@/lib/config";
 import ThemeController from "../bases/theme-controller.astro";
+import SearchModal from "./search-modal.astro";
+import AuthButton from "../auth/AuthButton.astro";
+import AuthModal from "../auth/AuthModal.astro";
+import { FEATURES } from "@/lib/config/features";
 ---
 
 <div
@@ -17,8 +21,12 @@ import ThemeController from "../bases/theme-controller.astro";
   </div>
   <div class="navbar-end">
     <ThemeController />
-    <a class="btn btn-ghost btn-circle" href="/search" aria-label="Search">
+    <button class="btn btn-ghost btn-circle" onclick="search_modal.showModal()" aria-label="Search">
       <Search01 />
-    </a>
+    </button>
+    {FEATURES.AUTH && <AuthButton />}
   </div>
 </div>
+
+<SearchModal />
+{FEATURES.AUTH && <AuthModal />}

@@ -1,0 +1,78 @@
+---
+interface Props {
+  authorId: string;
+}
+
+const { authorId } = Astro.props;
+---
+
+<button 
+  id={`follow-btn-${authorId}`}
+  class="btn btn-primary btn-sm"
+  data-author-id={authorId}
+>
+  <span id={`follow-text-${authorId}`}>フォロー</span>
+</button>
+
+<script>
+  import { followAuthor, unfollowAuthor, isFollowingAuthor } from '@/lib/auth/follows';
+  import { getCurrentUser } from '@/lib/auth/utils';
+  
+  document.addEventListener('DOMContentLoaded', async () => {
+    const buttons = document.querySelectorAll('[id^="follow-btn-"]');
+    
+    for (const button of buttons) {
+      const authorId = button.getAttribute('data-author-id');
+      if (!authorId) continue;
+      
+      const text = document.getElementById(`follow-text-${authorId}`);
+      
+      // 初期状態チェック
+      try {
+        const following = await isFollowingAuthor(authorId);
+        updateUI(following);
+      } catch (error) {
+        // 未ログイン時はそのまま
+      }
+      
+      button.addEventListener('click', async () => {
+        const user = await getCurrentUser();
+        
+        if (!user) {
+          const modal = document.getElementById('auth_modal') as HTMLDialogElement;
+          if (modal) {
+            modal.showModal();
+          }
+          return;
+        }
+        
+        try {
+          const currentlyFollowing = await isFollowingAuthor(authorId);
+          
+          if (currentlyFollowing) {
+            await unfollowAuthor(authorId);
+            updateUI(false);
+          } else {
+            await followAuthor(authorId);
+            updateUI(true);
+          }
+        } catch (error) {
+          console.error('Follow action failed:', error);
+        }
+      });
+      
+      function updateUI(following: boolean) {
+        const btn = button as HTMLButtonElement;
+        if (following) {
+          btn.classList.remove('btn-primary');
+          btn.classList.add('btn-outline');
+          if (text) text.textContent = 'フォロー中';
+        } else {
+          btn.classList.remove('btn-outline');
+          btn.classList.add('btn-primary');
+          if (text) text.textContent = 'フォロー';
+        }
+      }
+    }
+  });
+</script>

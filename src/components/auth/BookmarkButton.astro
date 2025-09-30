@@ -1,0 +1,92 @@
+---
+interface Props {
+  articleId: string;
+}
+
+const { articleId } = Astro.props;
+---
+
+<button 
+  id={`bookmark-btn-${articleId}`}
+  class="btn btn-ghost btn-sm gap-2"
+  data-article-id={articleId}
+  aria-label="Bookmark"
+>
+  <svg 
+    class="w-5 h-5 bookmark-icon" 
+    id={`bookmark-icon-${articleId}`}
+    fill="none" 
+    stroke="currentColor" 
+    viewBox="0 0 24 24"
+  >
+    <path 
+      stroke-linecap="round" 
+      stroke-linejoin="round" 
+      stroke-width="2" 
+      d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
+    ></path>
+  </svg>
+  <span id={`bookmark-text-${articleId}`}>ブックマーク</span>
+</button>
+
+<script>
+  import { addBookmark, removeBookmark, isBookmarked } from '@/lib/auth/bookmarks';
+  import { getCurrentUser } from '@/lib/auth/utils';
+  
+  document.addEventListener('DOMContentLoaded', async () => {
+    const buttons = document.querySelectorAll('[id^="bookmark-btn-"]');
+    
+    for (const button of buttons) {
+      const articleId = button.getAttribute('data-article-id');
+      if (!articleId) continue;
+      
+      const icon = document.getElementById(`bookmark-icon-${articleId}`);
+      const text = document.getElementById(`bookmark-text-${articleId}`);
+      
+      // 初期状態チェック
+      try {
+        const bookmarked = await isBookmarked(articleId);
+        updateUI(bookmarked);
+      } catch (error) {
+        // 未ログイン時はそのまま
+      }
+      
+      button.addEventListener('click', async () => {
+        const user = await getCurrentUser();
+        
+        if (!user) {
+          // 未ログイン時はログインモーダル表示
+          const modal = document.getElementById('auth_modal') as HTMLDialogElement;
+          if (modal) {
+            modal.showModal();
+          }
+          return;
+        }
+        
+        try {
+          const currentlyBookmarked = await isBookmarked(articleId);
+          
+          if (currentlyBookmarked) {
+            await removeBookmark(articleId);
+            updateUI(false);
+          } else {
+            await addBookmark(articleId);
+            updateUI(true);
+          }
+        } catch (error) {
+          console.error('Bookmark action failed:', error);
+        }
+      });
+      
+      function updateUI(bookmarked: boolean) {
+        if (bookmarked) {
+          icon?.classList.add('fill-current', 'text-primary');
+          if (text) text.textContent = 'ブックマーク済み';
+        } else {
+          icon?.classList.remove('fill-current', 'text-primary');
+          if (text) text.textContent = 'ブックマーク';
+        }
+      }
+    }
+  });
+</script>

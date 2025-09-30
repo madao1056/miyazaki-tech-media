@@ -1,0 +1,77 @@
+---
+// OAuth認証コールバック用ページ
+---
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>認証処理中 - BizMap</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .container {
+      text-align: center;
+    }
+    .spinner {
+      width: 50px;
+      height: 50px;
+      margin: 0 auto 20px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #3498db;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="spinner"></div>
+    <p>認証処理中です...</p>
+    <p>少々お待ちください</p>
+  </div>
+
+  <script>
+    import { supabase } from '@/lib/auth/supabase';
+    
+    const handleAuthCallback = async () => {
+      try {
+        const { data, error } = await supabase.auth.getSession();
+        
+        if (error) {
+          console.error('認証コールバックエラー:', error);
+          window.location.href = '/?error=auth_failed';
+          return;
+        }
+        
+        if (data.session) {
+          // 認証成功 - 元のページまたはトップページにリダイレクト
+          const redirectTo = sessionStorage.getItem('authRedirect') || '/';
+          sessionStorage.removeItem('authRedirect');
+          window.location.href = redirectTo;
+        } else {
+          window.location.href = '/?error=no_session';
+        }
+      } catch (error) {
+        console.error('予期しないエラー:', error);
+        window.location.href = '/?error=unexpected';
+      }
+    };
+    
+    // ページ読み込み時にコールバック処理を実行
+    handleAuthCallback();
+  </script>
+</body>
+</html>

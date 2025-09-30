@@ -4,6 +4,10 @@ import { getEntry } from "astro:content";
 import Headlines from "@/pages/_home/headlines.astro";
 import LatestNews from "@/pages/_home/latestNews.astro";
 import Authors from "@/pages/_home/authors.astro";
+import LatestArticles from "@/components/sidebar/latest-articles.astro";
+import AdSpace from "@/components/sidebar/ad-space.astro";
+import PopularArticles from "@/components/sidebar/popular-articles.astro";
+import CategorySearch from "@/components/sidebar/category-search.astro";
 
 const entry = await getEntry("views", "home");
 
@@ -14,6 +18,21 @@ if (!entry) {
 
 <BaseLayout entry={entry}>
   <Headlines />
-  <LatestNews />
-  <Authors />
+  <div class="container max-w-7xl mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- メインコンテンツ -->
+      <div class="lg:col-span-2">
+        <LatestNews />
+        <Authors />
+      </div>
+      
+      <!-- サイドバー -->
+      <aside class="lg:col-span-1 space-y-6">
+        <LatestArticles />
+        <AdSpace />
+        <CategorySearch />
+        <PopularArticles />
+      </aside>
+    </div>
+  </div>
 </BaseLayout>

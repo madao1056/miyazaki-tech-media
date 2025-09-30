@@ -4,6 +4,10 @@ import { getEntry } from "astro:content";
 import { articlesHandler } from "@/lib/handlers/articles";
 import RankingMainCard from "@/components/cards/rankingMainCard.astro";
 import RankingSubCard from "@/components/cards/rankingSubCard.astro";
+import LatestArticles from "@/components/sidebar/latest-articles.astro";
+import AdSpace from "@/components/sidebar/ad-space.astro";
+import CategorySearch from "@/components/sidebar/category-search.astro";
+import PopularArticles from "@/components/sidebar/popular-articles.astro";
 
 const entry = await getEntry("views", "ranking");
 
@@ -28,7 +32,13 @@ const dateRange = formatDateRange();
 ---
 
 <BaseLayout entry={entry}>
-  <main class="container mx-auto px-4 py-8">
+  <div class="bg-base-200 min-h-screen">
+    <div class="container max-w-7xl mx-auto px-4 pt-4 pb-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+        <!-- メインコンテンツ -->
+        <div class="lg:col-span-2 order-1">
+          <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+            <main>
     <header class="text-center mb-12">
       <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
         週間ランキング
@@ -113,5 +123,20 @@ const dateRange = formatDateRange();
         </a>
       </div>
     </div>
-  </main>
+            </main>
+          </div>
+        </div>
+        
+        <!-- サイドバー -->
+        <aside class="lg:col-span-1 order-2">
+          <div class="space-y-6">
+            <LatestArticles />
+            <AdSpace />
+            <CategorySearch />
+            <PopularArticles />
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
 </BaseLayout>

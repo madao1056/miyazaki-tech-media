@@ -15,12 +15,6 @@ const shareUrl = `${import.meta.env.SITE}${pathname}`;
 // Define social share platforms configuration
 const socialPlatforms = [
   {
-    icon: "clipboard" as const,
-    title: "Copy Link",
-    platform: "clipboard",
-    hoverColor: "hover:bg-primary hover:text-primary-content",
-  },
-  {
     icon: "facebook" as const,
     title: "Share on Facebook",
     platform: "facebook",
@@ -28,21 +22,21 @@ const socialPlatforms = [
   },
   {
     icon: "twitter" as const,
-    title: "Share on Twitter",
+    title: "Share on X",
     platform: "twitter",
-    hoverColor: "hover:bg-[#00acee] hover:text-primary-content",
+    hoverColor: "hover:bg-[#000000] hover:text-primary-content",
   },
   {
-    icon: "linkedin" as const,
-    title: "Share on LinkedIn",
-    platform: "linkedin",
-    hoverColor: "hover:bg-[#0072b1] hover:text-primary-content",
+    icon: "line" as const,
+    title: "Share on LINE",
+    platform: "line",
+    hoverColor: "hover:bg-[#00B900] hover:text-primary-content",
   },
   {
-    icon: "whatsapp" as const,
-    title: "Share on WhatsApp",
-    platform: "whatsapp",
-    hoverColor: "hover:bg-[#25d366] hover:text-primary-content",
+    icon: "clipboard" as const,
+    title: "Copy Link",
+    platform: "clipboard",
+    hoverColor: "hover:bg-primary hover:text-primary-content",
   },
 ] as const;
 ---

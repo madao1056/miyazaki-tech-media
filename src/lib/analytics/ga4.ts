@@ -1,5 +1,5 @@
 // Google Analytics Data API (GA4) 連携
-import { BetaAnalyticsDataClient } from '@google-analytics/data';
+import { BetaAnalyticsDataClient } from "@google-analytics/data";
 
 interface PageViewData {
   path: string;
@@ -26,12 +26,14 @@ export class GoogleAnalyticsService {
 
   constructor() {
     // 環境変数から設定を読み込み
-    this.propertyId = process.env.GA4_PROPERTY_ID || '';
-    
+    this.propertyId = process.env.GA4_PROPERTY_ID || "";
+
     this.analyticsClient = new BetaAnalyticsDataClient({
       keyFilename: process.env.GA4_SERVICE_ACCOUNT_KEY_FILE,
       // または環境変数から直接認証情報を読み込み
-      credentials: process.env.GA4_CREDENTIALS ? JSON.parse(process.env.GA4_CREDENTIALS) : undefined
+      credentials: process.env.GA4_CREDENTIALS
+        ? JSON.parse(process.env.GA4_CREDENTIALS)
+        : undefined,
     });
   }
 
@@ -45,33 +47,30 @@ export class GoogleAnalyticsService {
         dateRanges: [
           {
             startDate: `${days}daysAgo`,
-            endDate: 'today',
+            endDate: "today",
           },
         ],
-        dimensions: [
-          { name: 'pagePath' },
-          { name: 'pageTitle' },
-        ],
+        dimensions: [{ name: "pagePath" }, { name: "pageTitle" }],
         metrics: [
-          { name: 'screenPageViews' },
-          { name: 'sessions' },
-          { name: 'averageSessionDuration' },
-          { name: 'bounceRate' },
-          { name: 'engagementRate' },
+          { name: "screenPageViews" },
+          { name: "sessions" },
+          { name: "averageSessionDuration" },
+          { name: "bounceRate" },
+          { name: "engagementRate" },
         ],
         dimensionFilter: {
           filter: {
-            fieldName: 'pagePath',
+            fieldName: "pagePath",
             stringFilter: {
-              matchType: 'CONTAINS',
-              value: '/articles/',
+              matchType: "CONTAINS",
+              value: "/articles/",
             },
           },
         },
         orderBys: [
           {
             metric: {
-              metricName: 'screenPageViews',
+              metricName: "screenPageViews",
             },
             desc: true,
           },
@@ -79,25 +78,29 @@ export class GoogleAnalyticsService {
         limit: 50,
       });
 
-      return response.rows?.map(row => {
-        const path = row.dimensionValues?.[0]?.value || '';
-        const pageViews = parseInt(row.metricValues?.[0]?.value || '0');
-        const sessions = parseInt(row.metricValues?.[1]?.value || '0');
-        const avgDuration = parseFloat(row.metricValues?.[2]?.value || '0');
-        const bounceRate = parseFloat(row.metricValues?.[3]?.value || '0');
-        const engagementRate = parseFloat(row.metricValues?.[4]?.value || '0');
+      return (
+        response.rows?.map((row) => {
+          const path = row.dimensionValues?.[0]?.value || "";
+          const pageViews = parseInt(row.metricValues?.[0]?.value || "0");
+          const sessions = parseInt(row.metricValues?.[1]?.value || "0");
+          const avgDuration = parseFloat(row.metricValues?.[2]?.value || "0");
+          const bounceRate = parseFloat(row.metricValues?.[3]?.value || "0");
+          const engagementRate = parseFloat(
+            row.metricValues?.[4]?.value || "0",
+          );
 
-        return {
-          path,
-          pageViews,
-          uniquePageViews: sessions,
-          averageSessionDuration: avgDuration,
-          bounceRate,
-          engagement: engagementRate,
-        };
-      }) || [];
+          return {
+            path,
+            pageViews,
+            uniquePageViews: sessions,
+            averageSessionDuration: avgDuration,
+            bounceRate,
+            engagement: engagementRate,
+          };
+        }) || []
+      );
     } catch (error) {
-      console.error('GA4 API Error:', error);
+      console.error("GA4 API Error:", error);
       return [];
     }
   }
@@ -109,25 +112,21 @@ export class GoogleAnalyticsService {
     try {
       const [response] = await this.analyticsClient.runRealtimeReport({
         property: `properties/${this.propertyId}`,
-        dimensions: [
-          { name: 'unifiedPagePathScreen' },
-        ],
-        metrics: [
-          { name: 'activeUsers' },
-        ],
+        dimensions: [{ name: "unifiedPagePathScreen" }],
+        metrics: [{ name: "activeUsers" }],
         dimensionFilter: {
           filter: {
-            fieldName: 'unifiedPagePathScreen',
+            fieldName: "unifiedPagePathScreen",
             stringFilter: {
-              matchType: 'CONTAINS',
-              value: '/articles/',
+              matchType: "CONTAINS",
+              value: "/articles/",
             },
           },
         },
         orderBys: [
           {
             metric: {
-              metricName: 'activeUsers',
+              metricName: "activeUsers",
             },
             desc: true,
           },
@@ -135,21 +134,23 @@ export class GoogleAnalyticsService {
         limit: 20,
       });
 
-      return response.rows?.map(row => {
-        const path = row.dimensionValues?.[0]?.value || '';
-        const activeUsers = parseInt(row.metricValues?.[0]?.value || '0');
+      return (
+        response.rows?.map((row) => {
+          const path = row.dimensionValues?.[0]?.value || "";
+          const activeUsers = parseInt(row.metricValues?.[0]?.value || "0");
 
-        return {
-          path,
-          pageViews: activeUsers * 10, // リアルタイムユーザーから推定PV
-          uniquePageViews: activeUsers,
-          averageSessionDuration: 0,
-          bounceRate: 0,
-          engagement: activeUsers,
-        };
-      }) || [];
+          return {
+            path,
+            pageViews: activeUsers * 10, // リアルタイムユーザーから推定PV
+            uniquePageViews: activeUsers,
+            averageSessionDuration: 0,
+            bounceRate: 0,
+            engagement: activeUsers,
+          };
+        }) || []
+      );
     } catch (error) {
-      console.error('GA4 Realtime API Error:', error);
+      console.error("GA4 Realtime API Error:", error);
       return [];
     }
   }
@@ -175,23 +176,25 @@ export class GoogleAnalyticsService {
    */
   private calculatePopularityScore(data: PageViewData): number {
     const { pageViews, averageSessionDuration, engagement, bounceRate } = data;
-    
+
     // 基本スコア（PV数）
     const baseScore = pageViews;
-    
+
     // 品質ボーナス（滞在時間とエンゲージメント率）
     const qualityBonus = averageSessionDuration * 0.1 + engagement * 10;
-    
+
     // ペナルティ（離脱率）
     const penalty = bounceRate * pageViews * 0.1;
-    
+
     return Math.max(0, baseScore + qualityBonus - penalty);
   }
 
   /**
    * 記事の人気度指標を取得
    */
-  async getArticlePopularityMetrics(articleIds: string[]): Promise<PopularityMetrics[]> {
+  async getArticlePopularityMetrics(
+    articleIds: string[],
+  ): Promise<PopularityMetrics[]> {
     const [historicalData, realtimeData] = await Promise.all([
       this.getArticlePageViews(30),
       this.getRealTimePageViews(),
@@ -201,7 +204,7 @@ export class GoogleAnalyticsService {
     const metricsMap = new Map<string, PopularityMetrics>();
 
     // 過去30日のデータを処理
-    historicalData.forEach(data => {
+    historicalData.forEach((data) => {
       const articleId = this.getArticleIdFromPath(data.path);
       if (articleId && articleIds.includes(articleId)) {
         metricsMap.set(articleId, {
@@ -217,7 +220,7 @@ export class GoogleAnalyticsService {
     });
 
     // リアルタイムデータでトレンド判定
-    realtimeData.forEach(data => {
+    realtimeData.forEach((data) => {
       const articleId = this.getArticleIdFromPath(data.path);
       if (articleId && articleIds.includes(articleId)) {
         const existing = metricsMap.get(articleId);
@@ -232,8 +235,9 @@ export class GoogleAnalyticsService {
       }
     });
 
-    return Array.from(metricsMap.values())
-      .sort((a, b) => b.popularityScore - a.popularityScore);
+    return Array.from(metricsMap.values()).sort(
+      (a, b) => b.popularityScore - a.popularityScore,
+    );
   }
 
   /**
@@ -249,15 +253,15 @@ export class GoogleAnalyticsService {
 
       const trendingArticles: { id: string; trendScore: number }[] = [];
 
-      todayData.forEach(today => {
+      todayData.forEach((today) => {
         const articleId = this.getArticleIdFromPath(today.path);
         if (!articleId) return;
 
-        const weekAvg = weekData.find(week => week.path === today.path);
+        const weekAvg = weekData.find((week) => week.path === today.path);
         if (weekAvg) {
           const dailyAvg = weekAvg.pageViews / 7;
           const trendScore = today.pageViews / Math.max(dailyAvg, 1);
-          
+
           // 2倍以上のPVがあれば急上昇とみなす
           if (trendScore > 2) {
             trendingArticles.push({ id: articleId, trendScore });
@@ -268,9 +272,9 @@ export class GoogleAnalyticsService {
       return trendingArticles
         .sort((a, b) => b.trendScore - a.trendScore)
         .slice(0, 10)
-        .map(item => item.id);
+        .map((item) => item.id);
     } catch (error) {
-      console.error('Trending analysis error:', error);
+      console.error("Trending analysis error:", error);
       return [];
     }
   }

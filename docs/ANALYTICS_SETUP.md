@@ -60,11 +60,13 @@ GA4_CREDENTIALS={"type":"service_account","project_id":"your-project-id","privat
 ## 📊 取得できるデータ
 
 ### リアルタイムデータ（過去30分）
+
 - アクティブユーザー数
 - 現在閲覧中のページ
 - 急上昇記事の検出
 
 ### 履歴データ（過去30日）
+
 - ページビュー数
 - ユニークビュー数
 - 平均滞在時間
@@ -84,10 +86,12 @@ GA4_CREDENTIALS={"type":"service_account","project_id":"your-project-id","privat
 ## 🔄 自動更新の仕組み
 
 ### トレンド記事検出
+
 - リアルタイムアクティブユーザー > 5人 の記事
 - トレンド記事には自動でボーナススコア付与
 
 ### 表示優先順位
+
 1. **トレンド記事**（急上昇中）
 2. **人気度スコア順**（総合評価）
 3. **新着記事**（フォールバック）
@@ -97,6 +101,7 @@ GA4_CREDENTIALS={"type":"service_account","project_id":"your-project-id","privat
 ### Analytics API が動作しない場合
 
 自動的にフォールバックモードに切り替わります：
+
 - 新着記事ベースでの表示
 - エラーログをコンソールに出力
 - 手動設定（`isMainHeadline`/`isSubHeadline`）は引き続き優先
@@ -104,6 +109,7 @@ GA4_CREDENTIALS={"type":"service_account","project_id":"your-project-id","privat
 ### デバッグ方法
 
 開発環境で動作確認：
+
 ```bash
 # Analytics API無効化（フォールバック確認）
 GA4_PROPERTY_ID=
@@ -121,11 +127,13 @@ npm run dev
 ## 📈 パフォーマンス最適化
 
 ### キャッシュ戦略
+
 - Analytics APIレスポンスを1時間キャッシュ
 - ビルド時にデータ取得（静的サイト生成）
 - リアルタイムデータは軽量なものに限定
 
 ### 運用コスト削減
+
 - 必要な指標のみ取得
 - バッチ処理での効率化
 - 無料枠内での運用
@@ -133,10 +141,13 @@ npm run dev
 ## 🔧 カスタマイズ
 
 ### スコア算出ロジックの調整
+
 `src/lib/analytics/ga4.ts` の `calculatePopularityScore` メソッドを編集
 
 ### 取得期間の変更
+
 `getArticlePageViews()` の `days` パラメータを調整
 
 ### 表示記事数の変更
+
 `articlesHandler.getTopArticles()` の `.slice(0, 5)` を変更

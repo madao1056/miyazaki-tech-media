@@ -1,0 +1,43 @@
+---
+import GoogleIcon from "@assets/svgs/google.astro";
+---
+
+<dialog id="auth_modal" class="modal">
+  <div class="modal-box">
+    <form method="dialog">
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+    </form>
+    
+    <h3 class="font-bold text-lg mb-4">ログイン</h3>
+    
+    <div class="space-y-3">
+      <p class="text-sm text-base-content/70">
+        ログインすると記事のブックマークや著者フォローができます
+      </p>
+      
+      <button 
+        id="google-login-btn"
+        class="btn btn-outline w-full justify-start"
+        type="button"
+      >
+        <GoogleIcon size="20" />
+        <span>Googleでログイン</span>
+      </button>
+    </div>
+  </div>
+  
+  <form method="dialog" class="modal-backdrop">
+    <button>close</button>
+  </form>
+</dialog>
+
+<script>
+  document.getElementById('google-login-btn')?.addEventListener('click', async () => {
+    try {
+      const { signInWithOAuth } = await import('@/lib/auth/utils');
+      await signInWithOAuth('google');
+    } catch (error) {
+      console.error('Google ログインエラー:', error);
+    }
+  });
+</script>

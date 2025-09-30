@@ -3,6 +3,7 @@ import { SITE } from "@/lib/config";
 import Head from "@/components/bases/head.astro";
 import Header from "@/components/shared/header.astro";
 import Footer from "@/components/shared/footer.astro";
+import BannerSection from "@/components/shared/banner-section.astro";
 import type { Entry } from "@/lib/types";
 import { getMeta } from "@/lib/utils/getMeta";
 
@@ -23,6 +24,7 @@ const meta = await getMeta(entry);
     <main class="flex-1">
       <slot />
     </main>
+    <BannerSection />
     <Footer />
   </body>
 </html>

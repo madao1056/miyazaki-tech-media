@@ -4,6 +4,7 @@ import Facebook from "@/assets/svgs/facebook.astro";
 import Linkedin from "@/assets/svgs/linkedin.astro";
 import Twitter from "@/assets/svgs/twitter.astro";
 import Whatsapp from "@/assets/svgs/whatsapp.astro";
+import Line from "@/assets/svgs/line.astro";
 
 type Props = {
   className: string;
@@ -11,7 +12,7 @@ type Props = {
   dataAwSocialShare: string;
   dataAwUrl: string | URL;
   dataAwText: string;
-  icon: "clipboard" | "facebook" | "linkedin" | "twitter" | "whatsapp";
+  icon: "clipboard" | "facebook" | "linkedin" | "twitter" | "whatsapp" | "line";
 };
 
 const { className, title, dataAwSocialShare, dataAwUrl, dataAwText, icon } =
@@ -24,6 +25,7 @@ const iconMap = {
   linkedin: Linkedin,
   twitter: Twitter,
   whatsapp: Whatsapp,
+  line: Line,
 } as const;
 
 const Icon = iconMap[icon];
@@ -35,6 +37,7 @@ const buttonClasses = [
   "w-12",
   "h-12",
   "bg-base-200",
+  "dark:bg-base-300",
   "flex",
   "items-center",
   "justify-center",
@@ -62,10 +65,16 @@ const buttonClasses = [
   </span>
 </button>
 
-<style>
+<style is:global>
   .slide:hover .shareIcon {
     animation: slide-in-top 0.3s both;
   }
+
+  /* ライトモードでホバー時にXアイコンを白くする */
+  button.slide:hover .x-logo-icon:not(.dark .x-logo-icon) {
+    filter: brightness(0) invert(1) !important;
+  }
+
 
   @keyframes slide-in-top {
     0% {

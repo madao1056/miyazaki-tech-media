@@ -1,0 +1,19 @@
+---
+import type { Icon } from "@/lib/types";
+
+type Props = Icon;
+
+const {
+  width = "24",
+  height = "24",
+  size,
+} = Astro.props;
+---
+
+<img
+  src="/icons/line.png"
+  alt="LINE"
+  width={size ? size : width}
+  height={size ? size : height}
+  style="display: inline-block;"
+/>

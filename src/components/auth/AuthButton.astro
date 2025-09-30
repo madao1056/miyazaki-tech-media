@@ -1,0 +1,97 @@
+---
+import UserIcon from "@assets/svgs/user.astro";
+---
+
+<div id="auth-button-container" class="ml-2">
+  <button 
+    id="auth-btn"
+    class="btn btn-ghost btn-circle"
+    onclick="auth_modal.showModal()"
+    aria-label="Login"
+  >
+    <UserIcon size="24" />
+  </button>
+</div>
+
+<script>
+  import { getCurrentUser } from '@/lib/auth/utils';
+  import { signOut } from '@/lib/auth/utils';
+  
+  const renderAuthButton = async () => {
+    const container = document.getElementById('auth-button-container');
+    if (!container) return;
+    
+    try {
+      const user = await getCurrentUser();
+      
+      if (user) {
+        // ログイン状態
+        container.innerHTML = `
+          <div class="dropdown dropdown-end">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+              <div class="w-8 rounded-full">
+                <img 
+                  src="${user.avatar_url || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iMjAiIGZpbGw9IiNFNUU3RUIiLz4KPHBhdGggZD0iTTIwIDIwQzIyLjIwOTEgMjAgMjQgMTguMjA5MSAyNCAxNkMyNCAxMy43OTA5IDIyLjIwOTEgMTIgMjAgMTJDMTcuNzkwOSAxMiAxNiAxMy43OTA5IDE2IDE2QzE2IDE4LjIwOTEgMTcuNzkwOSAyMCAyMCAyMFoiIGZpbGw9IiM5Q0E0QjEiLz4KPHBhdGggZD0iTTI4IDI4QzI4IDI0LjY4NjMgMjQuNDE4MyAyMiAyMCAyMkMxNS41ODE3IDIyIDEyIDI0LjY4NjMgMTIgMjhWMzBIMjhWMjhaIiBmaWxsPSIjOUNBNEIxIi8+Cjwvc3ZnPg=='}" 
+                  alt="${user.display_name || 'User'}" 
+                />
+              </div>
+            </div>
+            <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+              <li class="menu-title">
+                <span>${user.display_name || user.email || 'ユーザー'}</span>
+              </li>
+              <li><a href="/my">マイページ</a></li>
+              <li><hr class="my-1"></li>
+              <li><button id="logout-btn">ログアウト</button></li>
+            </ul>
+          </div>
+        `;
+        
+        // ログアウトボタンのイベント設定
+        document.getElementById('logout-btn')?.addEventListener('click', async () => {
+          try {
+            await signOut();
+            window.location.reload();
+          } catch (error) {
+            console.error('ログアウトエラー:', error);
+          }
+        });
+      } else {
+        // ログアウト状態
+        container.innerHTML = `
+          <button 
+            class="btn btn-ghost btn-circle"
+            onclick="auth_modal.showModal()"
+            aria-label="Login"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </button>
+        `;
+      }
+    } catch (error) {
+      console.error('認証状態チェックエラー:', error);
+    }
+  };
+  
+  // 認証状態の変化を監視
+  const initAuth = async () => {
+    const { supabase } = await import('@/lib/auth/supabase');
+    
+    // 初回レンダリング
+    renderAuthButton();
+    
+    // 認証状態変化の監視
+    supabase.auth.onAuthStateChange((event) => {
+      renderAuthButton();
+    });
+  };
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAuth);
+  } else {
+    initAuth();
+  }
+</script>

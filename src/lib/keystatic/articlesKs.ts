@@ -52,7 +52,7 @@ export const articlesKs = collection({
             min: 1,
           },
         },
-      }
+      },
     ),
     content: fields.mdx({
       label: "Content",
