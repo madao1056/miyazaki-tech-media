@@ -76,6 +76,24 @@ const meta = {
 </html>
 
 <script>
+  // セッション復元
+  const restoreSession = async () => {
+    try {
+      const { supabase } = await import('@/lib/auth/supabase');
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        console.log('Session restored on my page');
+      }
+    } catch (error) {
+      console.error('Session restore error:', error);
+    }
+  };
+  
+  // 最初にセッションを復元
+  restoreSession();
+</script>
+
+<script>
   
   const initializeMyPage = async () => {
     // 動的インポート

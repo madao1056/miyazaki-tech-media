@@ -80,15 +80,18 @@ import UserIcon from "@assets/svgs/user.astro";
   const initAuth = async () => {
     const { supabase } = await import('@/lib/auth/supabase');
     
-    // 初回レンダリング
-    renderAuthButton();
+    // セッションを取得してから初回レンダリング
+    await supabase.auth.getSession();
+    await renderAuthButton();
     
     // 認証状態変化の監視
-    supabase.auth.onAuthStateChange((event) => {
-      renderAuthButton();
+    supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log('Auth state changed:', event);
+      await renderAuthButton();
     });
   };
   
+  // ページ読み込み完了後に初期化
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initAuth);
   } else {
