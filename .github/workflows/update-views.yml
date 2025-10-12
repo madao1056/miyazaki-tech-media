@@ -1,0 +1,51 @@
+name: Update Article Views
+
+on:
+  schedule:
+    # 毎日午前2時（UTC）に実行 = JST午前11時
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    # 手動実行も可能
+
+jobs:
+  update-views:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Create GA4 key file
+        run: echo '${{ secrets.GA4_KEY_JSON }}' > ga4-key.json
+        
+      - name: Update article views
+        env:
+          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
+          GA4_KEY_FILE: ./ga4-key.json
+        run: npm run update-views
+        
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add src/data/article-views.json
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update article views data - $(date '+%Y-%m-%d %H:%M:%S')"
+            git push
+          fi
+          
+      - name: Clean up
+        run: rm -f ga4-key.json

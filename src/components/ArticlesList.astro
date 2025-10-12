@@ -1,0 +1,131 @@
+---
+import WideCard from "@/components/cards/wideCard.astro";
+import type { CollectionEntry } from "astro:content";
+import { getArticleViews } from "@/lib/utils/views";
+
+export interface Props {
+  articles: CollectionEntry<"articles">[];
+  basePath: string;
+}
+
+const { articles, basePath } = Astro.props;
+
+// 各記事にビュー数を追加
+const articlesWithViews = articles.map(article => ({
+  ...article,
+  views: getArticleViews(article.id)
+}));
+---
+
+<div>
+  <!-- 並び替えセレクター -->
+  <div class="flex items-center gap-2 mb-6">
+    <span class="text-sm text-gray-600">並び替え:</span>
+    <div class="relative inline-block">
+      <select
+        id="sort-selector"
+        class="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer hover:border-gray-400 transition-colors"
+      >
+        <option value="newest">新着順</option>
+        <option value="popular">人気順</option>
+      </select>
+      <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- 記事リスト -->
+  <ul id="articles-list" class="flex flex-col gap-4">
+    {
+      articlesWithViews.map((article) => (
+        <li
+          class="article-item"
+          data-publish-date={article.data.publishDate}
+          data-views={article.views}
+        >
+          <WideCard
+            article={article}
+            isLast={articlesWithViews.lastIndexOf(article) === articlesWithViews.length - 1}
+          />
+          <!-- ビュー数表示（デバッグ用、後で削除可能） -->
+          <div class="text-xs text-gray-500 mt-1 px-2">
+            <span class="views-count hidden">👁 {article.views.toLocaleString()} views</span>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const selector = document.getElementById('sort-selector') as HTMLSelectElement;
+    const articlesList = document.getElementById('articles-list');
+    
+    if (!selector || !articlesList) return;
+
+    // 記事アイテムを取得
+    const getArticleItems = () => Array.from(articlesList.querySelectorAll('.article-item')) as HTMLElement[];
+
+    // 新着順でソート
+    const sortByNewest = (items: HTMLElement[]) => {
+      return items.sort((a, b) => {
+        const dateA = new Date(a.dataset.publishDate || '');
+        const dateB = new Date(b.dataset.publishDate || '');
+        return dateB.getTime() - dateA.getTime();
+      });
+    };
+
+    // 人気順でソート
+    const sortByPopular = (items: HTMLElement[]) => {
+      return items.sort((a, b) => {
+        const viewsA = parseInt(a.dataset.views || '0');
+        const viewsB = parseInt(b.dataset.views || '0');
+        return viewsB - viewsA;
+      });
+    };
+
+    // ソート実行
+    const performSort = (sortType: string) => {
+      const items = getArticleItems();
+      let sortedItems: HTMLElement[];
+
+      if (sortType === 'popular') {
+        sortedItems = sortByPopular(items);
+        // 人気順の時はビュー数を表示
+        document.querySelectorAll('.views-count').forEach(el => {
+          el.classList.remove('hidden');
+        });
+      } else {
+        sortedItems = sortByNewest(items);
+        // 新着順の時はビュー数を非表示
+        document.querySelectorAll('.views-count').forEach(el => {
+          el.classList.add('hidden');
+        });
+      }
+
+      // DOMを再配置
+      articlesList.innerHTML = '';
+      sortedItems.forEach(item => {
+        articlesList.appendChild(item);
+      });
+
+      // LocalStorageに保存
+      localStorage.setItem('articlesSortPreference', sortType);
+    };
+
+    // セレクター変更時のイベント
+    selector.addEventListener('change', (e) => {
+      const target = e.target as HTMLSelectElement;
+      performSort(target.value);
+    });
+
+    // 初期値の設定（LocalStorageから読み込み）
+    const savedSort = localStorage.getItem('articlesSortPreference') || 'newest';
+    selector.value = savedSort;
+    performSort(savedSort);
+  });
+</script>

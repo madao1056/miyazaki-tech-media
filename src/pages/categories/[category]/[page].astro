@@ -4,9 +4,8 @@ import { SITE } from "@/lib/config";
 import { articlesHandler } from "@/lib/handlers/articles";
 import { categoriesHandler } from "@/lib/handlers/categories";
 import ListLayout from "@/layouts/list.astro";
-
+import ArticlesList from "@/components/ArticlesList.astro";
 import Pagination from "@/components/shared/pagination.astro";
-import WideCard from "@/components/cards/wideCard.astro";
 import { getEntry } from "astro:content";
 
 export const getStaticPaths = (async ({ paginate }) => {
@@ -40,16 +39,10 @@ if (!entry) {
 ---
 
 <ListLayout header={params.category} entry={entry}>
-  <ul class="flex flex-col gap-2 flex-1">
-    {
-      articles.map((article) => (
-        <WideCard
-          article={article}
-          isLast={articles.lastIndexOf(article) === articles.length - 1}
-        />
-      ))
-    }
-  </ul>
+  <section class="flex-1">
+    <!-- 記事リストコンポーネント（並び替え機能付き） -->
+    <ArticlesList articles={articles} basePath={basePath} />
+  </section>
   {
     postsLength > SITE.postsPerPage ? (
       <Pagination

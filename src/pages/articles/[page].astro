@@ -3,8 +3,8 @@ import type { GetStaticPaths } from "astro";
 import ListLayout from "@/layouts/list.astro";
 import { SITE } from "@/lib/config";
 import Pagination from "@/components/shared/pagination.astro";
+import ArticlesList from "@/components/ArticlesList.astro";
 import { getEntry } from "astro:content";
-import WideCard from "@/components/cards/wideCard.astro";
 
 import { articlesHandler } from "@/lib/handlers/articles";
 
@@ -29,16 +29,8 @@ const [HEADER] = entry.data.blocks;
 
 <ListLayout header={HEADER.title} entry={entry}>
   <section class="flex-1">
-    <ul class="flex flex-col gap-4">
-      {
-        articles.map((article) => (
-          <WideCard
-            article={article}
-            isLast={articles.lastIndexOf(article) === articles.length - 1}
-          />
-        ))
-      }
-    </ul>
+    <!-- 記事リストコンポーネント（並び替え機能付き） -->
+    <ArticlesList articles={articles} basePath={basePath} />
   </section>
   {
     (

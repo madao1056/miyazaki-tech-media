@@ -1,153 +1,136 @@
-# Google Analytics API セットアップガイド
+# Google Analytics API連携設定ガイド
 
-## 🎯 概要
+## 概要
 
-このガイドでは、Google Analytics 4 (GA4) APIを使用してリアルタイムの記事人気度データを取得し、トップページの記事表示を自動化する方法を説明します。
+このプロジェクトでは、Google Analytics 4 (GA4) のAPIを使用して記事のページビュー数を自動取得し、人気順ソート機能を実現しています。
 
-## 🚀 セットアップ手順
+## 設定手順
 
-### 1. Google Cloud Console でプロジェクト作成
+### 1. Google Cloud Console での設定
 
-1. [Google Cloud Console](https://console.cloud.google.com/) にアクセス
-2. 新しいプロジェクトを作成またはお選択
-3. **Google Analytics Data API** を有効化
+1. **Google Cloud Console**にアクセス
+   - https://console.cloud.google.com/
 
-### 2. サービスアカウント作成
+2. **プロジェクトを作成または選択**
+   - 新規プロジェクト作成: `miyabito-analytics`
 
-1. Cloud Console で「**IAM と管理** > **サービスアカウント**」に移動
-2. 「**サービスアカウントを作成**」をクリック
-3. サービスアカウント名を入力（例：`bizmap-analytics-service`）
-4. 「**作成して続行**」をクリック
-5. ロール選択（**Analytics Viewer** または **Analytics Editor**）
-6. 「**完了**」をクリック
+3. **Google Analytics Reporting API を有効化**
+   - APIs & Services → Library
+   - "Google Analytics Reporting API" を検索して有効化
 
-### 3. サービスアカウントキーを取得
+4. **サービスアカウントを作成**
+   - APIs & Services → Credentials
+   - "Create Credentials" → "Service Account"
+   - 名前: `miyabito-ga-reader`
+   - 権限: Analytics Viewer
 
-1. 作成したサービスアカウントをクリック
-2. 「**キー**」タブに移動
-3. 「**キーを追加** > **新しいキーを作成**」
-4. **JSON** 形式を選択してダウンロード
+5. **キーファイルをダウンロード**
+   - サービスアカウント → Keys → Add Key → JSON
+   - ダウンロードしたファイルを `ga4-key.json` として保存
 
-### 4. Google Analytics でサービスアカウントを追加
+### 2. Google Analytics での設定
 
-1. [Google Analytics](https://analytics.google.com/) にアクセス
-2. 対象プロパティの「**管理**」に移動
-3. 「**プロパティアクセス管理**」をクリック
-4. 「**+**」ボタンでユーザーを追加
-5. サービスアカウントのメールアドレスを入力
-6. 権限：**閲覧者** を選択
+1. **GA4プロパティ設定**
+   - Google Analytics → Admin → Property → Property Details
+   - Property ID をコピー（例: 123456789）
 
-### 5. GA4 プロパティIDを取得
+2. **サービスアカウントに権限付与**
+   - Property → Property Access Management
+   - Add Users → サービスアカウントのメールアドレスを追加
+   - 権限: Viewer
 
-1. Google Analytics で対象プロパティを選択
-2. 「**管理** > **プロパティ設定**」
-3. **プロパティID** をコピー（例：`123456789`）
+### 3. 環境変数の設定
 
-### 6. 環境変数を設定
+#### ローカル開発環境
 
-`.env` ファイルを作成し、以下を設定：
+`.env` ファイルを作成:
 
 ```bash
-# GA4 プロパティID
+# Google Analytics 4 設定
 GA4_PROPERTY_ID=123456789
-
-# サービスアカウント認証情報（JSON形式をエスケープ）
-GA4_CREDENTIALS={"type":"service_account","project_id":"your-project-id","private_key_id":"...","private_key":"-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n","client_email":"service-account@project.iam.gserviceaccount.com","client_id":"...","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_x509_cert_url":"https://www.googleapis.com/robot/v1/metadata/x509/service-account%40project.iam.gserviceaccount.com"}
+GA4_KEY_FILE=./ga4-key.json
 ```
 
-**重要**: JSONの改行文字は `\n` でエスケープしてください。
+#### GitHub Actions (本番環境)
 
-## 📊 取得できるデータ
+Repository Settings → Secrets and variables → Actions で設定:
 
-### リアルタイムデータ（過去30分）
+- `GA4_PROPERTY_ID`: GA4プロパティID
+- `GA4_KEY_JSON`: キーファイルの内容（JSON全体）
 
-- アクティブユーザー数
-- 現在閲覧中のページ
-- 急上昇記事の検出
+### 4. 実行とテスト
 
-### 履歴データ（過去30日）
-
-- ページビュー数
-- ユニークビュー数
-- 平均滞在時間
-- 離脱率
-- エンゲージメント率
-
-## 🎨 人気度スコア算出式
-
-```
-人気度スコア = 基本PV + 品質ボーナス - 離脱ペナルティ
-
-基本PV: ページビュー数
-品質ボーナス: (滞在時間 × 0.1) + (エンゲージメント率 × 10)
-離脱ペナルティ: 離脱率 × PV数 × 0.1
-```
-
-## 🔄 自動更新の仕組み
-
-### トレンド記事検出
-
-- リアルタイムアクティブユーザー > 5人 の記事
-- トレンド記事には自動でボーナススコア付与
-
-### 表示優先順位
-
-1. **トレンド記事**（急上昇中）
-2. **人気度スコア順**（総合評価）
-3. **新着記事**（フォールバック）
-
-## 🛠️ トラブルシューティング
-
-### Analytics API が動作しない場合
-
-自動的にフォールバックモードに切り替わります：
-
-- 新着記事ベースでの表示
-- エラーログをコンソールに出力
-- 手動設定（`isMainHeadline`/`isSubHeadline`）は引き続き優先
-
-### デバッグ方法
-
-開発環境で動作確認：
+#### 手動実行
 
 ```bash
-# Analytics API無効化（フォールバック確認）
-GA4_PROPERTY_ID=
-GA4_CREDENTIALS=
-
-npm run dev
+# ビュー数データを更新
+npm run update-views
 ```
 
-### よくあるエラー
+#### 自動実行
 
-1. **認証エラー**: サービスアカウントがGAに追加されているか確認
-2. **権限エラー**: サービスアカウントに適切な権限があるか確認
-3. **プロパティID無効**: GA4のプロパティIDが正しいか確認
+- 毎日午前2時（UTC）= JST午前11時に自動実行
+- GitHub Actions で手動実行も可能
 
-## 📈 パフォーマンス最適化
+## ファイル構成
 
-### キャッシュ戦略
+```
+project/
+├── scripts/
+│   └── update-views.js          # GA4データ取得スクリプト
+├── src/
+│   ├── data/
+│   │   └── article-views.json   # ビュー数データ
+│   └── lib/
+│       └── utils/
+│           └── views.ts         # ビュー数ユーティリティ
+├── .github/
+│   └── workflows/
+│       └── update-views.yml     # 自動実行設定
+├── .env.example                 # 環境変数テンプレート
+└── ga4-key.json                 # サービスアカウントキー（gitignore）
+```
 
-- Analytics APIレスポンスを1時間キャッシュ
-- ビルド時にデータ取得（静的サイト生成）
-- リアルタイムデータは軽量なものに限定
+## データフォーマット
 
-### 運用コスト削減
+`src/data/article-views.json`:
 
-- 必要な指標のみ取得
-- バッチ処理での効率化
-- 無料枠内での運用
+```json
+{
+  "lastUpdated": "2025-01-13T13:00:00.000Z",
+  "views": {
+    "article-slug": 1234,
+    "another-article": 5678
+  },
+  "totalViews": {}
+}
+```
 
-## 🔧 カスタマイズ
+## トラブルシューティング
 
-### スコア算出ロジックの調整
+### 権限エラー
 
-`src/lib/analytics/ga4.ts` の `calculatePopularityScore` メソッドを編集
+- サービスアカウントがGA4プロパティにアクセス権限を持っているか確認
+- Property IDが正しいか確認
 
-### 取得期間の変更
+### データが取得できない
 
-`getArticlePageViews()` の `days` パラメータを調整
+- GA4にデータが蓄積されているか確認（設定から数日経過が必要）
+- 日付範囲の設定を確認
 
-### 表示記事数の変更
+### GitHub Actions エラー
 
-`articlesHandler.getTopArticles()` の `.slice(0, 5)` を変更
+- Secrets設定が正しいか確認
+- キーファイルの形式が正しいか確認
+
+## セキュリティ注意事項
+
+- `ga4-key.json` は **絶対に** Gitにコミットしない
+- `.gitignore` に追加済み
+- GitHub Secrets は暗号化されて保存される
+
+## 更新頻度について
+
+- 現在: 毎日1回自動更新
+- 必要に応じて手動実行可能
+- 更新頻度は `.github/workflows/update-views.yml` で変更可能

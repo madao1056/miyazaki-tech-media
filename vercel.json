@@ -8,7 +8,7 @@
           "value": "media-site.vercel.app"
         }
       ],
-      "destination": "https://biz-map.bond-llc.jp/:path*",
+      "destination": "https://miyabito.bond-llc.jp/:path*",
       "permanent": true
     },
     {
@@ -19,7 +19,7 @@
           "value": "media-site-*.vercel.app"
         }
       ],
-      "destination": "https://biz-map.bond-llc.jp/:path*",
+      "destination": "https://miyabito.bond-llc.jp/:path*",
       "permanent": true
     }
   ]

@@ -1,4 +1,4 @@
-# Project Structure: BizMap
+# Project Structure: みやびと
 
 ## ルートディレクトリ構成
 

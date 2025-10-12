@@ -1,11 +1,11 @@
-# BizMap（ビズマップ） 開発ガイド
+# みやびと 開発ガイド
 
 ## サイト概要
 
-宮崎の経営者インタビューメディア - 起業の経緯、困難の乗り越え方、次世代へのメッセージを発信
-URL: https://biz-map.bond-llc.jp
-運営: 合同会社bond
-コンセプト: 「あなたのキャリアの地図になる」
+宮崎で輝く人々の物語を伝えるストーリーメディア - 多様な生き方、働き方、挑戦の物語を発信
+URL: https://miyabito.bond-llc.jp
+運営: ボンド
+コンセプト: 「宮崎の人（みやびと）の物語が、あなたの人生の道しるべになる」
 
 ## コンテンツ管理方式：MDX（完全静的）
 
@@ -19,8 +19,8 @@ URL: https://biz-map.bond-llc.jp
 
 ### 記事作成フロー
 
-1. Claude Codeが`src/content/posts/`にMDXファイル作成
-2. 画像は`public/images/articles/`に配置
+1. Claude Codeが`src/content/articles/`にMDXファイル作成
+2. 画像は`src/assets/images/articles/`に配置
 3. 自動的にページ生成・sitemap更新
 
 ### ファイル構造
@@ -29,11 +29,16 @@ URL: https://biz-map.bond-llc.jp
 project/
 ├── public/
 │   └── images/
-│       ├── articles/     # 記事用画像
-│       └── authors/      # 著者用画像
-├── src/content/
-│   ├── posts/           # 記事MDXファイル
-│   └── categories/      # カテゴリー定義
+│       └── authors/      # 著者用画像（旧）
+├── src/
+│   ├── assets/images/
+│   │   ├── articles/     # 記事用画像
+│   │   └── authors/      # 著者用画像
+│   └── content/
+│       ├── articles/     # 記事MDXファイル
+│       ├── authors/      # 著者情報
+│       ├── categories/   # カテゴリー定義
+│       └── views/        # ページビュー（about, contactなど）
 ```
 
 ### MDX記事テンプレート
@@ -57,9 +62,9 @@ tags: ["フリーランス", "Web制作", "宮崎市", "30代独立"]
 
 ### 画像管理
 
-- アップロード先：`public/images/articles/`
+- アップロード先：`src/assets/images/articles/`
 - 命名規則：`{category}-{連番}.jpg`（例：`freelance-001.jpg`）
-- MDX内参照：`![説明](/images/articles/filename.jpg)`
+- MDX内参照：記事フォルダ内の画像をインポートして使用
 - Astroが自動で最適化・レスポンシブ対応
 
 ## カテゴリー分類
@@ -101,8 +106,8 @@ tags: ["フリーランス", "Web制作", "宮崎市", "30代独立"]
 
 ### 現在のサイト構造
 
-- **メディアサイト**: `biz-map.bond-llc.jp` (サブドメイン)
-  - BizMap（ビズマップ）
+- **メディアサイト**: `miyabito.bond-llc.jp` (サブドメイン)
+  - みやびと
   - astro-newsテンプレート使用
   - Astro設定: サブドメイン構成
 
@@ -111,8 +116,8 @@ tags: ["フリーランス", "Web制作", "宮崎市", "30代独立"]
 1. **メインサイト**: `bond-llc.jp/`
    - 会社ホームページ
    - テンプレート: [AstroWind](https://github.com/arthelokyo/astrowind)
-2. **メディアサイト**: `biz-map.bond-llc.jp`
-   - BizMap（ビズマップ）
+2. **メディアサイト**: `miyabito.bond-llc.jp`
+   - みやびと
    - サブドメインとして運用
 
 ### 実装方法（サブドメイン構成）
@@ -123,7 +128,7 @@ Vercelプロジェクト構成:
    - AstroWindテンプレート
    - ルートドメイン用
 
-2. media-site (biz-map.bond-llc.jp)
+2. media-site (miyabito.bond-llc.jp)
    - astro-newsテンプレート
    - サブドメイン設定
 ```
@@ -133,7 +138,7 @@ Vercelプロジェクト構成:
 ```
 お名前.com DNS設定:
 - A Record: bond-llc.jp → Vercel IP
-- CNAME: biz-map.bond-llc.jp → media-site.vercel.app
+- CNAME: miyabito.bond-llc.jp → media-site.vercel.app
 ```
 
 ## 実施状況 (2025/01/13)
@@ -151,7 +156,7 @@ Vercelプロジェクト構成:
 
 ```
 /Users/hashiguchimasaki/project/
-├── media-site/        # メディアサイト (biz-map.bond-llc.jp)
+├── media-site/        # メディアサイト (miyabito.bond-llc.jp)
 │   ├── astro-news テンプレート
 │   └── サブドメイン構成
 │
@@ -196,7 +201,7 @@ Vercelプロジェクト構成:
 
 3. **動作確認**
    - `bond-llc.jp` → メインサイト表示
-   - `biz-map.bond-llc.jp` → メディアサイト表示
+   - `miyabito.bond-llc.jp` → メディアサイト表示
 
 ## 開発中の仕様
 

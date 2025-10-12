@@ -17,6 +17,9 @@ pnpm-debug.log*
 .env
 .env.production
 
+# Google Analytics credentials
+ga4-key.json
+
 # macOS-specific files
 .DS_Store
 

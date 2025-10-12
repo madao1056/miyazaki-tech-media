@@ -1,11 +1,11 @@
 import type { Link } from "../types";
 
 export const SITE = {
-  title: "BizMap（ビズマップ）",
+  title: "みやびと",
   description:
-    "宮崎の経営者が語る、挑戦と成長のリアルストーリー。なぜ起業したのか、どう困難を乗り越えたのか。あなたのキャリアの地図になる",
-  author: "合同会社bond",
-  url: "https://biz-map.bond-llc.jp",
+    "宮崎で輝く人々の物語を伝えるストーリーメディア。一人ひとりの挑戦と成長、生き方が、あなたの人生の道しるべになる",
+  author: "ボンド",
+  url: "https://miyabito.bond-llc.jp",
   locale: "ja-JP",
   dir: "ltr",
   charset: "UTF-8",
@@ -51,7 +51,7 @@ export const NAVIGATION_LINKS: Link[] = [
 export const OTHER_LINKS: Link[] = [
   {
     href: "/about",
-    text: "BizMapについて",
+    text: "みやびとについて",
   },
   {
     href: "/authors",
@@ -74,11 +74,11 @@ export const OTHER_LINKS: Link[] = [
     text: "人気記事ランキング",
   },
   {
-    href: "https://biz-map.bond-llc.jp/rss.xml",
+    href: "https://miyabito.bond-llc.jp/rss.xml",
     text: "RSS",
   },
   {
-    href: "https://biz-map.bond-llc.jp/sitemap-index.xml",
+    href: "https://miyabito.bond-llc.jp/sitemap-index.xml",
     text: "サイトマップ",
   },
 ];

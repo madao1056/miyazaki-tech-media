@@ -1,8 +1,8 @@
-# Technology Stack: BizMap
+# Technology Stack: みやびと
 
 ## アーキテクチャ概要
 
-BizMapは**完全静的サイト生成 (SSG)** アーキテクチャを採用した高速メディアサイトです。
+みやびとは**完全静的サイト生成 (SSG)** アーキテクチャを採用した高速メディアサイトです。
 
 ### コアコンセプト
 
@@ -141,7 +141,7 @@ npx astro check
 ### ホスティング
 
 - **[Vercel](https://vercel.com)**
-  - サブドメイン構成: `biz-map.bond-llc.jp`
+  - サブドメイン構成: `miyabito.bond-llc.jp`
   - 自動デプロイ: Gitプッシュ時
   - エッジネットワーク配信
 
