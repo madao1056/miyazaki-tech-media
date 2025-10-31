@@ -1,5 +1,5 @@
 <!-- Author Modal -->
-<div id="authorModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+<div id="authorModal" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center">
   <div class="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md w-full mx-4 relative">
     <button 
       onclick="window.closeAuthorModal && window.closeAuthorModal()" 
@@ -36,11 +36,21 @@
       `<a href="${link.url}" target="_blank" rel="noopener" class="inline-flex items-center px-3 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md text-sm hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">${link.name}</a>`
     ).join(' ');
     
+    // 著者の画像パスを動的に生成
+    const avatarPath = `/images/authors/author.jpg`; // 現在は固定、将来的には著者IDに応じて変更可能
+    
     content.innerHTML = `
-      <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">${name}</h3>
-      <p class="text-sm text-primary dark:text-secondary mb-4">${job}</p>
-      <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">${bio}</p>
-      ${socialLinks ? `<div class="flex gap-2 flex-wrap">${socialLinks}</div>` : ''}
+      <div class="flex flex-col items-center text-center">
+        <img 
+          src="${avatarPath}" 
+          alt="${name}" 
+          class="w-24 h-24 rounded-full object-cover mb-4 border-2 border-gray-200 dark:border-gray-600"
+        />
+        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">${name}</h3>
+        <p class="text-sm text-primary dark:text-secondary mb-4">${job}</p>
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-4 text-left">${bio}</p>
+        ${socialLinks ? `<div class="flex gap-2 flex-wrap justify-center">${socialLinks}</div>` : ''}
+      </div>
     `;
     
     modal.classList.remove('hidden');
