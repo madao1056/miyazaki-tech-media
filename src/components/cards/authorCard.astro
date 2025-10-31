@@ -6,29 +6,36 @@ type Props = {
 };
 
 const { author } = Astro.props;
+const authorData = JSON.stringify({
+  id: author.id,
+  name: author.data.name,
+  job: author.data.job,
+  bio: author.data.bio,
+  social: author.data.social || []
+});
 ---
 
 <li class="group relative isolate mx-auto w-full">
-  <Image
-    class="w-320 aspect-square max-w-full object-cover filter grayscale group-hover:grayscale-0 rounded-md cursor-pointer"
-    src={author.data.avatar}
-    alt={author.data.name}
-    layout="constrained"
-    loading={"lazy"}
-    width={320}
-    height={320}
-  />
-  <div class="flex flex-col gap-0.5 mt-2">
-    <h3 class="text-base font-semibold group-hover:underline cursor-pointer">
-      <button 
-        type="button"
-        class="text-left w-full"
-        onclick={`openAuthorModal('${author.id}', '${author.data.name}', '${author.data.job}', \`${author.data.bio}\`, '${JSON.stringify(author.data.social || []).replace(/"/g, '&quot;')}')`}
-      >
-        <span class="absolute inset-0 z-10 pointer-events-none"></span>
+  <button 
+    type="button"
+    class="w-full text-left cursor-pointer"
+    data-author={authorData}
+    onclick="window.openAuthorModal && window.openAuthorModal(this.dataset.author)"
+  >
+    <Image
+      class="w-320 aspect-square max-w-full object-cover filter grayscale group-hover:grayscale-0 rounded-md"
+      src={author.data.avatar}
+      alt={author.data.name}
+      layout="constrained"
+      loading={"lazy"}
+      width={320}
+      height={320}
+    />
+    <div class="flex flex-col gap-0.5 mt-2">
+      <h3 class="text-base font-semibold group-hover:underline">
         {author.data.name}
-      </button>
-    </h3>
-    <p class="text-sm text-primary dark:text-secondary">{author.data.job}</p>
-  </div>
+      </h3>
+      <p class="text-sm text-primary dark:text-secondary">{author.data.job}</p>
+    </div>
+  </button>
 </li>

@@ -1,0 +1,77 @@
+<!-- Author Modal -->
+<div id="authorModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+  <div class="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md w-full mx-4 relative">
+    <button 
+      onclick="window.closeAuthorModal && window.closeAuthorModal()" 
+      class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+    <div id="modalContent">
+      <!-- Content will be inserted here -->
+    </div>
+  </div>
+</div>
+
+<script>
+  window.openAuthorModal = function(authorDataJson) {
+    const modal = document.getElementById('authorModal');
+    const content = document.getElementById('modalContent');
+    
+    if (!modal || !content) return;
+    
+    let authorData;
+    try {
+      authorData = JSON.parse(authorDataJson);
+    } catch (e) {
+      console.error('Failed to parse author data:', e);
+      return;
+    }
+    
+    const { id, name, job, bio, social = [] } = authorData;
+    
+    const socialLinks = social.map(link => 
+      `<a href="${link.url}" target="_blank" rel="noopener" class="inline-flex items-center px-3 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md text-sm hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">${link.name}</a>`
+    ).join(' ');
+    
+    content.innerHTML = `
+      <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">${name}</h3>
+      <p class="text-sm text-primary dark:text-secondary mb-4">${job}</p>
+      <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">${bio}</p>
+      ${socialLinks ? `<div class="flex gap-2 flex-wrap">${socialLinks}</div>` : ''}
+    `;
+    
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  };
+  
+  window.closeAuthorModal = function() {
+    const modal = document.getElementById('authorModal');
+    if (!modal) return;
+    
+    modal.classList.add('hidden');
+    document.body.style.overflow = 'auto';
+  };
+  
+  // Initialize event listeners when DOM is ready
+  document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('authorModal');
+    if (!modal) return;
+    
+    // Close modal when clicking outside
+    modal.addEventListener('click', function(e) {
+      if (e.target === this) {
+        window.closeAuthorModal();
+      }
+    });
+    
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        window.closeAuthorModal();
+      }
+    });
+  });
+</script>
