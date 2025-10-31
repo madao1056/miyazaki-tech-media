@@ -20,6 +20,11 @@ const meta = await getMeta(entry);
 <html lang={SITE.locale} dir={SITE.dir}>
   <Head meta={meta} />
   <body class="flex flex-col">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NFDHSBNS"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    
     <Header />
     <main class="flex-1">
       <slot />
