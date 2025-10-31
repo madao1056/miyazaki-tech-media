@@ -13,40 +13,7 @@ export const SITE = {
   postsPerPage: 6,
 };
 
-export const NAVIGATION_LINKS: Link[] = [
-  {
-    href: "/categories/business-ideas",
-    text: "飲食店",
-  },
-  {
-    href: "/categories/management-it",
-    text: "小売・小店舗",
-  },
-  {
-    href: "/categories/local-tech",
-    text: "サービス業",
-  },
-  {
-    href: "/categories/freelance",
-    text: "IT・ウェブ",
-  },
-  {
-    href: "/categories/new-workstyle",
-    text: "製造・工業",
-  },
-  {
-    href: "/categories/small-business",
-    text: "医療・介護",
-  },
-  {
-    href: "/categories/dx",
-    text: "教育・スクール",
-  },
-  {
-    href: "/categories/ai-business",
-    text: "建設・不動産",
-  },
-];
+export const NAVIGATION_LINKS: Link[] = [];
 
 export const OTHER_LINKS: Link[] = [
   {
