@@ -23,6 +23,81 @@ URL: https://miyabito.bond-llc.jp
 2. 画像は`src/assets/images/articles/`に配置
 3. 自動的にページ生成・sitemap更新
 
+## 記事作成手順（Claude Code用）
+
+### 1. 記事フォルダとファイルの作成
+
+```bash
+# 記事フォルダを作成（URLスラッグになる）
+mkdir src/content/articles/article-slug-name
+
+# index.mdxファイルを作成
+touch src/content/articles/article-slug-name/index.mdx
+```
+
+### 2. 記事の必須フロントマター
+
+```yaml
+---
+isDraft: false  # 下書きかどうか（公開する場合はfalse）
+isMainHeadline: false  # メインヘッドラインに表示するか
+isSubHeadline: false  # サブヘッドラインに表示するか
+title: "記事タイトル"
+description: "記事の説明（SEO用）"
+cover: "@assets/images/articles/article-slug-name/cover.jpg"  # カバー画像のパス
+category: "freelance"  # カテゴリー（freelance | small-business | new-workstyle | business-ideas）
+publishedTime: 2025-01-14T00:00:00.000Z  # 公開日時（ISO形式）
+authors:
+  - hashiguchi-masaki  # 著者ID（src/content/authors/に定義）
+tags: ["フリーランス", "Web制作", "宮崎市"]  # タグ
+---
+```
+
+### 3. 画像の配置
+
+```bash
+# 記事用画像フォルダを作成
+mkdir src/assets/images/articles/article-slug-name
+
+# カバー画像を配置（必須）
+# src/assets/images/articles/article-slug-name/cover.jpg
+
+# 記事内画像も同じフォルダに配置
+# src/assets/images/articles/article-slug-name/image1.jpg
+```
+
+### 4. MDXでの画像参照
+
+```mdx
+import coverImage from "@assets/images/articles/article-slug-name/cover.jpg";
+import image1 from "@assets/images/articles/article-slug-name/image1.jpg";
+
+![説明文](coverImage)
+```
+
+### 5. ビルド前の確認事項
+
+- `src/lib/data/article-views.json` が存在すること（空でもOK）
+- 著者が`src/content/authors/`に定義されていること
+- カテゴリーが有効な値であること
+
+### 6. 公開手順
+
+```bash
+# ビルドテスト
+npm run build
+
+# 開発サーバーで確認
+npm run dev
+
+# Gitにコミット
+git add .
+git commit -m "feat: 新規記事追加"
+
+# Vercelへデプロイ
+git push origin main
+```
+
 ### ファイル構造
 
 ```
