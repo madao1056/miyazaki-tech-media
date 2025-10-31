@@ -22,7 +22,7 @@ const latestArticles = articlesHandler.allArticles().slice(0, 3);
         href={`/articles/${article.id}`}
         class="group block bg-base-100 rounded-lg overflow-hidden border border-base-300/50 hover:border-primary/30 hover:shadow-lg transition-all"
       >
-        <div class="aspect-[16/9] overflow-hidden">
+        <div class="aspect-video overflow-hidden">
           <Image
             src={article.data.cover}
             alt={article.data.cover_alt || article.data.title}

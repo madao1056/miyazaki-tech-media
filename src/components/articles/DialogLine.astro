@@ -1,0 +1,33 @@
+---
+interface Props {
+  speaker: string;
+  avatar?: any;
+  color?: "blue" | "orange";
+}
+
+const { speaker, avatar, color = "blue" } = Astro.props;
+---
+
+<div class={`flex gap-3 my-4 p-4 rounded-lg border-l-4 ${
+  color === "orange" ? "border-orange-500 bg-orange-50" : "border-blue-500 bg-blue-50"
+}`}>
+  {avatar && (
+    <div class="flex-shrink-0">
+      <img 
+        src={avatar.src} 
+        alt={speaker}
+        class="w-12 h-12 rounded-full object-cover border-2 border-white shadow-md"
+      />
+    </div>
+  )}
+  <div class="flex-1">
+    <div class={`text-sm font-bold mb-1 ${
+      color === "orange" ? "text-orange-700" : "text-blue-700"
+    }`}>
+      {speaker}
+    </div>
+    <div class="text-gray-800">
+      <slot />
+    </div>
+  </div>
+</div>

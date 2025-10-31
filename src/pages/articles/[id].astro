@@ -50,9 +50,9 @@ const breadcrumbItems = [
       <!-- パンくずリスト -->
       <Breadcrumb items={breadcrumbItems} />
       
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8">
       <!-- メインコンテンツ -->
-      <div class="lg:col-span-2 order-1 lg:order-1">
+      <div class="lg:col-span-3 order-1 lg:order-1">
         <ArticleHeader
           article={article}
           readingTime={remarkPluginFrontmatter.minutesRead}
@@ -139,7 +139,7 @@ const breadcrumbItems = [
             href={`/articles/${relatedArticle.id}`}
             class="group block bg-base-200 rounded-lg overflow-hidden hover:shadow-lg transition-all"
           >
-            <div class="aspect-[16/9] overflow-hidden">
+            <div class="aspect-video overflow-hidden">
               <img
                 src={relatedArticle.data.cover.src}
                 alt={relatedArticle.data.cover_alt || relatedArticle.data.title}

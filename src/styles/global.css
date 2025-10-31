@@ -63,6 +63,15 @@
   [data-theme="dark"] {
     --fallback-b2: #1a1a1a;
   }
+
+  /* pタグの上下余白を削除 */
+  p {
+    @apply my-0;
+  }
+  
+  .prose p {
+    @apply my-0;
+  }
 }
 
 @utility container {
