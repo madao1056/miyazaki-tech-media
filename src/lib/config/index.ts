@@ -13,7 +13,16 @@ export const SITE = {
   postsPerPage: 6,
 };
 
-export const NAVIGATION_LINKS: Link[] = [];
+export const NAVIGATION_LINKS: Link[] = [
+  {
+    href: "/about",
+    text: "みやびとについて",
+  },
+  {
+    href: "/contact",
+    text: "お問い合わせ",
+  },
+];
 
 export const OTHER_LINKS: Link[] = [
   {
