@@ -4,7 +4,7 @@ export const SITE = {
   title: "みやびと",
   description:
     "宮崎で輝く人々の物語を伝えるストーリーメディア。一人ひとりの挑戦と成長、生き方が、あなたの人生の道しるべになる",
-  author: "ボンド",
+  author: "ぼんど",
   url: "https://miyabito.bond-llc.jp",
   locale: "ja-JP",
   dir: "ltr",
