@@ -2,8 +2,9 @@ import type { Link } from "../types";
 
 export const SITE = {
   title: "みやびと",
+  ogTitle: "みやびと｜宮崎で輝く人々の物語をつなぐストーリーメディア",
   description:
-    "宮崎で輝く人々の物語を伝えるストーリーメディア。一人ひとりの挑戦と成長、生き方が、あなたの人生の道しるべになる",
+    "宮崎で輝く人々の物語を届ける「みやびと」。フリーランスや起業家、新しい働き方を実践する人々のリアルな挑戦と想いを記録し、あなたの人生の道しるべに。",
   author: "ぼんど",
   url: "https://miyabito.bond-llc.jp",
   locale: "ja-JP",
