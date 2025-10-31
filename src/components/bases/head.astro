@@ -64,6 +64,25 @@ const OGImage = new URL(meta.ogImage, Astro.url).href;
   <!-- Google Search Console Verification -->
   <meta name="google-site-verification" content="k2spCZy2GTps2dUvSxv_lvzA61kD3ekpBPfnnEDp_is" />
 
+  <!-- Begin Mieruca Embed Code -->
+  <script type="text/javascript" id="mierucajs">
+  window.__fid = window.__fid || [];__fid.push([162310428]);
+  (function() {
+  function mieruca(){if(typeof window.__fjsld != "undefined") return; window.__fjsld = 1; var fjs = document.createElement('script'); fjs.type = 'text/javascript'; fjs.async = true; fjs.id = "fjssync"; var timestamp = new Date;fjs.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://hm.mieru-ca.com/service/js/mieruca-hm.js?v='+ timestamp.getTime(); var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(fjs, x); };
+  setTimeout(mieruca, 500); document.readyState != "complete" ? (window.attachEvent ? window.attachEvent("onload", mieruca) : window.addEventListener("load", mieruca, false)) : mieruca();
+  })();
+  </script>
+  <!-- End Mieruca Embed Code -->
+
+  <!-- Mieruca Optimize Tag -->
+  <script type="text/javascript" id="mierucaOptimizejs">
+  window.__optimizeid = window.__optimizeid || [];__optimizeid.push([1301426804]);
+  (function () {var fjs = document.createElement('script');fjs.type = 'text/javascript';
+  fjs.async = true;fjs.id = "fjssync";var timestamp = new Date;fjs.src = 'https://opt.mieru-ca.com/service/js/mieruca-optimize.js?v=' + timestamp.getTime();
+  var x = document.getElementsByTagName('script')[0];x.parentNode.insertBefore(fjs, x);})();
+  </script>
+  <!-- End Mieruca Optimize Tag -->
+
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content={meta.type} />
   <meta property="og:url" content={canonicalURL} />
