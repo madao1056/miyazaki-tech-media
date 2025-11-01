@@ -5,6 +5,7 @@ import Header from "@/components/shared/header.astro";
 import Footer from "@/components/shared/footer.astro";
 import BannerSection from "@/components/shared/banner-section.astro";
 import AuthorModal from "@/components/shared/author-modal.astro";
+import ScrollToTop from "@/components/elements/scroll-to-top.astro";
 import type { Entry } from "@/lib/types";
 import { getMeta } from "@/lib/utils/getMeta";
 
@@ -32,6 +33,7 @@ const meta = await getMeta(entry);
     <BannerSection />
     <Footer />
     <AuthorModal />
+    <ScrollToTop />
     
     <!-- GTM noscript lazy loading -->
     <script>

@@ -1,0 +1,97 @@
+---
+// Scroll to Top Button Component
+---
+
+<button
+  id="scroll-to-top"
+  aria-label="ページトップに戻る"
+  class="fixed bottom-8 right-8 z-50 opacity-0 invisible transition-all duration-300 transform translate-y-2"
+>
+  <div class="btn btn-circle btn-primary shadow-lg hover:shadow-xl hover:scale-110 transition-all">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 19V5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M5 12L12 5L19 12" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+</button>
+
+<style>
+  #scroll-to-top.show {
+    @apply opacity-100 visible translate-y-0;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const scrollToTopButton = document.getElementById('scroll-to-top');
+    if (!scrollToTopButton) return;
+
+    let isScrolling = false;
+    
+    // スクロール位置をチェックしてボタンの表示/非表示を切り替え
+    const toggleScrollButton = () => {
+      if (window.scrollY > 300) {
+        scrollToTopButton.classList.add('show');
+      } else {
+        scrollToTopButton.classList.remove('show');
+      }
+    };
+
+    // スクロールイベントの最適化
+    window.addEventListener('scroll', () => {
+      if (!isScrolling) {
+        window.requestAnimationFrame(() => {
+          toggleScrollButton();
+          isScrolling = false;
+        });
+        isScrolling = true;
+      }
+    }, { passive: true });
+
+    // ボタンクリック時のトップへスクロール
+    scrollToTopButton.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // 初期状態をチェック
+    toggleScrollButton();
+  });
+
+  // ページ遷移時にも動作するように
+  document.addEventListener('astro:page-load', () => {
+    const scrollToTopButton = document.getElementById('scroll-to-top');
+    if (!scrollToTopButton) return;
+
+    let isScrolling = false;
+    
+    const toggleScrollButton = () => {
+      if (window.scrollY > 300) {
+        scrollToTopButton.classList.add('show');
+      } else {
+        scrollToTopButton.classList.remove('show');
+      }
+    };
+
+    window.addEventListener('scroll', () => {
+      if (!isScrolling) {
+        window.requestAnimationFrame(() => {
+          toggleScrollButton();
+          isScrolling = false;
+        });
+        isScrolling = true;
+      }
+    }, { passive: true });
+
+    scrollToTopButton.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    toggleScrollButton();
+  });
+</script>
