@@ -1,5 +1,5 @@
 <article
-  class="prose md:prose-lg py-8 prose-img:border prose-img:mx-auto prose-img:border-base-200 prose-p:break-words prose-a:break-all prose-pre:break-words prose-pre:cursor-text prose-code:break-words prose-code:whitespace-pre-wrap w-full max-w-full bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden"
+  class="prose md:prose-lg py-8 prose-img:border prose-img:mx-auto prose-img:border-base-200 prose-p:break-words prose-a:break-all prose-pre:break-words prose-pre:cursor-text prose-code:break-words prose-code:whitespace-pre-wrap w-full max-w-full bg-white dark:bg-gray-800 rounded-lg shadow-sm"
   style="padding-left: 16px; padding-right: 16px;"
   data-pagefind-body
 >
@@ -16,9 +16,8 @@
     margin-bottom: 0 !important;
   }
   
-  /* 画像のレスポンシブ対応 */
+  /* 画像の基本設定 */
   .prose img {
-    max-width: 100% !important;
     height: auto !important;
     display: block;
     margin-left: auto;
@@ -29,6 +28,7 @@
   .prose img.not-prose {
     display: inline !important;
     margin: 0 !important;
+    width: auto !important;
   }
   
   /* グリッド内の画像 */
@@ -42,16 +42,23 @@
       padding-left: 34px !important;
       padding-right: 34px !important;
     }
+    
+    /* デスクトップでは画像の最大幅を維持 */
+    .prose img {
+      max-width: 100% !important;
+    }
   }
   
-  /* モバイル時の画像余白調整 */
-  @media (max-width: 640px) {
+  /* モバイル・タブレット時のレスポンシブ対応 */
+  @media (max-width: 767px) {
     .prose img {
+      width: 100% !important;
       margin-top: 1rem !important;
       margin-bottom: 1rem !important;
     }
     
     .prose img.not-prose {
+      width: auto !important;
       margin-top: 0 !important;
       margin-bottom: 0 !important;
     }
