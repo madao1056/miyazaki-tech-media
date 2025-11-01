@@ -34,7 +34,9 @@ const authors = authorsHandler.getAuthors(article.data.authors);
       loading={"eager"}
       fetchpriority="high"
       formats={["avif", "webp"]}
-      class="w-full h-full object-center"
+      quality={95}
+      densities={[1, 2]}
+      class="w-full h-full object-center object-cover"
     />
   </div>
   <div class="container my-4 max-w-5xl lg:hidden flex items-center gap-2">
