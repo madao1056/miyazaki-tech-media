@@ -5,10 +5,10 @@
 <button
   id="scroll-to-top"
   aria-label="ページトップに戻る"
-  class="fixed bottom-8 right-8 z-50 transition-all duration-300"
+  class="fixed z-50 transition-all duration-300"
   style="opacity: 0; visibility: hidden; transform: translateY(8px);"
 >
-  <div class="btn btn-circle btn-primary shadow-lg hover:shadow-xl hover:scale-110 transition-all">
+  <div class="btn btn-circle shadow-lg hover:shadow-xl hover:scale-110 transition-all" style="background-color: #4a5568; border-color: #4a5568; color: white;">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
       <path d="M12 19V5" stroke-linecap="round" stroke-linejoin="round"/>
       <path d="M5 12L12 5L19 12" stroke-linecap="round" stroke-linejoin="round"/>
@@ -31,6 +31,17 @@
 
     let isScrolling = false;
     
+    // メインコンテンツの位置を計算して配置
+    const positionButton = () => {
+      const mainContent = document.querySelector('.lg\\:col-span-3') || document.querySelector('main');
+      if (mainContent) {
+        const rect = mainContent.getBoundingClientRect();
+        const rightPos = window.innerWidth - (rect.right - 20);
+        scrollToTopButton.style.right = `${rightPos}px`;
+        scrollToTopButton.style.bottom = '32px';
+      }
+    };
+    
     // スクロール位置をチェックしてボタンの表示/非表示を切り替え
     const toggleScrollButton = () => {
       if (window.scrollY > 300) {
@@ -38,6 +49,7 @@
       } else {
         scrollToTopButton.classList.remove('show');
       }
+      positionButton();
     };
 
     // スクロールイベントの最適化
@@ -59,6 +71,11 @@
       });
     });
 
+    // リサイズ時にも位置を再計算
+    window.addEventListener('resize', () => {
+      positionButton();
+    });
+
     // 初期状態をチェック
     toggleScrollButton();
   });
@@ -70,12 +87,24 @@
 
     let isScrolling = false;
     
+    // メインコンテンツの位置を計算して配置
+    const positionButton = () => {
+      const mainContent = document.querySelector('.lg\\:col-span-3') || document.querySelector('main');
+      if (mainContent) {
+        const rect = mainContent.getBoundingClientRect();
+        const rightPos = window.innerWidth - (rect.right - 20);
+        scrollToTopButton.style.right = `${rightPos}px`;
+        scrollToTopButton.style.bottom = '32px';
+      }
+    };
+    
     const toggleScrollButton = () => {
       if (window.scrollY > 300) {
         scrollToTopButton.classList.add('show');
       } else {
         scrollToTopButton.classList.remove('show');
       }
+      positionButton();
     };
 
     window.addEventListener('scroll', () => {
@@ -93,6 +122,11 @@
         top: 0,
         behavior: 'smooth'
       });
+    });
+
+    // リサイズ時にも位置を再計算
+    window.addEventListener('resize', () => {
+      positionButton();
     });
 
     toggleScrollButton();
