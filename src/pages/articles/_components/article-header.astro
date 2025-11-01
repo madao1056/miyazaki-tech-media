@@ -32,6 +32,7 @@ const authors = authorsHandler.getAuthors(article.data.authors);
       alt="article"
       layout="full-width"
       loading={"eager"}
+      fetchpriority="high"
       formats={["avif", "webp"]}
       class="w-full h-full object-center"
     />

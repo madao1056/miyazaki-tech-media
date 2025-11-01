@@ -23,6 +23,14 @@ const OGImage = new URL(meta.ogImage, Astro.url).href;
 ---
 
 <head>
+  <!-- DNS Prefetch and Preconnect -->
+  <link rel="dns-prefetch" href="//opt.mieru-ca.com">
+  <link rel="preconnect" href="https://opt.mieru-ca.com" crossorigin>
+  <link rel="dns-prefetch" href="//www.googletagmanager.com">
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+  <link rel="dns-prefetch" href="//hm.mieru-ca.com">
+  <link rel="preconnect" href="https://hm.mieru-ca.com" crossorigin>
+
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -35,6 +43,17 @@ const OGImage = new URL(meta.ogImage, Astro.url).href;
   <meta charset={SITE.charset} />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="generator" content={Astro.generator} />
+
+  <!-- Critical CSS Inline -->
+  <style>
+    html{font-size:16px;height:100%}
+    @media(min-width:1024px){html{font-size:17px}}
+    body{font-family:"Source Sans Pro",ui-sans-serif,system-ui,sans-serif;-webkit-font-smoothing:antialiased;height:100%;cursor:default}
+    h1,h2{font-family:"Source Serif 4 Variable",ui-serif,Georgia,Cambria,"Times New Roman",Times,serif}
+    .container{max-width:1280px;margin:0 auto;padding:0 1rem}
+    @media(min-width:640px){.container{padding:0 1.5rem}}
+    @media(min-width:1024px){.container{padding:0 2rem}}
+  </style>
 
   <!-- Favicons -->
   <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
@@ -64,24 +83,29 @@ const OGImage = new URL(meta.ogImage, Astro.url).href;
   <!-- Google Search Console Verification -->
   <meta name="google-site-verification" content="k2spCZy2GTps2dUvSxv_lvzA61kD3ekpBPfnnEDp_is" />
 
-  <!-- Begin Mieruca Embed Code -->
-  <script type="text/javascript" id="mierucajs">
-  window.__fid = window.__fid || [];__fid.push([162310428]);
-  (function() {
-  function mieruca(){if(typeof window.__fjsld != "undefined") return; window.__fjsld = 1; var fjs = document.createElement('script'); fjs.type = 'text/javascript'; fjs.async = true; fjs.id = "fjssync"; var timestamp = new Date;fjs.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://hm.mieru-ca.com/service/js/mieruca-hm.js?v='+ timestamp.getTime(); var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(fjs, x); };
-  setTimeout(mieruca, 500); document.readyState != "complete" ? (window.attachEvent ? window.attachEvent("onload", mieruca) : window.addEventListener("load", mieruca, false)) : mieruca();
-  })();
+  <!-- Mieruca Scripts (Deferred) -->
+  <script type="text/javascript">
+  // Defer Mieruca scripts until after page load
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      // Mieruca Embed Code
+      window.__fid = window.__fid || [];__fid.push([162310428]);
+      var fjs = document.createElement('script'); 
+      fjs.type = 'text/javascript'; 
+      fjs.async = true; 
+      fjs.src = 'https://hm.mieru-ca.com/service/js/mieruca-hm.js?v=' + new Date().getTime(); 
+      document.head.appendChild(fjs);
+      
+      // Mieruca Optimize
+      window.__optimizeid = window.__optimizeid || [];__optimizeid.push([1301426804]);
+      var ojs = document.createElement('script');
+      ojs.type = 'text/javascript';
+      ojs.async = true;
+      ojs.src = 'https://opt.mieru-ca.com/service/js/mieruca-optimize.js?v=' + new Date().getTime();
+      document.head.appendChild(ojs);
+    }, 2000);
+  });
   </script>
-  <!-- End Mieruca Embed Code -->
-
-  <!-- Mieruca Optimize Tag -->
-  <script type="text/javascript" id="mierucaOptimizejs">
-  window.__optimizeid = window.__optimizeid || [];__optimizeid.push([1301426804]);
-  (function () {var fjs = document.createElement('script');fjs.type = 'text/javascript';
-  fjs.async = true;fjs.id = "fjssync";var timestamp = new Date;fjs.src = 'https://opt.mieru-ca.com/service/js/mieruca-optimize.js?v=' + timestamp.getTime();
-  var x = document.getElementsByTagName('script')[0];x.parentNode.insertBefore(fjs, x);})();
-  </script>
-  <!-- End Mieruca Optimize Tag -->
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content={meta.type} />
