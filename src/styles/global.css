@@ -28,6 +28,7 @@
   }
   html {
     @apply h-full text-[16px];
+    scroll-behavior: smooth;
   }
 
   @media (min-width: 1024px) {
