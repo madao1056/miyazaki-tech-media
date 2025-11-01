@@ -16,19 +16,23 @@
     margin-bottom: 0 !important;
   }
   
-  /* 画像の基本設定 */
+  /* すべての画像にwidth: 100%を適用 */
   .prose img {
+    width: 100% !important;
     height: auto !important;
     display: block;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 1rem !important;
+    margin-bottom: 1rem !important;
   }
   
-  /* アバター画像は例外 */
+  /* アバター画像は例外（インライン表示） */
   .prose img.not-prose {
     display: inline !important;
     margin: 0 !important;
     width: auto !important;
+    max-width: 64px !important;
   }
   
   /* グリッド内の画像 */
@@ -41,26 +45,6 @@
     article {
       padding-left: 34px !important;
       padding-right: 34px !important;
-    }
-    
-    /* デスクトップでは画像の最大幅を維持 */
-    .prose img {
-      max-width: 100% !important;
-    }
-  }
-  
-  /* モバイル・タブレット時のレスポンシブ対応 */
-  @media (max-width: 767px) {
-    .prose img {
-      width: 100% !important;
-      margin-top: 1rem !important;
-      margin-bottom: 1rem !important;
-    }
-    
-    .prose img.not-prose {
-      width: auto !important;
-      margin-top: 0 !important;
-      margin-bottom: 0 !important;
     }
   }
 </style>
