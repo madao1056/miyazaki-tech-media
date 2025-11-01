@@ -56,7 +56,7 @@ export function modifiedTime() {
 export function readingTime() {
   return (tree, { data }) => {
     const textOnPage = ConvertToString(tree);
-    const readingTime = getReadingTime(textOnPage, { wordsPerMinute: 180 });
+    const readingTime = getReadingTime(textOnPage, { wordsPerMinute: 650 });
     // Convert to Japanese format (e.g., "3 min read" -> "3分で読めます")
     const minutes = Math.ceil(readingTime.minutes);
     data.astro.frontmatter.minutesRead = `${minutes}分で読めます`;
