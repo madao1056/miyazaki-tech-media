@@ -5,7 +5,8 @@
 <button
   id="scroll-to-top"
   aria-label="ページトップに戻る"
-  class="fixed bottom-8 right-8 z-50 opacity-0 invisible transition-all duration-300 transform translate-y-2"
+  class="fixed bottom-8 right-8 z-50 transition-all duration-300"
+  style="opacity: 0; visibility: hidden; transform: translateY(8px);"
 >
   <div class="btn btn-circle btn-primary shadow-lg hover:shadow-xl hover:scale-110 transition-all">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
@@ -17,7 +18,9 @@
 
 <style>
   #scroll-to-top.show {
-    @apply opacity-100 visible translate-y-0;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) !important;
   }
 </style>
 
