@@ -16,15 +16,28 @@
     margin-bottom: 0 !important;
   }
   
-  /* すべての画像にwidth: 100%を適用 */
+  /* すべての画像にwidth: 100%を適用（max-w-*クラスも上書き） */
   .prose img {
     width: 100% !important;
+    max-width: 100% !important;
     height: auto !important;
     display: block;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: auto !important;
+    margin-right: auto !important;
     margin-top: 1rem !important;
     margin-bottom: 1rem !important;
+  }
+  
+  /* max-w-*クラスを持つ画像も100%幅に強制 */
+  .prose img[class*="max-w-"] {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  
+  /* mx-autoクラスがあっても100%幅を維持 */
+  .prose img.mx-auto {
+    width: 100% !important;
+    max-width: 100% !important;
   }
   
   /* アバター画像は例外（インライン表示） */
