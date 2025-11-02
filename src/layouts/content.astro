@@ -16,7 +16,7 @@
     margin-bottom: 0 !important;
   }
   
-  /* すべての画像にwidth: 100%を適用（max-w-*クラスも上書き） */
+  /* すべての画像にwidth: 100%を適用（CSS変数も上書き） */
   .prose img {
     width: 100% !important;
     max-width: 100% !important;
@@ -28,7 +28,14 @@
     margin-bottom: 1rem !important;
   }
   
-  /* max-w-*クラスを持つ画像も100%幅に強制 */
+  /* max-w-mdクラスのCSS変数を上書き */
+  .prose img.max-w-md {
+    --container-md: 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  
+  /* その他のmax-w-*クラスも強制的に100%に */
   .prose img[class*="max-w-"] {
     max-width: 100% !important;
     width: 100% !important;
@@ -36,6 +43,12 @@
   
   /* mx-autoクラスがあっても100%幅を維持 */
   .prose img.mx-auto {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  
+  /* すべての記事内画像に対する最終的な強制指定 */
+  article.prose img:not(.not-prose) {
     width: 100% !important;
     max-width: 100% !important;
   }
