@@ -73,6 +73,44 @@
   .prose p {
     @apply my-0;
   }
+
+  /* レスポンシブ時の画像幅制御 */
+  @media (max-width: 767px) {
+    /* すべての記事内画像を100%幅に強制（アバター以外） */
+    .prose img:not(.not-prose) {
+      width: 100% !important;
+      max-width: 100% !important;
+      height: auto !important;
+    }
+    
+    /* max-w-*クラスを持つ画像も強制的に100%幅 */
+    .prose img[class*="max-w-"]:not(.not-prose) {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+    
+    /* mx-autoクラスがあっても100%幅を維持 */
+    .prose .mx-auto:not(.not-prose) {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+    
+    /* 特定のmax-w-mdクラスへの対応 */
+    .prose .max-w-md:not(.not-prose) {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+    
+    /* CSS変数も全て100%に上書き */
+    .prose img:not(.not-prose) {
+      --container-xs: 100% !important;
+      --container-sm: 100% !important;
+      --container-md: 100% !important;
+      --container-lg: 100% !important;
+      --container-xl: 100% !important;
+      --container-2xl: 100% !important;
+    }
+  }
 }
 
 @utility container {
