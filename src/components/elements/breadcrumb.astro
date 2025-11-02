@@ -11,25 +11,32 @@ interface Props {
 const { items } = Astro.props;
 ---
 
-<nav aria-label="パンくずリスト" class="mb-4">
-  <ol class="flex items-center gap-2 text-xs text-base-content/60" itemscope itemtype="https://schema.org/BreadcrumbList">
+<nav aria-label="パンくずリスト" class="mb-4 w-full overflow-hidden">
+  <ol class="flex items-center gap-1 sm:gap-2 text-xs text-base-content/60 min-w-0" itemscope itemtype="https://schema.org/BreadcrumbList">
     {items.map((item, index) => (
-      <li class="flex items-center gap-2" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <li class="flex items-center gap-1 sm:gap-2 min-w-0 flex-shrink" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
         {item.href ? (
           <a 
             href={item.href} 
-            class="hover:text-base-content/80 transition-colors"
+            class="hover:text-base-content/80 transition-colors truncate min-w-0 max-w-20 sm:max-w-24 md:max-w-32 lg:max-w-40"
             itemprop="item"
+            title={item.name}
           >
-            <span itemprop="name">{item.name}</span>
+            <span itemprop="name" class="truncate block">{item.name}</span>
           </a>
         ) : (
-          <span class="text-base-content/80" itemprop="name">{item.name}</span>
+          <span 
+            class="text-base-content/80 truncate min-w-0 max-w-16 sm:max-w-20 md:max-w-24 lg:max-w-32" 
+            itemprop="name" 
+            title={item.name}
+          >
+            {item.name}
+          </span>
         )}
         <meta itemprop="position" content={String(index + 1)} />
         
         {index < items.length - 1 && (
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" class="text-base-content/50">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" class="text-base-content/50 flex-shrink-0 sm:w-4 sm:h-4">
             <polyline points="9 18 15 12 9 6"/>
           </svg>
         )}
