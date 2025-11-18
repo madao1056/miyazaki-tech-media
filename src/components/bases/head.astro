@@ -159,40 +159,36 @@ const OGImage = new URL(meta.ogImage, Astro.url).href;
 
   <!-- FAQ Structured Data (HomePage only) -->
   {Astro.url.pathname === '/' && (
-    <script type="application/ld+json">
-      {
-        JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          "mainEntity": [
-            {
-              "@type": "Question",
-              "name": "みやびとはどんなメディアですか？",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "宮崎で輝く人々の物語を伝えるストーリーメディアです。フリーランスや起業家など、新しい働き方や挑戦のリアルな姿を記録し、次の誰かの人生の道しるべになることを目指しています。"
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "どんな人たちが紹介されていますか？",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "宮崎で活躍するフリーランス、起業家、小さな会社の経営者、副業・複業を行う人、新しい働き方を実践する人など、多様な生き方をしている方々を取材しています。"
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "取材や掲載をお願いしたい場合はどうすればいいですか？",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "公式サイトのお問い合わせフォームからご連絡ください。宮崎で挑戦する方、新しい働き方を実践している方、地域の未来をつくる活動をしている方を広く募集しています。"
-              }
-            }
-          ]
-        })
-      }
-    </script>
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "みやびとはどんなメディアですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "宮崎で輝く人々の物語を伝えるストーリーメディアです。フリーランスや起業家など、新しい働き方や挑戦のリアルな姿を記録し、次の誰かの人生の道しるべになることを目指しています。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "どんな人たちが紹介されていますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "宮崎で活躍するフリーランス、起業家、小さな会社の経営者、副業・複業を行う人、新しい働き方を実践する人など、多様な生き方をしている方々を取材しています。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "取材や掲載をお願いしたい場合はどうすればいいですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "公式サイトのお問い合わせフォームからご連絡ください。宮崎で挑戦する方、新しい働き方を実践している方、地域の未来をつくる活動をしている方を広く募集しています。"
+          }
+        }
+      ]
+    })} />
   )}
 
   <ClientRouter />
