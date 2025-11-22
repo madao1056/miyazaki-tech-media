@@ -1,5 +1,4 @@
 ---
-import ContentLayout from "@/layouts/content.astro";
 import BaseLayout from "@/layouts/base.astro";
 import { getEntry, render } from "astro:content";
 
@@ -13,7 +12,97 @@ const { Content } = await render(entry);
 ---
 
 <BaseLayout entry={entry}>
-  <ContentLayout>
-    <Content />
-  </ContentLayout>
+  <div class="mx-auto" style="max-width: 1200px;">
+    <article
+      class="prose md:prose-lg py-8 prose-img:border prose-img:mx-auto prose-img:border-base-200 prose-p:break-words prose-a:break-all prose-pre:break-words prose-pre:cursor-text prose-code:break-words prose-code:whitespace-pre-wrap w-full max-w-full bg-white dark:bg-gray-800 rounded-lg shadow-sm"
+      style="padding-left: 16px; padding-right: 16px;"
+      data-pagefind-body
+    >
+      <Content />
+    </article>
+  </div>
 </BaseLayout>
+
+<style>
+  .prose {
+    max-width: 100% !important;
+  }
+  
+  .prose p {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+  
+  /* 画像の基本設定 */
+  .prose img {
+    height: auto !important;
+    display: block;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 1rem !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  /* アバター画像は例外（インライン表示） */
+  .prose img.not-prose {
+    display: inline !important;
+    margin: 0 !important;
+    width: auto !important;
+    max-width: 64px !important;
+  }
+  
+  /* グリッド内の画像 */
+  .prose .grid img {
+    width: 100% !important;
+    object-fit: cover;
+  }
+  
+  @media (min-width: 768px) {
+    article {
+      padding-left: 34px !important;
+      padding-right: 34px !important;
+    }
+  }
+  
+  /* レスポンシブ時のみ画像を100%幅に */
+  @media (max-width: 767px) {
+    article {
+      box-sizing: border-box;
+    }
+    
+    /* すべての記事内画像を100%幅に強制（アバター以外） */
+    .prose img:not(.not-prose) {
+      width: 100% !important;
+      max-width: 100% !important;
+      height: auto !important;
+    }
+    
+    /* max-w-*クラスを持つ画像も強制的に100%幅 */
+    .prose img[class*="max-w-"]:not(.not-prose) {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+    
+    /* mx-autoクラスがあっても100%幅を維持 */
+    .prose .mx-auto:not(.not-prose) {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+    
+    /* 特定のmax-w-mdクラスへの対応 */
+    .prose .max-w-md:not(.not-prose) {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+    
+    /* CSS変数も全て100%に上書き */
+    .prose img:not(.not-prose) {
+      --container-xs: 100% !important;
+      --container-sm: 100% !important;
+      --container-md: 100% !important;
+      --container-lg: 100% !important;
+      --container-xl: 100% !important;
+      --container-2xl: 100% !important;
+    }
+  }
+</style>

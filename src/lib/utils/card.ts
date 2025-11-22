@@ -17,13 +17,13 @@ export function getImageAlt(article: Article): string {
 export function getRankBadgeColor(rank: number): string {
   switch (rank) {
     case 1:
-      return "bg-gradient-to-r from-yellow-400 to-yellow-600 text-white";
+      return "border-r-yellow-500 border-t-yellow-500";
     case 2:
-      return "bg-gradient-to-r from-gray-300 to-gray-500 text-white";
+      return "border-r-gray-500 border-t-gray-500";
     case 3:
-      return "bg-gradient-to-r from-amber-500 to-amber-700 text-white";
+      return "border-r-orange-500 border-t-orange-500";
     default:
-      return "bg-gradient-to-r from-blue-400 to-blue-600 text-white";
+      return "border-r-blue-500 border-t-blue-500";
   }
 }
 

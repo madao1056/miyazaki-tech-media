@@ -31,10 +31,6 @@ export const OTHER_LINKS: Link[] = [
     text: "みやびとについて",
   },
   {
-    href: "/authors",
-    text: "運営者情報",
-  },
-  {
     href: "/contact",
     text: "お問い合わせ",
   },

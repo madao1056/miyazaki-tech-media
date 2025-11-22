@@ -1,0 +1,90 @@
+name: Manual Deploy with Schedule Option
+
+on:
+  # 手動実行（時刻指定も可能）
+  workflow_dispatch:
+    inputs:
+      deploy_time:
+        description: '予約時刻 (HH:MM JST形式、例: 20:59) または "now" で即時実行'
+        required: true
+        default: 'now'
+      deploy_message:
+        description: 'デプロイメッセージ'
+        required: false
+        default: 'Manual deployment'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Wait for scheduled time
+        if: github.event.inputs.deploy_time != 'now'
+        run: |
+          TARGET_TIME="${{ github.event.inputs.deploy_time }}"
+          echo "Scheduled deployment at $TARGET_TIME JST"
+          
+          # 現在時刻を取得 (JST)
+          CURRENT_TIME=$(TZ=Asia/Tokyo date '+%H:%M')
+          CURRENT_HOUR=$(echo $CURRENT_TIME | cut -d: -f1)
+          CURRENT_MIN=$(echo $CURRENT_TIME | cut -d: -f2)
+          
+          # ターゲット時刻を解析
+          TARGET_HOUR=$(echo $TARGET_TIME | cut -d: -f1)
+          TARGET_MIN=$(echo $TARGET_TIME | cut -d: -f2)
+          
+          # 待機時間を計算（分単位）
+          CURRENT_TOTAL=$((CURRENT_HOUR * 60 + CURRENT_MIN))
+          TARGET_TOTAL=$((TARGET_HOUR * 60 + TARGET_MIN))
+          
+          if [ $TARGET_TOTAL -le $CURRENT_TOTAL ]; then
+            # 翌日の同時刻まで待機
+            WAIT_MINUTES=$((1440 - CURRENT_TOTAL + TARGET_TOTAL))
+          else
+            WAIT_MINUTES=$((TARGET_TOTAL - CURRENT_TOTAL))
+          fi
+          
+          echo "Waiting for $WAIT_MINUTES minutes..."
+          sleep $((WAIT_MINUTES * 60))
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+        env:
+          PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.PUBLIC_GA_MEASUREMENT_ID }}
+
+      - name: Deploy to Vercel
+        run: |
+          npm i -g vercel
+          vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --yes
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Send notification
+        if: always()
+        run: |
+          DEPLOY_TIME="${{ github.event.inputs.deploy_time }}"
+          if [ "${{ job.status }}" == "success" ]; then
+            echo "✅ デプロイが成功しました"
+            echo "実行時刻: $(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M:%S JST')"
+            echo "指定時刻: $DEPLOY_TIME"
+            echo "メッセージ: ${{ github.event.inputs.deploy_message }}"
+          else
+            echo "❌ デプロイが失敗しました"
+            echo "実行時刻: $(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M:%S JST')"
+          fi

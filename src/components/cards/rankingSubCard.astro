@@ -20,18 +20,6 @@ const badgeColor = getRankBadgeColor(rank);
 ---
 
 <article class={`group py-3 flex items-start gap-3 relative isolate cursor-pointer ${isLast ? 'border-b-0' : 'border-b border-base-300 pb-4'}`}>
-  <!-- ランキングバッジ -->
-  <div class="flex-shrink-0 relative w-8 h-8 z-30">
-    <div class={`w-0 h-0 border-l-[32px] border-t-[32px] border-b-[0px] border-r-[0px] border-b-transparent border-r-transparent shadow-md ${badgeColor.replace('rounded-full', '')} z-30`}>
-      <span class="absolute -top-7 -left-7 text-white text-xs font-bold w-6 h-6 flex items-center justify-center z-30">
-        {rank}
-      </span>
-    </div>
-    {article.trending && (
-      <div class="absolute top-0 left-8 w-3 h-3 bg-red-500 rounded-full animate-pulse z-30"></div>
-    )}
-  </div>
-
   <!-- コンテンツ -->
   <div class="flex-1 min-w-0">
     <!-- カテゴリーとトレンド -->
@@ -85,7 +73,18 @@ const badgeColor = getRankBadgeColor(rank);
   </div>
 
   <!-- サムネイル -->
-  <div class="flex-shrink-0 w-32 aspect-video lg:w-40 lg:aspect-video">
+  <div class="flex-shrink-0 w-32 aspect-video lg:w-40 lg:aspect-video relative">
+    <!-- ランキングバッジ（右上に配置） -->
+    <div class="absolute top-1 right-1 z-30">
+      <div class={`w-0 h-0 border-r-[32px] border-t-[32px] border-b-[0px] border-l-[0px] border-b-transparent border-l-transparent shadow-md ${badgeColor} z-30`}>
+        <span class="absolute -top-[28px] -right-[29px] text-white text-xs font-bold w-6 h-6 flex items-center justify-center z-30">
+          {rank}
+        </span>
+      </div>
+      {article.trending && (
+        <div class="absolute top-0 right-9 w-3 h-3 bg-red-500 rounded-full animate-pulse z-30"></div>
+      )}
+    </div>
     <Image
       src={article.data.cover}
       alt={imageAlt}
