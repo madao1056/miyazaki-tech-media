@@ -3,7 +3,6 @@ import BaseLayout from "@/layouts/base.astro";
 import { getEntry } from "astro:content";
 import Headlines from "@/pages/_home/headlines.astro";
 import LatestNews from "@/pages/_home/latestNews.astro";
-import Authors from "@/pages/_home/authors.astro";
 import LatestArticles from "@/components/sidebar/latest-articles.astro";
 import AdSpace from "@/components/sidebar/ad-space.astro";
 import PopularArticles from "@/components/sidebar/popular-articles.astro";
@@ -23,7 +22,6 @@ if (!entry) {
       <!-- メインコンテンツ -->
       <div class="lg:col-span-2">
         <LatestNews />
-        <Authors />
       </div>
       
       <!-- サイドバー -->
