@@ -31,6 +31,16 @@ const OGImage = new URL(meta.ogImage, Astro.url).href;
   <link rel="dns-prefetch" href="//hm.mieru-ca.com">
   <link rel="preconnect" href="https://hm.mieru-ca.com" crossorigin>
 
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MM2KR2T2E9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-MM2KR2T2E9');
+  </script>
+
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],

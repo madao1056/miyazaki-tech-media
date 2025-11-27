@@ -9,10 +9,15 @@ URL: https://miyabito.bond-llc.jp
 
 ## 分析ツール設定
 
+### Google Analytics (GA4)
+- 測定ID: `G-MM2KR2T2E9`
+- 設置場所: `src/components/bases/head.astro` (34-42行目)
+- 実装方式: gtag.js（標準実装）
+
 ### Google Tag Manager
 - GTM ID: `GTM-NPFJSP37`
 - 設置場所:
-  - `src/components/bases/head.astro` (34-40行目): JavaScriptコード（<head>タグ内）
+  - `src/components/bases/head.astro` (44-50行目): JavaScriptコード（<head>タグ内）
   - `src/layouts/base.astro` (26-28行目): noscriptタグ（<body>タグ直後）
 - 設定: 標準のGTM実装（遅延読み込み無し）
 
