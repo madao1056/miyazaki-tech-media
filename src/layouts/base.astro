@@ -23,8 +23,9 @@ const meta = await getMeta(entry);
 <html lang={SITE.locale} dir={SITE.dir}>
   <Head meta={meta} />
   <body class="flex flex-col">
-    <!-- Google Tag Manager (noscript) - Lazy loaded -->
-    <noscript id="gtm-noscript-placeholder"></noscript>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NPFJSP37"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     
     <Header />
@@ -37,16 +38,5 @@ const meta = await getMeta(entry);
     <ScrollToTop />
     <SpeedInsights />
     
-    <!-- GTM noscript lazy loading -->
-    <script>
-    window.addEventListener('load', function() {
-      setTimeout(function() {
-        const placeholder = document.getElementById('gtm-noscript-placeholder');
-        if (placeholder) {
-          placeholder.innerHTML = '<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NFDHSBNS" height="0" width="0" style="display:none;visibility:hidden"></iframe>';
-        }
-      }, 1000);
-    });
-    </script>
   </body>
 </html>

@@ -7,6 +7,21 @@ URL: https://miyabito.bond-llc.jp
 運営: ボンド
 コンセプト: 「宮崎の人（みやびと）の物語が、あなたの人生の道しるべになる」
 
+## 分析ツール設定
+
+### Google Tag Manager
+- GTM ID: `GTM-NPFJSP37`
+- 設置場所:
+  - `src/components/bases/head.astro` (34-40行目): JavaScriptコード（<head>タグ内）
+  - `src/layouts/base.astro` (26-28行目): noscriptタグ（<body>タグ直後）
+- 設定: 標準のGTM実装（遅延読み込み無し）
+
+### その他のツール
+- Google Search Console: 検証タグ設置済み
+- Mieruca HeatMap: ID 162310428
+- Mieruca Optimize: ID 1301426804
+- Vercel Speed Insights: 有効化済み
+
 ## コンテンツ管理方式：MDX（完全静的）
 
 ### 選択理由
