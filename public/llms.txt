@@ -1,0 +1,23 @@
+# みやびと
+
+> 宮崎で輝く人々の物語を届けるストーリーメディア。フリーランスや起業家、新しい働き方を実践する人々のリアルな挑戦と想いを記録し、あなたの人生の道しるべに。
+
+## コンテンツ
+
+- [記事一覧](https://miyabito.bond-llc.jp/articles): フリーランス・起業家・新しい働き方の物語
+- [フリーランスの世界](https://miyabito.bond-llc.jp/categories/freelance): 自由な働き方を実現するフリーランスの実態と始め方
+- [小さな会社経営](https://miyabito.bond-llc.jp/categories/small-business): 小規模でも持続可能な事業経営のノウハウと事例
+- [新しい働き方](https://miyabito.bond-llc.jp/categories/new-workstyle): 従来の会社員以外の多様な働き方の選択肢
+- [事業アイデア](https://miyabito.bond-llc.jp/categories/business-ideas): 新しいビジネスの種となるアイデアと実現方法
+- [人気記事ランキング](https://miyabito.bond-llc.jp/ranking): 週間人気記事
+
+## サイト情報
+
+- [みやびとについて](https://miyabito.bond-llc.jp/about): サイト概要・コンセプト
+- [お問い合わせ](https://miyabito.bond-llc.jp/contact): 取材依頼・掲載相談
+
+## 運営
+
+- 運営: 合同会社ぼんど
+- 所在地: 宮崎県
+- サイト: https://miyabito.bond-llc.jp

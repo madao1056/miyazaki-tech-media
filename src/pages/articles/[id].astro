@@ -10,8 +10,11 @@ import AdSpace from "@/components/sidebar/ad-space.astro";
 import Breadcrumb from "@/components/elements/breadcrumb.astro";
 import Share from "@/components/elements/share.astro";
 
+import { SITE } from "@/lib/config";
 import { articlesHandler } from "@/lib/handlers/articles";
 import { categoriesHandler } from "@/lib/handlers/categories";
+import { authorsHandler } from "@/lib/handlers/authors";
+import { normalizeDate } from "@/lib/utils/date";
 
 export const getStaticPaths = async () => {
   const articles = articlesHandler.allArticles();
@@ -42,9 +45,41 @@ const breadcrumbItems = [
   { name: currentCategory.data.title, href: `/categories/${currentCategory.id}` },
   { name: article.data.title }
 ];
+
+// Article JSON-LD 構造化データ
+const authors = authorsHandler.getAuthors(article.data.authors);
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": article.data.title,
+  "description": article.data.description,
+  "image": new URL(article.data.cover.src, SITE.url).href,
+  "author": authors.map((author) => ({
+    "@type": "Person",
+    "name": author.data.name,
+    "url": `${SITE.url}/authors/${author.id}`,
+    "jobTitle": author.data.job,
+    "description": author.data.bio
+  })),
+  "publisher": {
+    "@type": "Organization",
+    "name": "合同会社ぼんど",
+    "logo": {
+      "@type": "ImageObject",
+      "url": `${SITE.url}/favicon-96x96.png`
+    }
+  },
+  "datePublished": normalizeDate(article.data.publishedTime),
+  "dateModified": remarkPluginFrontmatter.lastModified,
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": `${SITE.url}/articles/${article.id}`
+  }
+};
 ---
 
 <BaseLayout entry={article}>
+  <script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
   <div class="bg-base-200 min-h-screen">
     <div class="container max-w-7xl mx-auto px-4 pt-4 pb-8">
       <!-- パンくずリスト -->

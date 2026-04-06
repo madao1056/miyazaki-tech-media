@@ -9,8 +9,21 @@ interface Props {
 }
 
 const { items } = Astro.props;
+
+const siteUrl = Astro.site?.href?.replace(/\/$/, '') || '';
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": items.map((item, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "name": item.name,
+    ...(item.href ? { "item": `${siteUrl}${item.href}` } : {})
+  }))
+};
 ---
 
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
 <nav aria-label="パンくずリスト" class="mb-4 w-full overflow-hidden">
   <ol class="flex items-center gap-1 sm:gap-2 text-xs text-base-content/60 min-w-0" itemscope itemtype="https://schema.org/BreadcrumbList">
     {items.map((item, index) => (

@@ -124,6 +124,8 @@ const OGImage = new URL(meta.ogImage, Astro.url).href;
   <meta property="og:description" content={meta.description} />
   <meta property="og:image" content={OGImage} />
   <meta property="og:image:alt" content={meta.ogImageAlt} />
+  <meta property="og:site_name" content={SITE.title} />
+  <meta property="og:locale" content="ja_JP" />
 
   <!-- Twitter -->
   <meta property="twitter:site" content={Astro.site} />
@@ -158,6 +160,34 @@ const OGImage = new URL(meta.ogImage, Astro.url).href;
       </>
     ) : null
   }
+
+  <!-- Organization + WebSite Structured Data (All pages) -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "合同会社ぼんど",
+    "url": "https://bond-llc.jp",
+    "logo": {
+      "@type": "ImageObject",
+      "url": `${SITE.url}/favicon-96x96.png`
+    },
+    "description": "宮崎で輝く人々の物語を届けるストーリーメディア「みやびと」を運営。",
+    "sameAs": [
+      "https://twitter.com/bondllc_jp",
+      "https://www.facebook.com/bondllc.jp"
+    ]
+  })} />
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": SITE.title,
+    "url": SITE.url,
+    "description": SITE.description,
+    "publisher": {
+      "@type": "Organization",
+      "name": "合同会社ぼんど"
+    }
+  })} />
 
   <!-- FAQ Structured Data (HomePage only) -->
   {Astro.url.pathname === '/' && (

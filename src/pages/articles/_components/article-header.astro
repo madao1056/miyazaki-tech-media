@@ -28,7 +28,7 @@ const authors = authorsHandler.getAuthors(article.data.authors);
   >
     <Picture
       src={article.data.cover}
-      alt="article"
+      alt={article.data.cover_alt || article.data.title}
       layout="full-width"
       loading={"eager"}
       fetchpriority="high"
