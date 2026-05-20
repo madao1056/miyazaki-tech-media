@@ -1,9 +1,8 @@
 ---
 import { Image } from "astro:assets";
-import { render } from "astro:content";
 import Divider from "@/components/bases/divider.astro";
 import { categoriesHandler } from "@/lib/handlers/categories";
-import { getDateDistance } from "@/lib/utils/date";
+import { getDateDistance, normalizeDate } from "@/lib/utils/date";
 import { getImageAlt, getArticleUrl } from "@/lib/utils/card";
 import type { CardProps } from "@/lib/types";
 
@@ -11,7 +10,6 @@ type Props = CardProps;
 
 const { article } = Astro.props;
 
-const { remarkPluginFrontmatter } = await render(article);
 const category = categoriesHandler.oneCategory(article.data.category.id);
 const imageAlt = getImageAlt(article);
 const articleUrl = getArticleUrl(article.id);
@@ -42,7 +40,7 @@ const articleUrl = getArticleUrl(article.id);
       <span class="text-primary dark:text-secondary">{category.data.title}</span
       >
       <Divider />
-      <span>{getDateDistance(remarkPluginFrontmatter.lastModified)}</span>
+      <span>{getDateDistance(normalizeDate(article.data.publishedTime))}</span>
     </div>
   </div>
 </article>

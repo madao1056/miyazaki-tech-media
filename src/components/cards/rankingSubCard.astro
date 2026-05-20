@@ -1,8 +1,7 @@
 ---
 import { Image } from "astro:assets";
-import { render } from "astro:content";
 import { categoriesHandler } from "@/lib/handlers/categories";
-import { getDateDistance } from "@/lib/utils/date";
+import { getDateDistance, normalizeDate } from "@/lib/utils/date";
 import { getImageAlt, getArticleUrl, getRankBadgeColor } from "@/lib/utils/card";
 import type { CardPropsWithRank } from "@/lib/types";
 
@@ -12,7 +11,6 @@ type Props = CardPropsWithRank & {
 
 const { article, rank, isLast } = Astro.props;
 
-const { remarkPluginFrontmatter } = await render(article);
 const category = categoriesHandler.oneCategory(article.data.category.id);
 const imageAlt = getImageAlt(article);
 const articleUrl = getArticleUrl(article.id);
@@ -49,7 +47,7 @@ const badgeColor = getRankBadgeColor(rank);
 
     <!-- メタ情報 -->
     <div class="flex items-center gap-3 text-xs text-base-content/60">
-      <span>{getDateDistance(remarkPluginFrontmatter.lastModified)}</span>
+      <span>{getDateDistance(normalizeDate(article.data.publishedTime))}</span>
       
       {article.pageViews && article.pageViews > 0 && (
         <span class="flex items-center gap-1">

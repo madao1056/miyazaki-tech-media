@@ -1,9 +1,8 @@
 ---
 import { Image } from "astro:assets";
-import { render } from "astro:content";
 import Divider from "@/components/bases/divider.astro";
 import { categoriesHandler } from "@/lib/handlers/categories";
-import { getDateDistance } from "@/lib/utils/date";
+import { getDateDistance, normalizeDate } from "@/lib/utils/date";
 import { getImageAlt, getArticleUrl, getRankBadgeColor } from "@/lib/utils/card";
 import type { CardPropsWithRank } from "@/lib/types";
 
@@ -11,7 +10,6 @@ type Props = CardPropsWithRank;
 
 const { article, rank } = Astro.props;
 
-const { remarkPluginFrontmatter } = await render(article);
 const category = categoriesHandler.oneCategory(article.data.category.id);
 const imageAlt = getImageAlt(article);
 const articleUrl = getArticleUrl(article.id);
@@ -50,7 +48,7 @@ const badgeColor = getRankBadgeColor(rank);
         {category.data.title}
       </span>
       <span class="text-base-content/60">
-        {getDateDistance(remarkPluginFrontmatter.lastModified)}
+        {getDateDistance(normalizeDate(article.data.publishedTime))}
       </span>
       {article.trending && (
         <span class="px-2 py-1 bg-red-100 text-red-600 dark:bg-red-900 dark:text-red-200 rounded-full text-xs font-medium animate-pulse">
